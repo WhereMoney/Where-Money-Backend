@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javacourse.wheremoney.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="com.javacourse.wheremoney.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="hashed_password" jdbcType="VARCHAR" property="hashedPassword"/>
+        <result column="is_active" jdbcType="BOOLEAN" property="isActive"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createDate"/>
+    </resultMap>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        insert into user ( user_name, hashed_password, is_active, create_time )
+        values (#{userName,jdbcType=VARCHAR}, #{hashedPassword,jdbcType=VARCHAR},
+                #{isActive,jdbcType=BOOLEAN}, #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <select id="findByUserName" resultMap="UserResultMap">
+        select
+        *
+        from user
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByUserId" resultMap="UserResultMap">
+        select
+            *
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByUserId" >
+        update user
+        set is_active = 0
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateUser" >
+        update user
+        set user_name  = #{userName,jdbcType=VARCHAR},
+            hashed_password = #{hashedPassword,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=DATE}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>
