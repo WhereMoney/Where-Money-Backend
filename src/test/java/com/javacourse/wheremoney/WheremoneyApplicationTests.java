@@ -5,13 +5,14 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @SpringBootTest
 @MapperScan("com.javacourse.wheremoney.mapper")
 class WheremoneyApplicationTests {
-    @Autowired
+    @Resource
     private DataSource dataSource;
     @Test
     void contextLoads() {

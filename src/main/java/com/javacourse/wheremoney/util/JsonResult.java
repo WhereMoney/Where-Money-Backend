@@ -1,11 +1,13 @@
 package com.javacourse.wheremoney.util;
 
+import org.apache.ibatis.ognl.ObjectElementsAccessor;
+
 import java.io.Serializable;
 
-public class JsonResult<E> implements Serializable {
+public class JsonResult implements Serializable {
     private Integer state;
     private String message;
-    private  E data;
+    private  Object data;
 
     public JsonResult(Integer state) {
         this.state = state;
@@ -15,8 +17,9 @@ public class JsonResult<E> implements Serializable {
         this.message = e.getMessage();
     }
 
-    public JsonResult(Integer state, E data) {
+    public JsonResult(Integer state,String message, Object data) {
         this.state = state;
+        this.message = message;
         this.data = data;
     }
 
@@ -40,11 +43,11 @@ public class JsonResult<E> implements Serializable {
         this.message = message;
     }
 
-    public E getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(E data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

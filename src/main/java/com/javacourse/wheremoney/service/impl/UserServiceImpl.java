@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer loginIn(String userName, String password) {
+    public Integer login(String userName, String password) {
         User trueUser = userMapper.findByUserName(userName); //通过用户名找到数据库中的信息
         if(trueUser == null){
             throw new UserMissingException();

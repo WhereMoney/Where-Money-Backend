@@ -9,5 +9,5 @@ public interface UserService {
 
     void changePassword(Integer id,String newPassword);
 
-    Integer loginIn(String userName,String password);
+    Integer login(String userName, String password);
 }

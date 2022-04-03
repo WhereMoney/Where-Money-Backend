@@ -10,7 +10,7 @@ public class User implements Serializable {
     private String userName;
     private String hashedPassword;
     private Boolean isActive;
-    private Timestamp createTime;
+    private Timestamp createDate;
 
     public User(String userName, String hashedPassword) {
         this.userName = userName;
@@ -51,11 +51,11 @@ public class User implements Serializable {
     }
 
     public Timestamp getCreateDate() {
-        return createTime;
+        return createDate;
     }
 
     public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
+        this.createDate = createTime;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class User implements Serializable {
                 ", userName='" + userName + '\'' +
                 ", hashedPassword='" + hashedPassword + '\'' +
                 ", isActive=" + isActive +
-                ", createDate=" + createTime +
+                ", createDate=" + createDate +
                 '}';
     }
 }

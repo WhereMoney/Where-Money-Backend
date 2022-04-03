@@ -8,14 +8,14 @@ public class BaseController {
     public static final int OK = 200;
 
     @ExceptionHandler(ServiceExecption.class)
-    public JsonResult<Void> handleException(Throwable e){
-        JsonResult<Void> result = new JsonResult<>(e);
+    public JsonResult handleException(Throwable e){
+        JsonResult result = new JsonResult(e);
         if(e instanceof UsernameOccupiedException){
-            result.setState(4000);
+            result.setState(400);
             result.setMessage("用户名被占用");
         }
         else if(e instanceof InsertException){
-            result.setState(5000);
+            result.setState(500);
             result.setMessage("插入异常");
         }
         else if(e instanceof UpdateException){
