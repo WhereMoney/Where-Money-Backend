@@ -1,7 +1,6 @@
 package shuhuai.wheremoney;
 
 import org.junit.jupiter.api.Test;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
