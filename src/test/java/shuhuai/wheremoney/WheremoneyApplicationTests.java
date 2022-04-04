@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @SpringBootTest
-@MapperScan("com.javacourse.wheremoney.mapper")
 class WheremoneyApplicationTests {
     @Resource
     private DataSource dataSource;
