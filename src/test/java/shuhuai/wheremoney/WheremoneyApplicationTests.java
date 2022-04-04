@@ -2,7 +2,6 @@ package shuhuai.wheremoney;
 
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -21,5 +20,4 @@ class WheremoneyApplicationTests {
     void getConnection() throws SQLException {
         System.out.println(dataSource.getConnection());
     }
-
 }

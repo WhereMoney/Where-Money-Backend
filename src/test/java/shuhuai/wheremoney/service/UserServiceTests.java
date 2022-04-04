@@ -2,26 +2,19 @@ package shuhuai.wheremoney.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserServiceTests {
-    @Autowired
+    @Resource
     private UserService userService;
 
     @Test
     public void registerUser() {
         userService.register("a", "123");
     }
-//    @Test
-//    public void changeUserpassword()
-//    {
-//        String newName = "abcd";
-//        Integer id = 8;
-//        userService.changePassword(id,newName);
-//    }
-
 }
