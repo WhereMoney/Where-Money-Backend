@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "token.youngToken",
+      "type": "java.lang.String",
+      "description": "Description for token.youngToken."
+    },
+    {
+      "name": "token.privateKey",
+      "type": "java.lang.String",
+      "description": "Description for token.privateKey."
+    },
+    {
+      "name": "token.oldToken",
+      "type": "java.lang.String",
+      "description": "Description for token.oldToken."
+    }
+  ] }
