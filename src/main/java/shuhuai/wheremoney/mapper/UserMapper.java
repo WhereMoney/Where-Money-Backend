@@ -11,23 +11,27 @@ public interface UserMapper {
      * @param user 用户数据
      * @return 受影响行数，判断是否成功
      */
-    int insertUser(User user);
-    int insertUserSelective(User user);
+    Integer insertUser(User user);
+
+    Integer insertUserSelective(User user);
+
     /**
      * 根据id删除用户
      *
      * @param id 用户id
      * @return 受影响行数
      */
-    int deleteUserByUserId(Integer id);
+    Integer deleteUserByUserId(Integer id);
 
     /**
      * 更新用户
      *
      * @return 受影响行数
      */
-    int updateUserById(User user);
-    int updateUserSelectiveById(User user);
+    Integer updateUserById(User user);
+
+    Integer updateUserSelectiveById(User user);
+
     /**
      * 根据用户名查询用户数据
      *
@@ -42,5 +46,5 @@ public interface UserMapper {
      * @param id 用户id
      * @return 对应用户数据，未找到则返回 null
      */
-    User selectUserByUserId(int id);
+    User selectUserByUserId(Integer id);
 }

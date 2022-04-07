@@ -1,7 +1,9 @@
 package shuhuai.wheremoney.service.impl;
 
 import org.springframework.stereotype.Service;
+import shuhuai.wheremoney.entity.Book;
 import shuhuai.wheremoney.entity.User;
+import shuhuai.wheremoney.mapper.BookMapper;
 import shuhuai.wheremoney.mapper.UserMapper;
 import shuhuai.wheremoney.service.UserService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
@@ -17,6 +19,8 @@ import javax.annotation.Resource;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private BookMapper bookMapper;
 
     public void register(String userName, String password) throws ServerException, UserNameOccupiedException, ParamsException {
         if (userName == null || password == null) {
@@ -28,7 +32,12 @@ public class UserServiceImpl implements UserService {
         }
         String hashedPassword = Hashing.getHashedString(password);
         User user = new User(userName, hashedPassword);
-        int result = userMapper.insertUserSelective(user);
+        Integer result = userMapper.insertUserSelective(user);
+        if (result != 1) {
+            throw new ServerException("服务器错误");
+        }
+        user = userMapper.selectUserByUserName(userName);
+        result = bookMapper.insertBookSelective(new Book(user.getId(), "默认账本", 1));
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
@@ -47,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changeUsername(String oldUserName, String userName) throws UserNameOccupiedException,UserMissingException, ParamsException, ServerException {
+    public void changeUsername(String oldUserName, String userName) throws UserNameOccupiedException, UserMissingException, ParamsException, ServerException {
         if (oldUserName == null || userName == null) {
             throw new ParamsException("参数错误");
         }
@@ -59,7 +68,7 @@ public class UserServiceImpl implements UserService {
             throw new UserNameOccupiedException("用户名已被占用");
         }
         user.setUserName(userName);
-        int result = userMapper.updateUserSelectiveById(user);
+        Integer result = userMapper.updateUserSelectiveById(user);
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
@@ -75,7 +84,7 @@ public class UserServiceImpl implements UserService {
             throw new UserMissingException("用户不存在");
         }
         user.setHashedPassword(Hashing.getHashedString(password));
-        int result = userMapper.updateUserSelectiveById(user);
+        Integer result = userMapper.updateUserSelectiveById(user);
         if (result != 1) {
             throw new ServerException("服务器错误");
         }

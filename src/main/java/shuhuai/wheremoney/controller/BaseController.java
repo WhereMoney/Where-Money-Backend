@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.service.excep.BaseException;
+import shuhuai.wheremoney.service.excep.book.TitleOccupiedException;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
 import shuhuai.wheremoney.service.excep.common.TokenExpireException;
@@ -17,9 +18,9 @@ public class BaseController {
     public Response handleServiceException(BaseException e) {
         Response response = new Response();
         log.error(e.getStackTrace()[0] + "：" + e.getMessage());
-        if (e instanceof UserNameOccupiedException) {
+        if (e instanceof UserNameOccupiedException || e instanceof TitleOccupiedException) {
             response.setCode(400);
-        } else if (e instanceof UserNamePasswordErrorException | e instanceof TokenExpireException) {
+        } else if (e instanceof UserNamePasswordErrorException || e instanceof TokenExpireException) {
             response.setCode(401);
         } else if (e instanceof ParamsException) {
             response.setCode(422);

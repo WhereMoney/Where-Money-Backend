@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
-    private int id;
+    private Integer id;
     private String userName;
     private String hashedPassword;
     private Boolean isActive;
@@ -23,11 +23,11 @@ public class User implements Serializable {
         this.isActive = true;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

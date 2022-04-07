@@ -59,7 +59,7 @@ public class UserController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "修改用户名成功"),
             @ApiResponse(code = 400, message = "用户名已被占用"),
-            @ApiResponse(code = 401, message = "账户或密码错误"),
+            @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
             @ApiResponse(code = 500, message = "服务器错误")
     })
@@ -76,7 +76,7 @@ public class UserController extends BaseController {
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "修改用户名成功"),
-            @ApiResponse(code = 401, message = "账户或密码错误"),
+            @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
             @ApiResponse(code = 500, message = "服务器错误")
     })

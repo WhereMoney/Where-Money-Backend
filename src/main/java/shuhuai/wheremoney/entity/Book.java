@@ -1,14 +1,21 @@
 package shuhuai.wheremoney.entity;
-import java.io.Serializable;
-import java.util.Date;
 
+import lombok.AllArgsConstructor;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+@AllArgsConstructor
 public class Book implements Serializable {
     private Integer id;
-    private  Integer userId;
+    private Integer userId;
     private String title;
-    private Date createTime;
+    private Timestamp createTime;
+    private Integer beginDate;
 
-    public Book() {
+    public Book(Integer userId, String title, Integer beginDate) {
+        this.userId = userId;
+        this.title = title;
+        this.beginDate = beginDate;
     }
 
     public Integer getId() {
@@ -35,21 +42,19 @@ public class Book implements Serializable {
         this.title = title;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", title='" + title + '\'' +
-                ", createTime=" + createTime +
-                '}';
+    public Integer getBeginDate() {
+        return beginDate;
+    }
+
+    public void setBeginDate(Integer beginDate) {
+        this.beginDate = beginDate;
     }
 }

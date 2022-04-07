@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shuhuai.wheremoney.mapper.UserMapper">
     <resultMap id="UserResultMap" type="shuhuai.wheremoney.entity.User">
-        <id column="id" jdbcType="INTEGER" javaType="int" property="id"/>
+        <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
         <result column="user_name" jdbcType="VARCHAR" javaType="String" property="userName"/>
         <result column="hashed_password" jdbcType="VARCHAR" javaType="String" property="hashedPassword"/>
         <result column="is_active" jdbcType="BOOLEAN" javaType="Boolean" property="isActive"/>
