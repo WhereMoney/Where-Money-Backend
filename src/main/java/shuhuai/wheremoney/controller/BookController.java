@@ -31,10 +31,10 @@ public class BookController extends BaseController {
     })
     @RequestMapping(value = "/add-book", method = RequestMethod.POST)
     @ApiOperation(value = "新建账本")
-    public Response addBook(String title, Integer beginDate) {
+    public Response<Object> addBook(String title, Integer beginDate) {
         String userName = TokenValidator.getUser().get("userName");
         bookService.addBook(userName, title, beginDate);
-        Response response = new Response(200, "新建账本成功", null);
+        Response<Object> response = new Response<>(200, "新建账本成功", null);
         log.info("/api/user/add-book：" + response.getMessage());
         return response;
     }
@@ -46,9 +46,9 @@ public class BookController extends BaseController {
     })
     @RequestMapping(value = "/get-book", method = RequestMethod.GET)
     @ApiOperation(value = "获得账本")
-    public Response getBook() {
+    public Response<GetBookResponse> getBook() {
         String userName = TokenValidator.getUser().get("userName");
-        Response response = new Response(200, "获得账本成功", new GetBookResponse(bookService.getBook(userName)));
+        Response<GetBookResponse> response = new Response<>(200, "获得账本成功", new GetBookResponse(bookService.getBook(userName)));
         log.info("/api/user/get-book：" + response.getMessage());
         return response;
     }

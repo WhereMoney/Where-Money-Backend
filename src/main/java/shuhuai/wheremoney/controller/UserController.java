@@ -34,9 +34,9 @@ public class UserController extends BaseController {
             @ApiResponse(code = 422, message = "参数错误"),
             @ApiResponse(code = 500, message = "服务器错误")
     })
-    public Response register(String userName, String password) {
+    public Response<Object> register(String userName, String password) {
         userService.register(userName, password);
-        Response response = new Response(200, "注册成功", null);
+        Response<Object> response = new Response<>(200, "注册成功", null);
         log.info("/api/user/register：" + response.getMessage());
         return response;
     }
@@ -48,10 +48,10 @@ public class UserController extends BaseController {
             @ApiResponse(code = 401, message = "账户或密码错误"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
-    public Response login(String userName, String password) {
+    public Response<LoginResponse> login(String userName, String password) {
         userService.login(userName, password);
         String token = tokenValidator.getToken(userName);
-        Response response = new Response(200, "登录成功", new LoginResponse(token));
+        Response<LoginResponse> response = new Response<>(200, "登录成功", new LoginResponse(token));
         log.info("/api/user/login：" + response.getMessage());
         return response;
     }
@@ -65,11 +65,11 @@ public class UserController extends BaseController {
     })
     @RequestMapping(value = "/change-user-name", method = RequestMethod.POST)
     @ApiOperation(value = "修改用户名")
-    public Response changeUserName(String userName) {
+    public Response<ChangeUserNameResponse> changeUserName(String userName) {
         String oldUserName = TokenValidator.getUser().get("userName");
         userService.changeUsername(oldUserName, userName);
         String token = tokenValidator.getToken(userName);
-        Response response = new Response(200, "修改用户名成功", new ChangeUserNameResponse(token));
+        Response<ChangeUserNameResponse> response = new Response<>(200, "修改用户名成功", new ChangeUserNameResponse(token));
         log.info("/api/user/change-user-name：" + response.getMessage());
         return response;
     }
@@ -82,10 +82,10 @@ public class UserController extends BaseController {
     })
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
     @ApiOperation(value = "修改密码")
-    public Response changePassword(String password) {
+    public Response<Object> changePassword(String password) {
         String userName = TokenValidator.getUser().get("userName");
         userService.changePassword(userName, password);
-        Response response = new Response(200, "修改密码成功", null);
+        Response<Object> response = new Response<>(200, "修改密码成功", null);
         log.info("/api/user/change-password：" + response.getMessage());
         return response;
     }
