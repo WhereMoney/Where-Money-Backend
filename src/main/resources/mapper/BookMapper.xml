@@ -45,4 +45,9 @@
         from book
         where user_id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectBookByUserTitle" resultMap="BookResultMap">
+        select *
+        from book
+        where user_id = #{user.id,jdbcType=INTEGER} and title = #{title,jdbcType=VARCHAR}
+    </select>
 </mapper>

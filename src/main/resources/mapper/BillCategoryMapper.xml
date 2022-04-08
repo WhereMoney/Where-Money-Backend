@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shuhuai.wheremoney.mapper.BillCategoryMapper">
+    <resultMap id="BillCategoryResultMap" type="shuhuai.wheremoney.entity.BillCategory">
+        <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
+        <result column="book_id" jdbcType="INTEGER" javaType="Integer" property="bookId"/>
+        <result column="name" jdbcType="VARCHAR" javaType="String" property="name"/>
+        <result column="svg" jdbcType="LONGVARCHAR" javaType="String" property="svg"/>
+    </resultMap>
+    <insert id="insertBillCategorySelective" useGeneratedKeys="true" keyProperty="id"
+            parameterType="shuhuai.wheremoney.entity.BillCategory">
+        insert into bill_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookId != null">
+                book_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="svg != null">
+                svg,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bookId != null">
+                #{bookId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="svg != null">
+                #{svg,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectBillCategoryByBook" parameterType="shuhuai.wheremoney.entity.Book"
+            resultMap="BillCategoryResultMap">
+        select *
+        from bill_category
+        where book_id = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>

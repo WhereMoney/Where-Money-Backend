@@ -5,6 +5,7 @@ import shuhuai.wheremoney.entity.Book;
 import shuhuai.wheremoney.entity.User;
 import shuhuai.wheremoney.mapper.BookMapper;
 import shuhuai.wheremoney.mapper.UserMapper;
+import shuhuai.wheremoney.service.BillCategoryService;
 import shuhuai.wheremoney.service.UserService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Resource
     private BookMapper bookMapper;
+    @Resource
+    private BillCategoryService billCategoryService;
 
     public void register(String userName, String password) throws ServerException, UserNameOccupiedException, ParamsException {
         if (userName == null || password == null) {
@@ -41,6 +44,8 @@ public class UserServiceImpl implements UserService {
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
+        Book book = bookMapper.selectBookByUserTitle(user, "默认账本");
+        billCategoryService.addDefaultBillCategory(book.getId());
     }
 
     @Override

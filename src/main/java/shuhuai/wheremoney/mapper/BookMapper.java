@@ -11,4 +11,6 @@ public interface BookMapper {
     Integer insertBookSelective(Book book);
 
     List<Book> selectBookByUser(User user);
+
+    Book selectBookByUserTitle(User user, String title);
 }

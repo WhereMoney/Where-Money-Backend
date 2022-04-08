@@ -1,13 +1,20 @@
 package shuhuai.wheremoney.entity;
 
+import lombok.AllArgsConstructor;
+
 import java.io.Serializable;
 
+@AllArgsConstructor
 public class BillCategory implements Serializable {
     private Integer id;
-    private Integer book_id;
+    private Integer bookId;
     private String name;
+    private String svg;
 
-    public BillCategory() {
+    public BillCategory(Integer bookId, String name, String svg) {
+        this.bookId = bookId;
+        this.name = name;
+        this.svg = svg;
     }
 
     public Integer getId() {
@@ -18,12 +25,12 @@ public class BillCategory implements Serializable {
         this.id = id;
     }
 
-    public Integer getBook_id() {
-        return book_id;
+    public Integer getBookId() {
+        return bookId;
     }
 
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     public String getName() {
@@ -34,12 +41,11 @@ public class BillCategory implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "BillCategory{" +
-                "id=" + id +
-                ", book_id=" + book_id +
-                ", name='" + name + '\'' +
-                '}';
+    public String getSvg() {
+        return svg;
+    }
+
+    public void setSvg(String svg) {
+        this.svg = svg;
     }
 }
