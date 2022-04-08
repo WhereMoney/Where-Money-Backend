@@ -39,12 +39,11 @@ public class UserServiceImpl implements UserService {
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
-        user = userMapper.selectUserByUserName(userName);
-        result = bookMapper.insertBookSelective(new Book(user.getId(), "默认账本", 1));
+        Book book = new Book(user.getId(), "默认账本", 1);
+        result = bookMapper.insertBookSelective(book);
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
-        Book book = bookMapper.selectBookByUserTitle(user, "默认账本");
         billCategoryService.addDefaultBillCategory(book.getId());
     }
 

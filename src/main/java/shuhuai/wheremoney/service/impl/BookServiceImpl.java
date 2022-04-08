@@ -30,17 +30,15 @@ public class BookServiceImpl implements BookService {
             throw new ParamsException("参数错误");
         }
         User user = userMapper.selectUserByUserName(userName);
-        List<Book> bookList = bookMapper.selectBookByUser(user);
-        for (Book book : bookList) {
-            if (book.getTitle().equals(title)) {
-                throw new TitleOccupiedException("标题已被占用");
-            }
+        Book book = bookMapper.selectBookByUserTitle(user, title);
+        if (book != null) {
+            throw new TitleOccupiedException("标题已被占用");
         }
-        Integer result = bookMapper.insertBookSelective(new Book(user.getId(), title, beginDate));
+        book = new Book(user.getId(), title, beginDate);
+        Integer result = bookMapper.insertBookSelective(book);
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
-        Book book = bookMapper.selectBookByUserTitle(user, title);
         billCategoryService.addDefaultBillCategory(book.getId());
     }
 
