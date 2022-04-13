@@ -10,4 +10,6 @@ public interface AssetService {
     void addAsset(String userName, String assetName, BigDecimal balance, AssetType type, Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal);
 
     List<Asset> getAllAsset(String userName);
+
+    Asset getAsset(Integer id);
 }

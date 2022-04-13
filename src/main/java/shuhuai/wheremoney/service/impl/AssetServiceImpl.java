@@ -41,4 +41,12 @@ public class AssetServiceImpl implements AssetService {
         }
         return assetMapper.selectAssetByUserId(userMapper.selectUserByUserName(userName).getId());
     }
+
+    @Override
+    public Asset getAsset(Integer id) {
+        if (id == null) {
+            throw new ParamsException("参数错误");
+        }
+        return assetMapper.selectAssetById(id);
+    }
 }

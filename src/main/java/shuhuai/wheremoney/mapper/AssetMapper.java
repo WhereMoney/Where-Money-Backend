@@ -2,7 +2,6 @@ package shuhuai.wheremoney.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import shuhuai.wheremoney.entity.Asset;
-import shuhuai.wheremoney.entity.User;
 
 import java.util.List;
 
@@ -11,4 +10,6 @@ public interface AssetMapper {
     Integer insertAssetSelective(Asset asset);
 
     List<Asset> selectAssetByUserId(Integer userId);
+
+    Asset selectAssetById(Integer id);
 }

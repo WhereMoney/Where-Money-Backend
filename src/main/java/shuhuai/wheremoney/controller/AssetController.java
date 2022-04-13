@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shuhuai.wheremoney.entity.Asset;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.asset.GetAllAssetResponse;
+import shuhuai.wheremoney.response.asset.GetAssetResponse;
 import shuhuai.wheremoney.service.AssetService;
 import shuhuai.wheremoney.type.AssetType;
 import shuhuai.wheremoney.utils.TokenValidator;
@@ -48,13 +49,26 @@ public class AssetController extends BaseController {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
-    @RequestMapping(value = "/get-all-asset", method = RequestMethod.POST)
-    @ApiOperation(value = "获得资产")
+    @RequestMapping(value = "/get-all-asset", method = RequestMethod.GET)
+    @ApiOperation(value = "获得所有资产")
     public Response<GetAllAssetResponse> getAllAsset() {
         String userName = TokenValidator.getUser().get("userName");
         List<Asset> assetList = assetService.getAllAsset(userName);
         Response<GetAllAssetResponse> response = new Response<>(200, "获得资产成功", new GetAllAssetResponse(assetList));
         log.info("/api/user/get-all-asset：" + response.getMessage());
+        return response;
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/get-asset", method = RequestMethod.GET)
+    @ApiOperation(value = "获得资产")
+    public Response<GetAssetResponse> getAsset(@RequestParam Integer id) {
+        Asset asset = assetService.getAsset(id);
+        Response<GetAssetResponse> response = new Response<>(200, "获得资产成功", new GetAssetResponse(asset));
+        log.info("/api/user/get-asset：" + response.getMessage());
         return response;
     }
 }
