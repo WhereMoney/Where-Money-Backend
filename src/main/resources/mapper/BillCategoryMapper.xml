@@ -4,7 +4,7 @@
     <resultMap id="BillCategoryResultMap" type="shuhuai.wheremoney.entity.BillCategory">
         <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
         <result column="book_id" jdbcType="INTEGER" javaType="Integer" property="bookId"/>
-        <result column="name" jdbcType="VARCHAR" javaType="String" property="name"/>
+        <result column="bill_category_name" jdbcType="VARCHAR" javaType="String" property="billCategoryName"/>
         <result column="svg" jdbcType="LONGVARCHAR" javaType="String" property="svg"/>
     </resultMap>
     <insert id="insertBillCategorySelective" useGeneratedKeys="true" keyProperty="id"
@@ -14,8 +14,8 @@
             <if test="bookId != null">
                 book_id,
             </if>
-            <if test="name != null">
-                name,
+            <if test="billCategoryName != null">
+                bill_category_name,
             </if>
             <if test="svg != null">
                 svg,
@@ -25,8 +25,8 @@
             <if test="bookId != null">
                 #{bookId,jdbcType=INTEGER},
             </if>
-            <if test="name != null">
-                #{name,jdbcType=VARCHAR},
+            <if test="billCategoryName != null">
+                #{billCategoryName,jdbcType=VARCHAR},
             </if>
             <if test="svg != null">
                 #{svg,jdbcType=LONGVARCHAR},

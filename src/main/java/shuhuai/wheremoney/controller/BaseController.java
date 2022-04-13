@@ -15,8 +15,8 @@ import shuhuai.wheremoney.service.excep.user.UserNamePasswordErrorException;
 @Slf4j
 public class BaseController {
     @ExceptionHandler(BaseException.class)
-    public Response handleServiceException(BaseException e) {
-        Response response = new Response();
+    public Response<Object> handleServiceException(BaseException e) {
+        Response<Object> response = new Response<>();
         log.error(e.getStackTrace()[0] + "：" + e.getMessage());
         if (e instanceof UserNameOccupiedException || e instanceof TitleOccupiedException) {
             response.setCode(400);

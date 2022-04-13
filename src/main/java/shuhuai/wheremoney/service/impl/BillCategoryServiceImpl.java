@@ -22,7 +22,7 @@ public class BillCategoryServiceImpl implements BillCategoryService {
         JSONArray jsonArray = JsonOperator.getMapFromJson("DefaultBillCategory");
         for (Object item : jsonArray) {
             JSONObject obj = JSON.parseObject(item + "");
-            Integer result = billCategoryMapper.insertBillCategorySelective(new BillCategory(bookId, obj.get("name").toString(), obj.get("svg").toString()));
+            Integer result = billCategoryMapper.insertBillCategorySelective(new BillCategory(bookId, obj.get("billCategoryName").toString(), obj.get("svg").toString()));
             if (result != 1) {
                 throw new ServerException("服务器错误");
             }

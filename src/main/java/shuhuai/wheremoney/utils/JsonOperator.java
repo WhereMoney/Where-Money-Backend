@@ -31,7 +31,7 @@ public class JsonOperator {
             error.printStackTrace();
         }
         JSONObject jsonObject = JSON.parseObject(json);
-        Object objArray = jsonObject.get("DefaultBillCategory");
+        Object objArray = jsonObject.get(name);
         return JSON.parseArray(objArray.toString());
     }
 }

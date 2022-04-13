@@ -1,39 +1,39 @@
 {
     "DefaultBillCategory": [
         {
-            "name": "三餐",
+            "billCategoryName": "三餐",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 0 24 24\"><g fill=\"none\"><path d=\"M18 3a1 1 0 0 1 .993.883L19 4v16a1 1 0 0 1-1.993.117L17 20v-5h-1a1 1 0 0 1-.993-.883L15 14V8c0-2.21 1.5-5 3-5zm-6 0a1 1 0 0 1 .993.883L13 4v5a4.002 4.002 0 0 1-3 3.874V20a1 1 0 0 1-1.993.117L8 20v-7.126a4.002 4.002 0 0 1-2.995-3.668L5 9V4a1 1 0 0 1 1.993-.117L7 4v5a2 2 0 0 0 1 1.732V4a1 1 0 0 1 1.993-.117L10 4l.001 6.732a2 2 0 0 0 .992-1.563L11 9V4a1 1 0 0 1 1-1z\" fill=\"currentColor\"></path></g></svg>"
         },
         {
-            "name": "零食",
+            "billCategoryName": "零食",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--ic\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M21.95 10.99c-1.79-.03-3.7-1.95-2.68-4.22c-2.98 1-5.77-1.59-5.19-4.56C6.95.71 2 6.58 2 12c0 5.52 4.48 10 10 10c5.89 0 10.54-5.08 9.95-11.01zM8.5 15c-.83 0-1.5-.67-1.5-1.5S7.67 12 8.5 12s1.5.67 1.5 1.5S9.33 15 8.5 15zm2-5C9.67 10 9 9.33 9 8.5S9.67 7 10.5 7s1.5.67 1.5 1.5s-.67 1.5-1.5 1.5zm4.5 6c-.55 0-1-.45-1-1s.45-1 1-1s1 .45 1 1s-.45 1-1 1z\"></path></svg>"
         },
         {
-            "name": "交通",
+            "billCategoryName": "交通",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--fa6-solid\" width=\"28\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 448 512\"><path fill=\"currentColor\" d=\"M224 0c124.8 0 224 35.2 224 80v336c0 17.7-14.3 32-32 32v32c0 17.7-14.3 32-32 32h-32c-17.7 0-32-14.3-32-32v-32H128v32c0 17.7-14.3 32-32 32H64c-17.67 0-32-14.3-32-32v-32c-17.67 0-32-14.3-32-32V80C0 35.2 99.19 0 224 0zM64 256c0 17.7 14.33 32 32 32h256c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H96c-17.67 0-32 14.3-32 32v128zm16 144c17.67 0 32-14.3 32-32s-14.33-32-32-32s-32 14.3-32 32s14.33 32 32 32zm288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32s-32 14.3-32 32s14.3 32 32 32z\"></path></svg>"
         },
         {
-            "name": "衣服",
+            "billCategoryName": "衣服",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--maki\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 15 15\"><path fill=\"currentColor\" d=\"M3.5 1L0 4v3h2.9l.1 7h9V7h3V4l-3.5-3H10L7.5 5L5 1H3.5z\"></path></svg>"
         },
         {
-            "name": "宠物",
+            "billCategoryName": "宠物",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--ic\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><circle cx=\"4.5\" cy=\"9.5\" r=\"2.5\" fill=\"currentColor\"></circle><circle cx=\"9\" cy=\"5.5\" r=\"2.5\" fill=\"currentColor\"></circle><circle cx=\"15\" cy=\"5.5\" r=\"2.5\" fill=\"currentColor\"></circle><circle cx=\"19.5\" cy=\"9.5\" r=\"2.5\" fill=\"currentColor\"></circle><path fill=\"currentColor\" d=\"M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91c-.46-.54-1.05-1.08-1.75-1.32c-.11-.04-.22-.07-.33-.09c-.25-.04-.52-.04-.78-.04s-.53 0-.79.05c-.11.02-.22.05-.33.09c-.7.24-1.28.78-1.75 1.32c-.87 1.02-1.6 1.89-2.48 2.91c-1.31 1.31-2.92 2.76-2.62 4.79c.29 1.02 1.02 2.03 2.33 2.32c.73.15 3.06-.44 5.54-.44h.18c2.48 0 4.81.58 5.54.44c1.31-.29 2.04-1.31 2.33-2.32c.31-2.04-1.3-3.49-2.61-4.8z\"></path></svg>"
         },
         {
-            "name": "日用品",
+            "billCategoryName": "日用品",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--fa6-solid\" width=\"36\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 576 512\"><path fill=\"currentColor\" d=\"M127.1 0C74.98 0 31.98 86 31.98 192v172.1c0 41.12-9.751 62.75-31.13 126.9c-3.5 10.2 4.251 21 15.13 21h280.9c13.88 0 26-8.75 30.38-21.88c12.88-38.5 24.75-72.37 24.75-126L351.1 192c0-83.62 23.62-153.5 60.5-192H127.1zM95.99 224c-8.88 0-16-7.1-16-16s7.12-16 16-16s16 7.125 16 16s-7.09 16-16 16zm63.11 0c-8.875 0-16-7.125-16-16s8-16 16-16s16 7.125 16 16s-6.2 16-16 16zm64 0c-8 0-16-7.1-16-16s8-16 16-16c8.875 0 16 7.125 16 16s-6.2 16-16 16zm64 0c-8 0-16-7.1-16-16s8-16 16-16c8.875 0 16 7.125 16 16s-6.2 16-16 16zm192-224c-53 0-96 86.06-96 192.1c0 106 43 191.9 96 191.9S576 298 576 192S532.1 0 479.1 0zm0 256c-17.63 0-32-28.62-32-64s14.38-64 32-64c17.63 0 32 28.62 32 64s-13.5 64-32 64z\"></path></svg>"
         },
         {
-            "name": "旅行",
+            "billCategoryName": "旅行",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--carbon\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 32 32\"><path fill=\"currentColor\" d=\"M18.57 28C17.897 26.725 16 22.226 16 12v-.131l1.117.744A6.461 6.461 0 0 1 20 18h2a8.457 8.457 0 0 0-3.773-7.05L16.803 10h1.53a7.04 7.04 0 0 1 4.2 1.4l1.867 1.4l1.2-1.6l-1.867-1.4a9.06 9.06 0 0 0-5.4-1.8h-1.216A7.03 7.03 0 0 1 22 6h2V4h-2a9.035 9.035 0 0 0-7 3.364A9.035 9.035 0 0 0 8 4H6v2h2a7.03 7.03 0 0 1 4.883 2h-1.216a9.06 9.06 0 0 0-5.4 1.8L4.4 11.2l1.2 1.6l1.867-1.4a7.04 7.04 0 0 1 4.2-1.4h1.53l-1.423.95A8.457 8.457 0 0 0 8 18h2a6.461 6.461 0 0 1 2.883-5.387L14 11.87V12c0 8.944 1.412 13.765 2.361 16H2v2h28v-2Z\"></path></svg>"
         },
         {
-            "name": "孩子",
+            "billCategoryName": "孩子",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--ic\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M19 10c-.1 0-.19.02-.29.03c-.2-.67-.49-1.29-.86-1.86C16.6 6.26 14.45 5 12 5S7.4 6.26 6.15 8.17c-.37.57-.66 1.19-.86 1.86c-.1-.01-.19-.03-.29-.03c-1.1 0-2 .9-2 2s.9 2 2 2c.1 0 .19-.02.29-.03c.2.67.49 1.29.86 1.86C7.4 17.74 9.55 19 12 19s4.6-1.26 5.85-3.17c.37-.57.66-1.19.86-1.86c.1.01.19.03.29.03c1.1 0 2-.9 2-2s-.9-2-2-2zm-4.5-.75a1.25 1.25 0 1 1 0 2.5a1.25 1.25 0 0 1 0-2.5zm-5 0a1.25 1.25 0 1 1 0 2.5a1.25 1.25 0 0 1 0-2.5zM12 17c-2.01 0-3.74-1.23-4.5-3h9c-.76 1.77-2.49 3-4.5 3z\" opacity=\".3\"></path><circle cx=\"14.5\" cy=\"10.5\" r=\"1.25\" fill=\"currentColor\"></circle><circle cx=\"9.5\" cy=\"10.5\" r=\"1.25\" fill=\"currentColor\"></circle><path fill=\"currentColor\" d=\"M12 17c2.01 0 3.74-1.23 4.5-3h-9c.76 1.77 2.49 3 4.5 3zm10.94-5.66a4.008 4.008 0 0 0-2.81-3.17a9.114 9.114 0 0 0-2.19-2.91C16.36 3.85 14.28 3 12 3s-4.36.85-5.94 2.26c-.92.81-1.67 1.8-2.19 2.91a3.994 3.994 0 0 0-2.81 3.17c-.04.21-.06.43-.06.66c0 .23.02.45.06.66a4.008 4.008 0 0 0 2.81 3.17a8.977 8.977 0 0 0 2.17 2.89C7.62 20.14 9.71 21 12 21s4.38-.86 5.97-2.28c.9-.8 1.65-1.79 2.17-2.89a3.998 3.998 0 0 0 2.8-3.17c.04-.21.06-.43.06-.66c0-.23-.02-.45-.06-.66zM19 14c-.1 0-.19-.02-.29-.03c-.2.67-.49 1.29-.86 1.86C16.6 17.74 14.45 19 12 19s-4.6-1.26-5.85-3.17c-.37-.57-.66-1.19-.86-1.86c-.1.01-.19.03-.29.03c-1.1 0-2-.9-2-2s.9-2 2-2c.1 0 .19.02.29.03c.2-.67.49-1.29.86-1.86C7.4 6.26 9.55 5 12 5s4.6 1.26 5.85 3.17c.37.57.66 1.19.86 1.86c.1-.01.19-.03.29-.03c1.1 0 2 .9 2 2s-.9 2-2 2z\"></path></svg>"
         },
         {
-            "name": "话费网费",
+            "billCategoryName": "话费网费",
             "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--bi\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 16 16\"><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42a18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z\"></path></svg>"
         }
     ]

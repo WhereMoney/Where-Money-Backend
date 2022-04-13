@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.book.GetBookResponse;
@@ -31,7 +32,7 @@ public class BookController extends BaseController {
     })
     @RequestMapping(value = "/add-book", method = RequestMethod.POST)
     @ApiOperation(value = "新建账本")
-    public Response<Object> addBook(String title, Integer beginDate) {
+    public Response<Object> addBook(@RequestParam String title,@RequestParam Integer beginDate) {
         String userName = TokenValidator.getUser().get("userName");
         bookService.addBook(userName, title, beginDate);
         Response<Object> response = new Response<>(200, "新建账本成功", null);

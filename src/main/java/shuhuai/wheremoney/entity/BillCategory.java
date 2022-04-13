@@ -8,12 +8,12 @@ import java.io.Serializable;
 public class BillCategory implements Serializable {
     private Integer id;
     private Integer bookId;
-    private String name;
+    private String billCategoryName;
     private String svg;
 
-    public BillCategory(Integer bookId, String name, String svg) {
+    public BillCategory(Integer bookId, String billCategoryName, String svg) {
         this.bookId = bookId;
-        this.name = name;
+        this.billCategoryName = billCategoryName;
         this.svg = svg;
     }
 
@@ -33,12 +33,12 @@ public class BillCategory implements Serializable {
         this.bookId = bookId;
     }
 
-    public String getName() {
-        return name;
+    public String getBillCategoryName() {
+        return billCategoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBillCategoryName(String billCategoryName) {
+        this.billCategoryName = billCategoryName;
     }
 
     public String getSvg() {

@@ -1,5 +1,7 @@
 package shuhuai.wheremoney.entity;
 
+import shuhuai.wheremoney.type.BillType;
+
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -9,27 +11,12 @@ public class Bill {
     private Integer inAssetId;
     private Integer outAssetId;
     private Integer billCategoryId;
-    private String type;
+    private BillType type;
     private DecimalFormat amount;
     private Date time;
     private String remark;
 
     public Bill() {
-    }
-
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "id=" + id +
-                ", bookId=" + bookId +
-                ", inAssetId=" + inAssetId +
-                ", outAssetId=" + outAssetId +
-                ", billCategoryId=" + billCategoryId +
-                ", type='" + type + '\'' +
-                ", amount=" + amount +
-                ", time=" + time +
-                ", remark='" + remark + '\'' +
-                '}';
     }
 
     public Integer getId() {
@@ -72,11 +59,11 @@ public class Bill {
         this.billCategoryId = billCategoryId;
     }
 
-    public String getType() {
+    public BillType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(BillType type) {
         this.type = type;
     }
 

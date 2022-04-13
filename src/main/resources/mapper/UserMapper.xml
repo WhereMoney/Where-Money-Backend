@@ -9,7 +9,7 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
-        insert into user ( user_name, hashed_password, is_active, create_time )
+        insert into user (user_name, hashed_password, is_active, create_time)
         values (#{userName,jdbcType=VARCHAR}, #{hashedPassword,jdbcType=VARCHAR},
         #{isActive,jdbcType=BOOLEAN}, #{createTime,jdbcType=TIMESTAMP})
     </insert>

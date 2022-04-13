@@ -1,14 +1,32 @@
 package shuhuai.wheremoney.entity;
 
+import lombok.AllArgsConstructor;
+import shuhuai.wheremoney.type.AssetType;
+
+import java.math.BigDecimal;
+
+@AllArgsConstructor
 public class Asset {
     private Integer id;
     private Integer userId;
-    private String type;
-    private String name;
+    private AssetType type;
+    private BigDecimal balance;
+    private String assetName;
     private Integer billDate;
     private Integer repayDate;
+    private BigDecimal quota;
+    private Boolean inTotal;
 
-    public Asset() {
+
+    public Asset(Integer userId, AssetType type, BigDecimal balance, String assetName, Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal) {
+        this.userId = userId;
+        this.type = type;
+        this.balance = balance;
+        this.assetName = assetName;
+        this.billDate = billDate;
+        this.repayDate = repayDate;
+        this.quota = quota;
+        this.inTotal = inTotal;
     }
 
     public Integer getId() {
@@ -27,20 +45,28 @@ public class Asset {
         this.userId = userId;
     }
 
-    public String getType() {
+    public AssetType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(AssetType type) {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public String getAssetName() {
+        return assetName;
+    }
+
+    public void setAssetName(String assetName) {
+        this.assetName = assetName;
     }
 
     public Integer getBillDate() {
@@ -59,15 +85,19 @@ public class Asset {
         this.repayDate = repayDate;
     }
 
-    @Override
-    public String toString() {
-        return "Asset{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", billDate=" + billDate +
-                ", repayDate=" + repayDate +
-                '}';
+    public BigDecimal getQuota() {
+        return quota;
+    }
+
+    public void setQuota(BigDecimal quota) {
+        this.quota = quota;
+    }
+
+    public Boolean getInTotal() {
+        return inTotal;
+    }
+
+    public void setInTotal(Boolean inTotal) {
+        this.inTotal = inTotal;
     }
 }
