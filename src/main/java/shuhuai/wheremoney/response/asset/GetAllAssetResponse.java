@@ -13,15 +13,16 @@ public class GetAllAssetResponse {
 
     public GetAllAssetResponse(List<Asset> assetList) {
         this.assetList = assetList;
-        this.netAsset = new BigDecimal(0);
+        this.totalAsset = new BigDecimal(0);
         this.totalLiabilities = new BigDecimal(0);
         for (Asset asset : assetList) {
-            this.netAsset = this.netAsset.add(asset.getBalance());
             if (asset.getType().getType().equals("信用卡")) {
                 this.totalLiabilities = this.totalLiabilities.add(asset.getBalance());
+            } else {
+                this.totalAsset = this.totalAsset.add(asset.getBalance());
             }
         }
-        this.totalAsset = this.netAsset.add(this.totalLiabilities);
+        this.netAsset = this.totalAsset.add(this.totalLiabilities);
     }
 
     public List<Asset> getAssetList() {
