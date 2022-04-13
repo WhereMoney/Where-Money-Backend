@@ -50,10 +50,10 @@ public class AssetController extends BaseController {
     })
     @RequestMapping(value = "/get-all-asset", method = RequestMethod.POST)
     @ApiOperation(value = "获得资产")
-    public Response<Object> getAllAsset() {
+    public Response<GetAllAssetResponse> getAllAsset() {
         String userName = TokenValidator.getUser().get("userName");
         List<Asset> assetList = assetService.getAllAsset(userName);
-        Response<Object> response = new Response<>(200, "获得资产成功", new GetAllAssetResponse(assetList));
+        Response<GetAllAssetResponse> response = new Response<>(200, "获得资产成功", new GetAllAssetResponse(assetList));
         log.info("/api/user/get-all-asset：" + response.getMessage());
         return response;
     }
