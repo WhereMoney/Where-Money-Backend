@@ -16,10 +16,12 @@ public class GetAllAssetResponse {
         this.totalAsset = new BigDecimal(0);
         this.totalLiabilities = new BigDecimal(0);
         for (Asset asset : assetList) {
-            if (asset.getType().getType().equals("信用卡")) {
-                this.totalLiabilities = this.totalLiabilities.add(asset.getBalance());
-            } else {
-                this.totalAsset = this.totalAsset.add(asset.getBalance());
+            if (asset.getInTotal()) {
+                if (asset.getType().getType().equals("信用卡")) {
+                    this.totalLiabilities = this.totalLiabilities.add(asset.getBalance());
+                } else {
+                    this.totalAsset = this.totalAsset.add(asset.getBalance());
+                }
             }
         }
         this.netAsset = this.totalAsset.add(this.totalLiabilities);
