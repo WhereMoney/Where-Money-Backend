@@ -32,7 +32,7 @@ public class BookController extends BaseController {
     })
     @RequestMapping(value = "/add-book", method = RequestMethod.POST)
     @ApiOperation(value = "新建账本")
-    public Response<Object> addBook(@RequestParam String title,@RequestParam Integer beginDate) {
+    public Response<Object> addBook(@RequestParam String title, @RequestParam Integer beginDate) {
         String userName = TokenValidator.getUser().get("userName");
         bookService.addBook(userName, title, beginDate);
         Response<Object> response = new Response<>(200, "新建账本成功", null);

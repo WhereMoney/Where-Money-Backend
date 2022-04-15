@@ -11,7 +11,7 @@ public interface UserService {
 
     void login(String userName, String password) throws UserNamePasswordErrorException, ParamsException;
 
-    void changeUsername(String oldUserName, String userName) throws UserNameOccupiedException,UserMissingException, ParamsException, ServerException;
+    void changeUsername(String oldUserName, String userName) throws UserNameOccupiedException, UserMissingException, ParamsException, ServerException;
 
     void changePassword(String userName, String password) throws ParamsException, ServerException, UserMissingException;
 }

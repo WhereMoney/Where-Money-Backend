@@ -10,7 +10,7 @@
         <result column="type" javaType="shuhuai.wheremoney.type.BillType" property="type"
                 typeHandler="shuhuai.wheremoney.type.BillTypeHandler"/>
         <result column="amount" jdbcType="DECIMAL" javaType="BigDecimal" property="amount"/>
-        <result column="time" jdbcType="DATE" javaType="java.util.Date" property="time"/>
+        <result column="time" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp" property="time"/>
         <result column="remark" jdbcType="VARCHAR" javaType="String" property="remark"/>
     </resultMap>
     <insert id="insertBillSelective" useGeneratedKeys="true" keyProperty="id"
@@ -74,5 +74,4 @@
         from bill
         where book_id = #{bookId,jdbcType=INTEGER}
     </select>
-
 </mapper>

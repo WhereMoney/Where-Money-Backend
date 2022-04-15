@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+
 @AllArgsConstructor
 public class Book implements Serializable {
     private Integer id;

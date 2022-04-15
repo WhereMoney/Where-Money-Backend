@@ -8,14 +8,6 @@ public enum AssetType {
         this.type = type;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public static AssetType getAssetTypeEnum(String type) {
         return switch (type) {
             case "资金" -> 资金;
@@ -24,5 +16,13 @@ public enum AssetType {
             case "投资理财" -> 投资理财;
             default -> null;
         };
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

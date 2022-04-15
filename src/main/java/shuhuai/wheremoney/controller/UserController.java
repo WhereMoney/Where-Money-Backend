@@ -35,7 +35,7 @@ public class UserController extends BaseController {
             @ApiResponse(code = 422, message = "参数错误"),
             @ApiResponse(code = 500, message = "服务器错误")
     })
-    public Response<Object> register(@RequestParam String userName,@RequestParam String password) {
+    public Response<Object> register(@RequestParam String userName, @RequestParam String password) {
         userService.register(userName, password);
         Response<Object> response = new Response<>(200, "注册成功", null);
         log.info("/api/user/register：" + response.getMessage());

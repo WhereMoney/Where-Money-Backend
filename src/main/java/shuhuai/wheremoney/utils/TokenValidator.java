@@ -18,13 +18,25 @@ import java.util.Map;
 
 @Component
 public class TokenValidator implements HandlerInterceptor {
+    private final static ThreadLocal<Map<String, String>> threadLocal = new ThreadLocal<>();
     @Value("${token.privateKey}")
     private String privateKey;
     @Value("${token.youngToken}")
     private Long youngToken;
     @Value("${token.oldToken}")
     private Long oldToken;
-    private final static ThreadLocal<Map<String, String>> threadLocal = new ThreadLocal<>();
+
+    public static Map<String, String> getUser() {
+        return threadLocal.get();
+    }
+
+    public static void setUser(Map<String, String> userIdentify) {
+        threadLocal.set(userIdentify);
+    }
+
+    public static void removeUser() {
+        threadLocal.remove();
+    }
 
     public String getToken(String userName) {
         return JWT.create().withClaim("userName", userName).withClaim("timeStamp", System.currentTimeMillis()).sign(Algorithm.HMAC256(privateKey));
@@ -60,17 +72,5 @@ public class TokenValidator implements HandlerInterceptor {
         }
         setUser(map);
         return true;
-    }
-
-    public static void setUser(Map<String, String> userIdentify) {
-        threadLocal.set(userIdentify);
-    }
-
-    public static Map<String, String> getUser() {
-        return threadLocal.get();
-    }
-
-    public static void removeUser() {
-        threadLocal.remove();
     }
 }

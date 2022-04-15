@@ -1,4 +1,5 @@
 package shuhuai.wheremoney.mapper;
+
 import org.apache.ibatis.annotations.Mapper;
 import shuhuai.wheremoney.entity.Bill;
 

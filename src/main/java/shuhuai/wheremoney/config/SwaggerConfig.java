@@ -45,9 +45,9 @@ public class SwaggerConfig {
     private SecurityContext tokenContext() {
         return SecurityContext.builder()
                 .securityReferences(List.of(SecurityReference.builder()
-                .scopes(new AuthorizationScope[0])
-                .reference("Authorization")
-                .build()))
+                        .scopes(new AuthorizationScope[0])
+                        .reference("Authorization")
+                        .build()))
                 .operationSelector(o -> o.requestMappingPattern().matches("/.*"))
                 .build();
     }
