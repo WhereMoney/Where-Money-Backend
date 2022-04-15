@@ -2,6 +2,7 @@ package shuhuai.wheremoney.entity;
 
 import shuhuai.wheremoney.type.BillType;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Date;
 
@@ -12,11 +13,19 @@ public class Bill {
     private Integer outAssetId;
     private Integer billCategoryId;
     private BillType type;
-    private DecimalFormat amount;
+    private BigDecimal amount;
     private Date time;
     private String remark;
 
-    public Bill() {
+    public Bill(Integer bookId, Integer inAssetId, Integer outAssetId, Integer billCategoryId, BillType type, BigDecimal amount, Date time, String remark) {
+        this.bookId = bookId;
+        this.inAssetId = inAssetId;
+        this.outAssetId = outAssetId;
+        this.billCategoryId = billCategoryId;
+        this.type = type;
+        this.amount = amount;
+        this.time = time;
+        this.remark = remark;
     }
 
     public Integer getId() {
@@ -67,11 +76,11 @@ public class Bill {
         this.type = type;
     }
 
-    public DecimalFormat getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(DecimalFormat amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -89,5 +98,19 @@ public class Bill {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "bookId=" + bookId +
+                ", inAssetId=" + inAssetId +
+                ", outAssetId=" + outAssetId +
+                ", billCategoryId=" + billCategoryId +
+                ", type=" + type +
+                ", amount=" + amount +
+                ", time=" + time +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }
