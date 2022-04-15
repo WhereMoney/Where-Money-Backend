@@ -49,4 +49,12 @@ public class AssetServiceImpl implements AssetService {
         }
         return assetMapper.selectAssetById(id);
     }
+
+    @Override
+    public void updateAsset(Asset asset) {
+        Integer result = assetMapper.updateAssetSelectiveById(asset);
+        if (result != 1) {
+            throw new ServerException("服务器错误");
+        }
+    }
 }

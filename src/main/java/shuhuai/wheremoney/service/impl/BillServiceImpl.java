@@ -23,6 +23,9 @@ public class BillServiceImpl implements BillService {
         if (bookId == null || type == null || amount == null) {
             throw new ParamsException("参数错误");
         }
+        if (inAssetId == null && outAssetId == null) {
+            throw new ParamsException("参数错误");
+        }
         Bill bill = new Bill(bookId, inAssetId, outAssetId, billCategoryId, type, amount, time, remark);
         Integer result = billMapper.insertBillSelective(bill);
         if (result != 1) {

@@ -12,4 +12,6 @@ public interface AssetService {
     List<Asset> getAllAsset(String userName);
 
     Asset getAsset(Integer id);
+
+    void updateAsset(Asset asset);
 }

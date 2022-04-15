@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import shuhuai.wheremoney.entity.Asset;
 import shuhuai.wheremoney.entity.Bill;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.bill.GetBillResponse;
+import shuhuai.wheremoney.service.AssetService;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.type.BillType;
 
@@ -29,6 +31,8 @@ import java.util.List;
 public class BillController extends BaseController {
     @Resource
     private BillService billService;
+    @Resource
+    private AssetService assetService;
 
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "token过期"),
@@ -48,6 +52,24 @@ public class BillController extends BaseController {
             error.printStackTrace();
         }
         billService.addBill(bookId, inAssetId, outAssetId, billCategoryId, type, amount, formatDate, remark);
+        if (inAssetId != null){
+            Asset inAsset = assetService.getAsset(inAssetId);
+            int compare = amount.compareTo(new BigDecimal("0.00"));
+            if (compare < 0){
+                amount = new BigDecimal("0.00").subtract(amount);
+            }// amount 负转正
+            inAsset.setBalance(inAsset.getBalance().add(amount)); //资产中更新
+            assetService.updateAsset(inAsset);
+        }
+        if (outAssetId != null){
+            Asset outAsset = assetService.getAsset(outAssetId);
+            int compare = amount.compareTo(new BigDecimal("0.00"));
+            if (compare > 0){
+                amount = new BigDecimal("0.00").subtract(amount);
+            }// amount 正转负
+            outAsset.setBalance(outAsset.getBalance().add(amount)); //资产中更新
+            assetService.updateAsset(outAsset);
+        }
         Response<Object> response = new Response<>(200, "新建账单成功", null);
         log.info("/api/user/add-bill：" + response.getMessage());
         return response;

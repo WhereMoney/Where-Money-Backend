@@ -12,4 +12,6 @@ public interface AssetMapper {
     List<Asset> selectAssetByUserId(Integer userId);
 
     Asset selectAssetById(Integer id);
+
+    Integer updateAssetSelectiveById(Asset asset);
 }

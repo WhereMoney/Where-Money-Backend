@@ -79,4 +79,31 @@
         from asset
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <update id="updateAssetSelectiveById" parameterType="shuhuai.wheremoney.entity.Asset">
+        update asset
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=DECIMAL},
+            </if>
+            <if test="assetName != null">
+                asset_name = #{assetName,jdbcType=VARCHAR},
+            </if>
+            <if test="billDate != null">
+                bill_date = #{billDate,jdbcType=INTEGER},
+            </if>
+            <if test="repayDate != null">
+                repay_date = #{repayDate,jdbcType=INTEGER},
+            </if>
+            <if test="quota != null">
+                quota = #{quota,jdbcType=DECIMAL},
+            </if>
+            <if test="inTotal != null">
+                in_Total = #{inTotal,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>
