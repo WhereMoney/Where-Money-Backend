@@ -12,5 +12,7 @@ public interface BillService {
 
     List<Bill> getBillByBook(Integer bookId);
 
+    List<Bill> getBillByBookMonth(Integer bookId, Timestamp startTime, Timestamp endTime);
+
     Bill getBill(Integer id);
 }

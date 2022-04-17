@@ -11,6 +11,7 @@ import shuhuai.wheremoney.type.BillType;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -39,6 +40,14 @@ public class BillServiceImpl implements BillService {
             throw new ParamsException("参数错误");
         }
         return billMapper.selectBillByBookId(bookId);
+    }
+
+    @Override
+    public List<Bill> getBillByBookMonth(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null || startTime == null || endTime == null) {
+            throw new ParamsException("参数错误");
+        }
+        return billMapper.selectBillByBookIdTime(bookId, startTime, endTime);
     }
 
     @Override
