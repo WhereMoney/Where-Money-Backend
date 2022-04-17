@@ -95,8 +95,8 @@ public class BillController extends BaseController {
     @ApiOperation(value = "获得账单")
     public Response<GetBillResponse> getBill(@RequestParam Integer id) {
         Bill bill = billService.getBill(id);
-        String[] strings = idToString(bill);
-        Response<GetBillResponse> response = new Response<>(200, "获得账单成功", new GetBillResponse(bill, strings[0], strings[1], strings[2]));
+        String[] strings = bill == null ? null : idToString(bill);
+        Response<GetBillResponse> response = new Response<>(200, "获得账单成功", bill == null ? null : new GetBillResponse(bill, strings[0], strings[1], strings[2]));
         log.info("/api/user/get-bill：" + response.getMessage());
         return response;
     }
