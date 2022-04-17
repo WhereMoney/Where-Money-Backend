@@ -11,7 +11,6 @@ import shuhuai.wheremoney.type.BillType;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -25,6 +24,15 @@ public class BillServiceImpl implements BillService {
             throw new ParamsException("参数错误");
         }
         if (inAssetId == null && outAssetId == null) {
+            throw new ParamsException("参数错误");
+        }
+        if (type == BillType.支出 && inAssetId != null) {
+            throw new ParamsException("参数错误");
+        }
+        if (type == BillType.收入 && outAssetId != null) {
+            throw new ParamsException("参数错误");
+        }
+        if (type == BillType.转账 && (inAssetId == null || outAssetId == null)) {
             throw new ParamsException("参数错误");
         }
         Bill bill = new Bill(bookId, inAssetId, outAssetId, billCategoryId, type, amount, time, remark);
