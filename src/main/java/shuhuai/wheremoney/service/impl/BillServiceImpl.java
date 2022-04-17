@@ -40,4 +40,12 @@ public class BillServiceImpl implements BillService {
         }
         return billMapper.selectBillByBookId(bookId);
     }
+
+    @Override
+    public Bill getBill(Integer id) {
+        if (id == null) {
+            throw new ParamsException("参数错误");
+        }
+        return billMapper.selectBillById(id);
+    }
 }

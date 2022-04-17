@@ -1,6 +1,7 @@
 package shuhuai.wheremoney.entity;
 
 import lombok.AllArgsConstructor;
+import shuhuai.wheremoney.type.BillType;
 
 import java.io.Serializable;
 
@@ -10,11 +11,13 @@ public class BillCategory implements Serializable {
     private Integer bookId;
     private String billCategoryName;
     private String svg;
+    private BillType type;
 
-    public BillCategory(Integer bookId, String billCategoryName, String svg) {
+    public BillCategory(Integer bookId, String billCategoryName, String svg, BillType type) {
         this.bookId = bookId;
         this.billCategoryName = billCategoryName;
         this.svg = svg;
+        this.type = type;
     }
 
     public Integer getId() {
@@ -47,5 +50,13 @@ public class BillCategory implements Serializable {
 
     public void setSvg(String svg) {
         this.svg = svg;
+    }
+
+    public BillType getType() {
+        return type;
+    }
+
+    public void setType(BillType type) {
+        this.type = type;
     }
 }

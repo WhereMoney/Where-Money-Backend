@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import shuhuai.wheremoney.entity.BillCategory;
 import shuhuai.wheremoney.mapper.BillCategoryMapper;
 import shuhuai.wheremoney.service.BillCategoryService;
+import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
+import shuhuai.wheremoney.type.BillType;
 import shuhuai.wheremoney.utils.JsonOperator;
 
 import javax.annotation.Resource;
@@ -22,10 +24,19 @@ public class BillCategoryServiceImpl implements BillCategoryService {
         JSONArray jsonArray = JsonOperator.getMapFromJson("DefaultBillCategory");
         for (Object item : jsonArray) {
             JSONObject obj = JSON.parseObject(item + "");
-            Integer result = billCategoryMapper.insertBillCategorySelective(new BillCategory(bookId, obj.get("billCategoryName").toString(), obj.get("svg").toString()));
+            Integer result = billCategoryMapper.insertBillCategorySelective(new BillCategory(bookId, obj.get("billCategoryName").toString(), obj.get("svg").toString(),
+                    BillType.valueOf(obj.get("type").toString())));
             if (result != 1) {
                 throw new ServerException("服务器错误");
             }
         }
+    }
+
+    @Override
+    public BillCategory getBillCategory(Integer id) {
+        if (id == null) {
+            throw new ParamsException("参数错误");
+        }
+        return billCategoryMapper.selectBillCategoryById(id);
     }
 }

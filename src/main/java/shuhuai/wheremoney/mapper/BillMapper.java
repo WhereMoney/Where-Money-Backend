@@ -10,4 +10,6 @@ public interface BillMapper {
     Integer insertBillSelective(Bill bill);
 
     List<Bill> selectBillByBookId(Integer bookId);
+
+    Bill selectBillById(Integer id);
 }

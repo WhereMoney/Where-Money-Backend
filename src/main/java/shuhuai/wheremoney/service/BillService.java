@@ -11,4 +11,6 @@ public interface BillService {
     void addBill(Integer bookId, Integer inAssetId, Integer outAssetId, Integer billCategoryId, BillType type, BigDecimal amount, Timestamp time, String remark);
 
     List<Bill> getBillByBook(Integer bookId);
+
+    Bill getBill(Integer id);
 }

@@ -70,8 +70,14 @@
         </trim>
     </insert>
     <select id="selectBillByBookId" resultMap="BillResultMap">
-        select book_id,in_asset_id,out_asset_id,bill_category_id,type,amount,time,remark
+        select id,book_id,in_asset_id,out_asset_id,bill_category_id,type,amount,time,remark
         from bill
         where book_id = #{bookId,jdbcType=INTEGER}
+        order by time desc
+    </select>
+    <select id="selectBillById" resultMap="BillResultMap">
+        select id,book_id,in_asset_id,out_asset_id,bill_category_id,type,amount,time,remark
+        from bill
+        where id = #{id,jdbcType=INTEGER}
     </select>
 </mapper>
