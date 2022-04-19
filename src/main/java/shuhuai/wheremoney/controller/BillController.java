@@ -123,17 +123,17 @@ public class BillController extends BaseController {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
-    @RequestMapping(value = "/get-all-bill-month", method = RequestMethod.GET)
-    @ApiOperation(value = "获得指定账本的所有账单月")
-    public Response<GetAllBillResponse> getBillByBookMonth(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
-        List<Bill> billList = billService.getBillByBookMonth(bookId, startTime, endTime);
+    @RequestMapping(value = "/get-all-bill-time", method = RequestMethod.GET)
+    @ApiOperation(value = "获得指定账本的所有账单时间")
+    public Response<GetAllBillResponse> getBillByBookTIme(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
+        List<Bill> billList = billService.getBillByBookTime(bookId, startTime, endTime);
         List<GetBillResponse> getBillResponseList = new ArrayList<>();
         for (Bill bill : billList) {
             String[] strings = idToString(bill);
             getBillResponseList.add(new GetBillResponse(bill, strings[0], strings[1], strings[2]));
         }
-        Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单月成功", new GetAllBillResponse(getBillResponseList));
-        log.info("/api/user/get-all-bill-month：" + response.getMessage());
+        Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单时间成功", new GetAllBillResponse(getBillResponseList));
+        log.info("/api/user/get-all-bill-time：" + response.getMessage());
         return response;
     }
 }

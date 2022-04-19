@@ -51,7 +51,7 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public List<Bill> getBillByBookMonth(Integer bookId, Timestamp startTime, Timestamp endTime) {
+    public List<Bill> getBillByBookTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
         if (bookId == null || startTime == null || endTime == null) {
             throw new ParamsException("参数错误");
         }

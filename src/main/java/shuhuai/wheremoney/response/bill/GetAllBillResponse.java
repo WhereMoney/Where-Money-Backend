@@ -1,7 +1,5 @@
 package shuhuai.wheremoney.response.bill;
 
-import shuhuai.wheremoney.entity.Bill;
-
 import java.util.List;
 
 public class GetAllBillResponse {
