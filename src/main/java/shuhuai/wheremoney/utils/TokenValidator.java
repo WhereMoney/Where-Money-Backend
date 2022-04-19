@@ -61,7 +61,11 @@ public class TokenValidator implements HandlerInterceptor {
         if (null == token || "".equals(token.trim())) {
             throw new TokenExpireException("token无效");
         }
-        token = token.split(" ")[1];
+        try {
+            token = token.split(" ")[1];
+        } catch (Exception e) {
+            throw new TokenExpireException("token无效");
+        }
         Map<String, String> map = parseToken(token);
         String userName = map.get("userName");
         long timeOfUse = System.currentTimeMillis() - Long.parseLong(map.get("timeStamp"));
