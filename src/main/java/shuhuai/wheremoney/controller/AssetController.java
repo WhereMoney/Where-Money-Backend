@@ -15,6 +15,7 @@ import shuhuai.wheremoney.response.asset.GetAllAssetResponse;
 import shuhuai.wheremoney.response.asset.GetAssetResponse;
 import shuhuai.wheremoney.service.AssetService;
 import shuhuai.wheremoney.type.AssetType;
+import shuhuai.wheremoney.utils.RequestGetter;
 import shuhuai.wheremoney.utils.TokenValidator;
 
 import javax.annotation.Resource;
@@ -41,7 +42,7 @@ public class AssetController extends BaseController {
         String userName = TokenValidator.getUser().get("userName");
         assetService.addAsset(userName, assetName, balance, type, billDate, repayDate, quota, inTotal);
         Response<Object> response = new Response<>(200, "新建资产成功", null);
-        log.info("/api/user/add-asset：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -55,7 +56,7 @@ public class AssetController extends BaseController {
         String userName = TokenValidator.getUser().get("userName");
         List<Asset> assetList = assetService.getAllAsset(userName);
         Response<GetAllAssetResponse> response = new Response<>(200, "获得资产成功", new GetAllAssetResponse(assetList));
-        log.info("/api/user/get-all-asset：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -68,7 +69,7 @@ public class AssetController extends BaseController {
     public Response<GetAssetResponse> getAsset(@RequestParam Integer id) {
         Asset asset = assetService.getAsset(id);
         Response<GetAssetResponse> response = new Response<>(200, "获得资产成功", new GetAssetResponse(asset));
-        log.info("/api/user/get-asset：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 }

@@ -19,6 +19,7 @@ import shuhuai.wheremoney.service.AssetService;
 import shuhuai.wheremoney.service.BillCategoryService;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.type.BillType;
+import shuhuai.wheremoney.utils.RequestGetter;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -99,7 +100,7 @@ public class BillController extends BaseController {
         Bill bill = billService.getBill(id);
         String[] strings = bill == null ? null : idToString(bill);
         Response<GetBillResponse> response = new Response<>(200, "获得账单成功", bill == null ? null : new GetBillResponse(bill, strings[0], strings[1], strings[2]));
-        log.info("/api/bill/get-bill：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -117,7 +118,7 @@ public class BillController extends BaseController {
             billResponseList.add(new GetBillResponse(bill, strings[0], strings[1], strings[2]));
         }
         Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单成功", new GetAllBillResponse(billResponseList));
-        log.info("/api/bill/get-all-bill：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -135,7 +136,7 @@ public class BillController extends BaseController {
             getBillResponseList.add(new GetBillResponse(bill, strings[0], strings[1], strings[2]));
         }
         Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单时间成功", new GetAllBillResponse(getBillResponseList));
-        log.info("/api/bill/get-all-bill-time：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -150,7 +151,7 @@ public class BillController extends BaseController {
         List<Map<String, Object>> incomeStatistic = billService.getCategoryIncomeStatisticTime(bookId, startTime, endTime);
         Response<CategoryStatisticResponse> response = new Response<>(200, "分类统计指定账本的指定时间段的账单成功",
                 new CategoryStatisticResponse(payStatistic, incomeStatistic));
-        log.info("/api/bill/category-statistic-time：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 }

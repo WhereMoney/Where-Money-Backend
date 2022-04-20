@@ -11,25 +11,26 @@ import shuhuai.wheremoney.service.excep.common.TokenExpireException;
 import shuhuai.wheremoney.service.excep.user.UserMissingException;
 import shuhuai.wheremoney.service.excep.user.UserNameOccupiedException;
 import shuhuai.wheremoney.service.excep.user.UserNamePasswordErrorException;
+import shuhuai.wheremoney.utils.RequestGetter;
 
 @Slf4j
 public class BaseController {
     @ExceptionHandler(BaseException.class)
-    public Response<Object> handleServiceException(BaseException e) {
+    public Response<Object> handleServiceException(BaseException error) {
         Response<Object> response = new Response<>();
-        log.error(e.getStackTrace()[0] + "：" + e.getMessage());
-        if (e instanceof UserNameOccupiedException || e instanceof TitleOccupiedException) {
+        log.error(RequestGetter.getRequestUrl() + "：" + error.getMessage());
+        if (error instanceof UserNameOccupiedException || error instanceof TitleOccupiedException) {
             response.setCode(400);
-        } else if (e instanceof UserNamePasswordErrorException || e instanceof TokenExpireException) {
+        } else if (error instanceof UserNamePasswordErrorException || error instanceof TokenExpireException) {
             response.setCode(401);
-        } else if (e instanceof ParamsException) {
+        } else if (error instanceof ParamsException) {
             response.setCode(422);
-        } else if (e instanceof ServerException) {
+        } else if (error instanceof ServerException) {
             response.setCode(500);
-        } else if (e instanceof UserMissingException) {
+        } else if (error instanceof UserMissingException) {
             response.setCode(404);
         }
-        response.setMessage(e.getMessage());
+        response.setMessage(error.getMessage());
         return response;
     }
 }

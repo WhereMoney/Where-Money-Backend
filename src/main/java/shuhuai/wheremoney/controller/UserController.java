@@ -13,6 +13,7 @@ import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.user.ChangeUserNameResponse;
 import shuhuai.wheremoney.response.user.LoginResponse;
 import shuhuai.wheremoney.service.UserService;
+import shuhuai.wheremoney.utils.RequestGetter;
 import shuhuai.wheremoney.utils.TokenValidator;
 
 import javax.annotation.Resource;
@@ -38,7 +39,7 @@ public class UserController extends BaseController {
     public Response<Object> register(@RequestParam String userName, @RequestParam String password) {
         userService.register(userName, password);
         Response<Object> response = new Response<>(200, "注册成功", null);
-        log.info("/api/user/register：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -53,7 +54,7 @@ public class UserController extends BaseController {
         userService.login(userName, password);
         String token = tokenValidator.getToken(userName);
         Response<LoginResponse> response = new Response<>(200, "登录成功", new LoginResponse(token));
-        log.info("/api/user/login：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -71,7 +72,7 @@ public class UserController extends BaseController {
         userService.changeUsername(oldUserName, userName);
         String token = tokenValidator.getToken(userName);
         Response<ChangeUserNameResponse> response = new Response<>(200, "修改用户名成功", new ChangeUserNameResponse(token));
-        log.info("/api/user/change-user-name：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 
@@ -87,7 +88,7 @@ public class UserController extends BaseController {
         String userName = TokenValidator.getUser().get("userName");
         userService.changePassword(userName, password);
         Response<Object> response = new Response<>(200, "修改密码成功", null);
-        log.info("/api/user/change-password：" + response.getMessage());
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
 }
