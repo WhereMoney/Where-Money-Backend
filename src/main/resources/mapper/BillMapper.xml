@@ -87,4 +87,28 @@
         from bill
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="selectPayBillByBookIdTime" resultMap="BillResultMap">
+        select *
+        from bill
+        where book_id = #{bookId,jdbcType=INTEGER}
+        and time &gt;= #{startTime,jdbcType=TIMESTAMP} and time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        and type = '支出'
+        order by time desc
+    </select>
+    <select id="selectIncomeBillByBookIdTime" resultMap="BillResultMap">
+        select *
+        from bill
+        where book_id = #{bookId,jdbcType=INTEGER}
+        and time &gt;= #{startTime,jdbcType=TIMESTAMP} and time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        and type = '收入'
+        order by time desc
+    </select>
+    <select id="selectTransferBillByBookIdTime" resultMap="BillResultMap">
+        select *
+        from bill
+        where book_id = #{bookId,jdbcType=INTEGER}
+        and time &gt;= #{startTime,jdbcType=TIMESTAMP} and time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        and type = '转账'
+        order by time desc
+    </select>
 </mapper>

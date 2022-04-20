@@ -2,6 +2,7 @@ package shuhuai.wheremoney.service.impl;
 
 import org.springframework.stereotype.Service;
 import shuhuai.wheremoney.entity.Bill;
+import shuhuai.wheremoney.mapper.BillCategoryMapper;
 import shuhuai.wheremoney.mapper.BillMapper;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
@@ -10,13 +11,18 @@ import shuhuai.wheremoney.type.BillType;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BillServiceImpl implements BillService {
     @Resource
     private BillMapper billMapper;
+    @Resource
+    private BillCategoryMapper billCategoryMapper;
 
     @Override
     public void addBill(Integer bookId, Integer inAssetId, Integer outAssetId, Integer billCategoryId, BillType type, BigDecimal amount, Timestamp time, String remark) {
@@ -64,5 +70,41 @@ public class BillServiceImpl implements BillService {
             throw new ParamsException("参数错误");
         }
         return billMapper.selectBillById(id);
+    }
+
+    private List<Map<String, Object>> categoryStatistic(List<Bill> bills) {
+        Map<Integer, BigDecimal> temp = new java.util.HashMap<>();
+        BigDecimal total = BigDecimal.ZERO;
+        for (Bill bill : bills) {
+            if (temp.containsKey(bill.getBillCategoryId())) {
+                temp.replace(bill.getBillCategoryId(), temp.get(bill.getBillCategoryId()).add(bill.getAmount()));
+            } else {
+                temp.put(bill.getBillCategoryId(), bill.getAmount());
+            }
+            total = total.add(bill.getAmount());
+        }
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Map.Entry<Integer, BigDecimal> entry : temp.entrySet()) {
+            result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
+                    "amount", entry.getValue(),
+                    "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
+        }
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getCategoryPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null || startTime == null || endTime == null) {
+            throw new ParamsException("参数错误");
+        }
+        return categoryStatistic(billMapper.selectPayBillByBookIdTime(bookId, startTime, endTime));
+    }
+
+    @Override
+    public List<Map<String, Object>> getCategoryIncomeStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null || startTime == null || endTime == null) {
+            throw new ParamsException("参数错误");
+        }
+        return categoryStatistic(billMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime));
     }
 }

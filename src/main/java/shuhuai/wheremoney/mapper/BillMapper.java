@@ -15,4 +15,10 @@ public interface BillMapper {
     List<Bill> selectBillByBookIdTime(Integer bookId, Timestamp startTime, Timestamp endTime);
 
     Bill selectBillById(Integer id);
+
+    List<Bill> selectPayBillByBookIdTime(Integer bookId, Timestamp startTime, Timestamp endTime);
+
+    List<Bill> selectIncomeBillByBookIdTime(Integer bookId, Timestamp startTime, Timestamp endTime);
+
+    List<Bill> selectTransferBillByBookIdTime(Integer bookId, Timestamp startTime, Timestamp endTime);
 }
