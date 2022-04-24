@@ -124,23 +124,11 @@ public class BillController extends BaseController {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
-    @RequestMapping(value = "/get-bill", method = RequestMethod.GET)
+    @RequestMapping(value = "/bill", method = RequestMethod.GET)
     @ApiOperation(value = "获得账单")
     public Response<BaseGetBillResponse> getBill(@RequestParam Integer id, @RequestParam BillType type) {
         BaseBill bill = billService.getBill(id, type);
-        String[] strings = idToString(bill);
-        Response<BaseGetBillResponse> response;
-        if (bill instanceof PayBill) {
-            response = new Response<>(200, "获得账单成功", new GetPayBillResponse(bill, strings[0], strings[1]));
-        } else if (bill instanceof IncomeBill) {
-            response = new Response<>(200, "获得账单成功", new GetIncomeBillResponse(bill, strings[0], strings[1]));
-        } else if (bill instanceof TransferBill) {
-            response = new Response<>(200, "获得账单成功", new GetTransferBillResponse(bill, strings[0], strings[1]));
-        } else if (bill instanceof RefundBill) {
-            response = new Response<>(200, "获得账单成功", new GetRefundBillResponse(bill, strings[0]));
-        } else {
-            response = new Response<>(200, "获得账单成功", null);
-        }
+        Response<BaseGetBillResponse> response = new Response<>(200, "获得账单成功", entityToResponse(bill));
         log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
@@ -149,7 +137,7 @@ public class BillController extends BaseController {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
-    @RequestMapping(value = "/get-all-bill", method = RequestMethod.GET)
+    @RequestMapping(value = "/all-bill", method = RequestMethod.GET)
     @ApiOperation(value = "获得指定账本的所有账单")
     public Response<GetAllBillResponse> getBillByBook(@RequestParam Integer bookId) {
         List<BaseBill> billList = billService.getBillByBook(bookId);
@@ -166,7 +154,7 @@ public class BillController extends BaseController {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
-    @RequestMapping(value = "/get-all-bill-time", method = RequestMethod.GET)
+    @RequestMapping(value = "/all-bill-time", method = RequestMethod.GET)
     @ApiOperation(value = "获得指定账本的所有账单时间")
     public Response<GetAllBillResponse> getBillByBookTIme(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
         List<BaseBill> billList = billService.getBillByBookTime(bookId, startTime, endTime);
