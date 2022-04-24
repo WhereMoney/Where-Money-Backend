@@ -1,9 +1,8 @@
 package shuhuai.wheremoney.service.impl;
 
 import org.springframework.stereotype.Service;
-import shuhuai.wheremoney.entity.Bill;
-import shuhuai.wheremoney.mapper.BillCategoryMapper;
-import shuhuai.wheremoney.mapper.BillMapper;
+import shuhuai.wheremoney.entity.*;
+import shuhuai.wheremoney.mapper.*;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
@@ -23,6 +22,14 @@ public class BillServiceImpl implements BillService {
     private BillMapper billMapper;
     @Resource
     private BillCategoryMapper billCategoryMapper;
+    @Resource
+    private PayBillMapper payBillMapper;
+    @Resource
+    private IncomeBillMapper incomeBillMapper;
+    @Resource
+    private TransferBillMapper transferBillMapper;
+    @Resource
+    private RefundBillMapper refundBillMapper;
 
     @Override
     public void addBill(Integer bookId, Integer inAssetId, Integer outAssetId, Integer billCategoryId, BillType type, BigDecimal amount, Timestamp time, String remark) {
@@ -48,28 +55,57 @@ public class BillServiceImpl implements BillService {
         }
     }
 
+    private void sortByBillTime(List<BaseBill> bills) {
+        for (int i = 0; i < bills.size() - 1; i++) {
+            for (int j = i + 1; j < bills.size(); j++) {
+                if (bills.get(i).getBillTime().before(bills.get(j).getBillTime())) {
+                    BaseBill temp = bills.get(i);
+                    bills.set(i, bills.get(j));
+                    bills.set(j, temp);
+                }
+            }
+        }
+    }
+
     @Override
-    public List<Bill> getBillByBook(Integer bookId) {
+    public List<BaseBill> getBillByBook(Integer bookId) {
         if (bookId == null) {
             throw new ParamsException("参数错误");
         }
-        return billMapper.selectBillByBookId(bookId);
+        List<BaseBill> bills = new ArrayList<>();
+        bills.addAll(payBillMapper.selectPayBillByBookId(bookId));
+        bills.addAll(incomeBillMapper.selectIncomeBillByBookId(bookId));
+        bills.addAll(transferBillMapper.selectTransferBillByBookId(bookId));
+        bills.addAll(refundBillMapper.selectRefundBillByBookId(bookId));
+        sortByBillTime(bills);
+        return bills;
     }
 
     @Override
-    public List<Bill> getBillByBookTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+    public List<BaseBill> getBillByBookTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
         if (bookId == null || startTime == null || endTime == null) {
             throw new ParamsException("参数错误");
         }
-        return billMapper.selectBillByBookIdTime(bookId, startTime, endTime);
+        List<BaseBill> bills = new ArrayList<>();
+        bills.addAll(payBillMapper.selectPayBillByBookIdTime(bookId, startTime, endTime));
+        bills.addAll(incomeBillMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime));
+        bills.addAll(transferBillMapper.selectTransferBillByBookIdTime(bookId, startTime, endTime));
+        bills.addAll(refundBillMapper.selectRefundBillByBookIdTime(bookId, startTime, endTime));
+        sortByBillTime(bills);
+        return bills;
     }
 
     @Override
-    public Bill getBill(Integer id) {
-        if (id == null) {
+    public BaseBill getBill(Integer id, BillType type) {
+        if (id == null || type == null) {
             throw new ParamsException("参数错误");
         }
-        return billMapper.selectBillById(id);
+        return switch (type) {
+            case 支出 -> payBillMapper.selectPayBillById(id);
+            case 收入 -> incomeBillMapper.selectIncomeBillById(id);
+            case 转账 -> transferBillMapper.selectTransferBillById(id);
+            case 退款 -> refundBillMapper.selectRefundBillById(id);
+        };
     }
 
     private List<Map<String, Object>> categoryStatistic(List<Bill> bills) {

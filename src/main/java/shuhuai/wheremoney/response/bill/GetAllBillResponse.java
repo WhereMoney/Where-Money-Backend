@@ -3,17 +3,17 @@ package shuhuai.wheremoney.response.bill;
 import java.util.List;
 
 public class GetAllBillResponse {
-    private List<GetBillResponse> billList;
+    private List<BaseGetBillResponse> billList;
 
-    public GetAllBillResponse(List<GetBillResponse> billList) {
+    public GetAllBillResponse(List<BaseGetBillResponse> billList) {
         this.billList = billList;
     }
 
-    public List<GetBillResponse> getBillList() {
+    public List<BaseGetBillResponse> getBillList() {
         return billList;
     }
 
-    public void setBillList(List<GetBillResponse> billList) {
+    public void setBillList(List<BaseGetBillResponse> billList) {
         this.billList = billList;
     }
 }

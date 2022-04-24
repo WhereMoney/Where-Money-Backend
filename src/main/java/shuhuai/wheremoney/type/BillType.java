@@ -1,7 +1,7 @@
 package shuhuai.wheremoney.type;
 
 public enum BillType {
-    收入("收入"), 支出("支出"), 转账("转账");
+    收入("收入"), 支出("支出"), 转账("转账"), 退款("退款");
 
     private String type;
 
@@ -14,6 +14,7 @@ public enum BillType {
             case "收入" -> 收入;
             case "支出" -> 支出;
             case "转账" -> 转账;
+            case "退款" -> 退款;
             default -> null;
         };
     }

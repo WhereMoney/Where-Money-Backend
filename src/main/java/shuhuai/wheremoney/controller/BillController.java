@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import shuhuai.wheremoney.entity.Asset;
-import shuhuai.wheremoney.entity.Bill;
+import shuhuai.wheremoney.entity.*;
 import shuhuai.wheremoney.response.Response;
-import shuhuai.wheremoney.response.bill.CategoryStatisticResponse;
-import shuhuai.wheremoney.response.bill.GetAllBillResponse;
-import shuhuai.wheremoney.response.bill.GetBillResponse;
+import shuhuai.wheremoney.response.bill.*;
 import shuhuai.wheremoney.service.AssetService;
 import shuhuai.wheremoney.service.BillCategoryService;
 import shuhuai.wheremoney.service.BillService;
@@ -83,11 +80,44 @@ public class BillController extends BaseController {
         return response;
     }
 
-    private String[] idToString(Bill bill) {
-        String billCategory = bill.getBillCategoryId() == null ? null : billCategoryService.getBillCategory(bill.getBillCategoryId()).getBillCategoryName();
-        String inAsset = bill.getInAssetId() == null ? null : assetService.getAsset(bill.getInAssetId()).getAssetName();
-        String outAsset = bill.getOutAssetId() == null ? null : assetService.getAsset(bill.getOutAssetId()).getAssetName();
-        return new String[]{billCategory, inAsset, outAsset};
+    private String[] idToString(BaseBill bill) {
+        if (bill instanceof PayBill) {
+            String payAsset = assetService.getAsset(((PayBill) bill).getPayAssetId()).getAssetName();
+            String billCategory = billCategoryService.getBillCategory(((PayBill) bill).getBillCategoryId()).getBillCategoryName();
+            return new String[]{payAsset, billCategory};
+        }
+        if (bill instanceof IncomeBill) {
+            String incomeAsset = assetService.getAsset(((IncomeBill) bill).getIncomeAssetId()).getAssetName();
+            String billCategory = billCategoryService.getBillCategory(((IncomeBill) bill).getBillCategoryId()).getBillCategoryName();
+            return new String[]{incomeAsset, billCategory};
+        }
+        if (bill instanceof TransferBill) {
+            String inAsset = assetService.getAsset(((TransferBill) bill).getInAssetId()).getAssetName();
+            String outAsset = assetService.getAsset(((TransferBill) bill).getOutAssetId()).getAssetName();
+            return new String[]{inAsset, outAsset};
+        }
+        if (bill instanceof RefundBill) {
+            String refundAsset = assetService.getAsset(((RefundBill) bill).getRefundAssetId()).getAssetName();
+            return new String[]{refundAsset};
+        }
+        return null;
+    }
+
+    private BaseGetBillResponse entityToResponse(BaseBill bill){
+        String[] strings=idToString(bill);
+        if (bill instanceof PayBill) {
+            return new GetPayBillResponse(bill, strings[0], strings[1]);
+        }
+        if (bill instanceof IncomeBill) {
+            return new GetIncomeBillResponse(bill, strings[0], strings[1]);
+        }
+        if (bill instanceof TransferBill) {
+            return new GetTransferBillResponse(bill, strings[0], strings[1]);
+        }
+        if (bill instanceof RefundBill) {
+            return new GetRefundBillResponse(bill, strings[0]);
+        }
+        return null;
     }
 
     @ApiResponses(value = {
@@ -96,10 +126,21 @@ public class BillController extends BaseController {
     })
     @RequestMapping(value = "/get-bill", method = RequestMethod.GET)
     @ApiOperation(value = "获得账单")
-    public Response<GetBillResponse> getBill(@RequestParam Integer id) {
-        Bill bill = billService.getBill(id);
-        String[] strings = bill == null ? null : idToString(bill);
-        Response<GetBillResponse> response = new Response<>(200, "获得账单成功", bill == null ? null : new GetBillResponse(bill, strings[0], strings[1], strings[2]));
+    public Response<BaseGetBillResponse> getBill(@RequestParam Integer id, @RequestParam BillType type) {
+        BaseBill bill = billService.getBill(id, type);
+        String[] strings = idToString(bill);
+        Response<BaseGetBillResponse> response;
+        if (bill instanceof PayBill) {
+            response = new Response<>(200, "获得账单成功", new GetPayBillResponse(bill, strings[0], strings[1]));
+        } else if (bill instanceof IncomeBill) {
+            response = new Response<>(200, "获得账单成功", new GetIncomeBillResponse(bill, strings[0], strings[1]));
+        } else if (bill instanceof TransferBill) {
+            response = new Response<>(200, "获得账单成功", new GetTransferBillResponse(bill, strings[0], strings[1]));
+        } else if (bill instanceof RefundBill) {
+            response = new Response<>(200, "获得账单成功", new GetRefundBillResponse(bill, strings[0]));
+        } else {
+            response = new Response<>(200, "获得账单成功", null);
+        }
         log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
@@ -111,11 +152,10 @@ public class BillController extends BaseController {
     @RequestMapping(value = "/get-all-bill", method = RequestMethod.GET)
     @ApiOperation(value = "获得指定账本的所有账单")
     public Response<GetAllBillResponse> getBillByBook(@RequestParam Integer bookId) {
-        List<Bill> billList = billService.getBillByBook(bookId);
-        List<GetBillResponse> billResponseList = new ArrayList<>();
-        for (Bill bill : billList) {
-            String[] strings = idToString(bill);
-            billResponseList.add(new GetBillResponse(bill, strings[0], strings[1], strings[2]));
+        List<BaseBill> billList = billService.getBillByBook(bookId);
+        List<BaseGetBillResponse> billResponseList = new ArrayList<>();
+        for (BaseBill bill : billList) {
+            billResponseList.add(entityToResponse(bill));
         }
         Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单成功", new GetAllBillResponse(billResponseList));
         log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
@@ -129,13 +169,12 @@ public class BillController extends BaseController {
     @RequestMapping(value = "/get-all-bill-time", method = RequestMethod.GET)
     @ApiOperation(value = "获得指定账本的所有账单时间")
     public Response<GetAllBillResponse> getBillByBookTIme(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
-        List<Bill> billList = billService.getBillByBookTime(bookId, startTime, endTime);
-        List<GetBillResponse> getBillResponseList = new ArrayList<>();
-        for (Bill bill : billList) {
-            String[] strings = idToString(bill);
-            getBillResponseList.add(new GetBillResponse(bill, strings[0], strings[1], strings[2]));
+        List<BaseBill> billList = billService.getBillByBookTime(bookId, startTime, endTime);
+        List<BaseGetBillResponse> billResponseList = new ArrayList<>();
+        for (BaseBill bill : billList) {
+            billResponseList.add(entityToResponse(bill));
         }
-        Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单时间成功", new GetAllBillResponse(getBillResponseList));
+        Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单时间成功", new GetAllBillResponse(billResponseList));
         log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
