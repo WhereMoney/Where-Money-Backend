@@ -23,7 +23,7 @@ public class RequestGetter {
     public static String getRequestUrl() {
         HttpServletRequest request = RequestGetter.getRequest();
         String url = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() == 80 ? "" : ":" + request.getServerPort()) + request.getContextPath()
-                + request.getRequestURI() + (request.getQueryString().equals("") ? "" : "?" + request.getQueryString());
+                + request.getRequestURI() + (request.getQueryString() == null ? "" : (request.getQueryString().equals("") ? "" : "?" + request.getQueryString()));
         return java.net.URLDecoder.decode(url, StandardCharsets.UTF_8);
     }
 
