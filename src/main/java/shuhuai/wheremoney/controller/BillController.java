@@ -100,8 +100,8 @@ public class BillController extends BaseController {
         return null;
     }
 
-    private BaseGetBillResponse entityToResponse(BaseBill bill){
-        String[] strings=idToString(bill);
+    private BaseGetBillResponse entityToResponse(BaseBill bill) {
+        String[] strings = idToString(bill);
         if (bill instanceof PayBill) {
             return new GetPayBillResponse(bill, strings[0], strings[1]);
         }

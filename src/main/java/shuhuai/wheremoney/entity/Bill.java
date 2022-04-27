@@ -5,6 +5,7 @@ import shuhuai.wheremoney.type.BillType;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
 @AllArgsConstructor
 public class Bill {
     private Integer id;

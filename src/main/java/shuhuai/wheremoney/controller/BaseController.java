@@ -11,14 +11,12 @@ import shuhuai.wheremoney.service.excep.common.TokenExpireException;
 import shuhuai.wheremoney.service.excep.user.UserMissingException;
 import shuhuai.wheremoney.service.excep.user.UserNameOccupiedException;
 import shuhuai.wheremoney.service.excep.user.UserNamePasswordErrorException;
-import shuhuai.wheremoney.utils.RequestGetter;
 
 @Slf4j
 public class BaseController {
     @ExceptionHandler(BaseException.class)
     public Response<Object> handleServiceException(BaseException error) {
         Response<Object> response = new Response<>();
-        log.error(RequestGetter.getRequestUrl() + "：" + error.getMessage());
         if (error instanceof UserNameOccupiedException || error instanceof TitleOccupiedException) {
             response.setCode(400);
         } else if (error instanceof UserNamePasswordErrorException || error instanceof TokenExpireException) {

@@ -1,7 +1,6 @@
 package shuhuai.wheremoney.response.bill;
 
 import shuhuai.wheremoney.entity.BaseBill;
-import shuhuai.wheremoney.entity.Bill;
 import shuhuai.wheremoney.type.BillType;
 
 import java.math.BigDecimal;
