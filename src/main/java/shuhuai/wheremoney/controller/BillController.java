@@ -16,7 +16,6 @@ import shuhuai.wheremoney.service.AssetService;
 import shuhuai.wheremoney.service.BillCategoryService;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.type.BillType;
-import shuhuai.wheremoney.utils.RequestGetter;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -75,9 +74,7 @@ public class BillController extends BaseController {
             outAsset.setBalance(outAsset.getBalance().add(amount)); //资产中更新
             assetService.updateAsset(outAsset);
         }
-        Response<Object> response = new Response<>(200, "新建账单成功", null);
-        log.info("/api/bill/add-bill：" + response.getMessage());
-        return response;
+        return new Response<>(200, "新建账单成功", null);
     }
 
     private String[] idToString(BaseBill bill) {
@@ -128,9 +125,7 @@ public class BillController extends BaseController {
     @ApiOperation(value = "获得账单")
     public Response<BaseGetBillResponse> getBill(@RequestParam Integer id, @RequestParam BillType type) {
         BaseBill bill = billService.getBill(id, type);
-        Response<BaseGetBillResponse> response = new Response<>(200, "获得账单成功", entityToResponse(bill));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "获得账单成功", entityToResponse(bill));
     }
 
     @ApiResponses(value = {
@@ -145,9 +140,7 @@ public class BillController extends BaseController {
         for (BaseBill bill : billList) {
             billResponseList.add(entityToResponse(bill));
         }
-        Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单成功", new GetAllBillResponse(billResponseList));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "获得指定账本的所有账单成功", new GetAllBillResponse(billResponseList));
     }
 
     @ApiResponses(value = {
@@ -162,9 +155,7 @@ public class BillController extends BaseController {
         for (BaseBill bill : billList) {
             billResponseList.add(entityToResponse(bill));
         }
-        Response<GetAllBillResponse> response = new Response<>(200, "获得指定账本的所有账单时间成功", new GetAllBillResponse(billResponseList));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "获得指定账本的所有账单时间成功", new GetAllBillResponse(billResponseList));
     }
 
     @ApiResponses(value = {
@@ -176,10 +167,8 @@ public class BillController extends BaseController {
     public Response<StatisticResponse> getCategoryStatisticTime(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
         List<Map<String, Object>> payStatistic = billService.categoryPayStatisticTime(bookId, startTime, endTime);
         List<Map<String, Object>> incomeStatistic = billService.categoryIncomeStatisticTime(bookId, startTime, endTime);
-        Response<StatisticResponse> response = new Response<>(200, "分类统计指定账本的指定时间段的账单成功",
+        return new Response<>(200, "分类统计指定账本的指定时间段的账单成功",
                 new StatisticResponse(payStatistic, incomeStatistic));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
     }
 
     @ApiResponses(value = {
@@ -191,9 +180,7 @@ public class BillController extends BaseController {
     public Response<StatisticResponse> getCategoryDayTime(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
         List<Map<String, Object>> payStatistic = billService.getDayPayStatisticTime(bookId, startTime, endTime);
         List<Map<String, Object>> incomeStatistic = billService.getDayIncomeStatisticTime(bookId, startTime, endTime);
-        Response<StatisticResponse> response = new Response<>(200, "分日统计指定账本的指定时间段的账单成功",
+        return new Response<>(200, "分日统计指定账本的指定时间段的账单成功",
                 new StatisticResponse(payStatistic, incomeStatistic));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
     }
 }

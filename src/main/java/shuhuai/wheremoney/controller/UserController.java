@@ -13,7 +13,6 @@ import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.user.ChangeUserNameResponse;
 import shuhuai.wheremoney.response.user.LoginResponse;
 import shuhuai.wheremoney.service.UserService;
-import shuhuai.wheremoney.utils.RequestGetter;
 import shuhuai.wheremoney.utils.TokenValidator;
 
 import javax.annotation.Resource;
@@ -38,9 +37,7 @@ public class UserController extends BaseController {
     })
     public Response<Object> register(@RequestParam String userName, @RequestParam String password) {
         userService.register(userName, password);
-        Response<Object> response = new Response<>(200, "注册成功", null);
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "注册成功", null);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -53,9 +50,7 @@ public class UserController extends BaseController {
     public Response<LoginResponse> login(@RequestParam String userName, @RequestParam String password) {
         userService.login(userName, password);
         String token = tokenValidator.getToken(userName);
-        Response<LoginResponse> response = new Response<>(200, "登录成功", new LoginResponse(token));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "登录成功", new LoginResponse(token));
     }
 
     @ApiResponses(value = {
@@ -71,9 +66,7 @@ public class UserController extends BaseController {
         String oldUserName = TokenValidator.getUser().get("userName");
         userService.changeUsername(oldUserName, userName);
         String token = tokenValidator.getToken(userName);
-        Response<ChangeUserNameResponse> response = new Response<>(200, "修改用户名成功", new ChangeUserNameResponse(token));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "修改用户名成功", new ChangeUserNameResponse(token));
     }
 
     @ApiResponses(value = {
@@ -87,8 +80,6 @@ public class UserController extends BaseController {
     public Response<Object> changePassword(@RequestParam String password) {
         String userName = TokenValidator.getUser().get("userName");
         userService.changePassword(userName, password);
-        Response<Object> response = new Response<>(200, "修改密码成功", null);
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "修改密码成功", null);
     }
 }

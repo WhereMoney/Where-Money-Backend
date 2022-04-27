@@ -3,6 +3,7 @@ package shuhuai.wheremoney.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import shuhuai.wheremoney.utils.Logger;
 import shuhuai.wheremoney.utils.TokenValidator;
 
 import javax.annotation.Resource;
@@ -11,6 +12,8 @@ import javax.annotation.Resource;
 public class AuthWebConfig implements WebMvcConfigurer {
     @Resource
     TokenValidator tokenValidator;
+    @Resource
+    Logger logger;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

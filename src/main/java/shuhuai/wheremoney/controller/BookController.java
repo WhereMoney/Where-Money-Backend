@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.book.GetBookResponse;
 import shuhuai.wheremoney.service.BookService;
-import shuhuai.wheremoney.utils.RequestGetter;
 import shuhuai.wheremoney.utils.TokenValidator;
 
 import javax.annotation.Resource;
@@ -36,9 +35,7 @@ public class BookController extends BaseController {
     public Response<Object> addBook(@RequestParam String title, @RequestParam Integer beginDate) {
         String userName = TokenValidator.getUser().get("userName");
         bookService.addBook(userName, title, beginDate);
-        Response<Object> response = new Response<>(200, "新建账本成功", null);
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "新建账本成功", null);
     }
 
     @ApiResponses(value = {
@@ -50,8 +47,6 @@ public class BookController extends BaseController {
     @ApiOperation(value = "获得账本")
     public Response<GetBookResponse> getBook() {
         String userName = TokenValidator.getUser().get("userName");
-        Response<GetBookResponse> response = new Response<>(200, "获得账本成功", new GetBookResponse(bookService.getBook(userName)));
-        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
-        return response;
+        return new Response<>(200, "获得账本成功", new GetBookResponse(bookService.getBook(userName)));
     }
 }
