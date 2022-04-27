@@ -1,7 +1,6 @@
 package shuhuai.wheremoney.service;
 
 import shuhuai.wheremoney.entity.BaseBill;
-import shuhuai.wheremoney.entity.Bill;
 import shuhuai.wheremoney.type.BillType;
 
 import java.math.BigDecimal;
@@ -18,7 +17,11 @@ public interface BillService {
 
     BaseBill getBill(Integer id, BillType type);
 
-    List<Map<String, Object>> getCategoryPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime);
+    List<Map<String, Object>> categoryPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime);
 
-    List<Map<String, Object>> getCategoryIncomeStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime);
+    List<Map<String, Object>> categoryIncomeStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime);
+
+    List<Map<String, Object>> getDayPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime);
+
+    List<Map<String, Object>> getDayIncomeStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime);
 }

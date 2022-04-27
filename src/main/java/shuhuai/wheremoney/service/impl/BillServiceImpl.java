@@ -1,18 +1,23 @@
 package shuhuai.wheremoney.service.impl;
 
 import org.springframework.stereotype.Service;
-import shuhuai.wheremoney.entity.*;
+import shuhuai.wheremoney.entity.BaseBill;
+import shuhuai.wheremoney.entity.Bill;
+import shuhuai.wheremoney.entity.IncomeBill;
+import shuhuai.wheremoney.entity.PayBill;
 import shuhuai.wheremoney.mapper.*;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
 import shuhuai.wheremoney.type.BillType;
+import shuhuai.wheremoney.utils.TimeComputer;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -55,18 +60,6 @@ public class BillServiceImpl implements BillService {
         }
     }
 
-    private void sortByBillTime(List<BaseBill> bills) {
-        for (int i = 0; i < bills.size() - 1; i++) {
-            for (int j = i + 1; j < bills.size(); j++) {
-                if (bills.get(i).getBillTime().before(bills.get(j).getBillTime())) {
-                    BaseBill temp = bills.get(i);
-                    bills.set(i, bills.get(j));
-                    bills.set(j, temp);
-                }
-            }
-        }
-    }
-
     @Override
     public List<BaseBill> getBillByBook(Integer bookId) {
         if (bookId == null) {
@@ -77,7 +70,7 @@ public class BillServiceImpl implements BillService {
         bills.addAll(incomeBillMapper.selectIncomeBillByBookId(bookId));
         bills.addAll(transferBillMapper.selectTransferBillByBookId(bookId));
         bills.addAll(refundBillMapper.selectRefundBillByBookId(bookId));
-        sortByBillTime(bills);
+        bills.sort(Comparator.comparing(BaseBill::getBillTime).reversed());
         return bills;
     }
 
@@ -91,7 +84,7 @@ public class BillServiceImpl implements BillService {
         bills.addAll(incomeBillMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime));
         bills.addAll(transferBillMapper.selectTransferBillByBookIdTime(bookId, startTime, endTime));
         bills.addAll(refundBillMapper.selectRefundBillByBookIdTime(bookId, startTime, endTime));
-        sortByBillTime(bills);
+        bills.sort(Comparator.comparing(BaseBill::getBillTime).reversed());
         return bills;
     }
 
@@ -108,16 +101,25 @@ public class BillServiceImpl implements BillService {
         };
     }
 
-    private List<Map<String, Object>> categoryStatistic(List<Bill> bills) {
+    private <Type> List<Map<String, Object>> categoryStatistic(List<Type> bills) {
         Map<Integer, BigDecimal> temp = new java.util.HashMap<>();
         BigDecimal total = BigDecimal.ZERO;
-        for (Bill bill : bills) {
-            if (temp.containsKey(bill.getBillCategoryId())) {
-                temp.replace(bill.getBillCategoryId(), temp.get(bill.getBillCategoryId()).add(bill.getAmount()));
-            } else {
-                temp.put(bill.getBillCategoryId(), bill.getAmount());
+        for (Type bill : bills) {
+            Integer categoryId = null;
+            BigDecimal amount = null;
+            if (bill instanceof PayBill) {
+                categoryId = ((PayBill) bill).getBillCategoryId();
+                amount = ((PayBill) bill).getAmount();
+            } else if (bill instanceof IncomeBill) {
+                categoryId = ((IncomeBill) bill).getBillCategoryId();
+                amount = ((IncomeBill) bill).getAmount();
             }
-            total = total.add(bill.getAmount());
+            if (temp.containsKey(categoryId)) {
+                temp.replace(categoryId, temp.get(categoryId).add(amount));
+            } else {
+                temp.put(categoryId, amount);
+            }
+            total = total.add(amount);
         }
         List<Map<String, Object>> result = new ArrayList<>();
         for (Map.Entry<Integer, BigDecimal> entry : temp.entrySet()) {
@@ -125,22 +127,55 @@ public class BillServiceImpl implements BillService {
                     "amount", entry.getValue(),
                     "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
         }
+        result.sort((first, second) -> ((BigDecimal) second.get("amount")).compareTo((BigDecimal) first.get("amount")));
         return result;
     }
 
     @Override
-    public List<Map<String, Object>> getCategoryPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+    public List<Map<String, Object>> categoryPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
         if (bookId == null || startTime == null || endTime == null) {
             throw new ParamsException("参数错误");
         }
-        return categoryStatistic(billMapper.selectPayBillByBookIdTime(bookId, startTime, endTime));
+        return categoryStatistic(payBillMapper.selectPayBillByBookIdTime(bookId, startTime, endTime));
     }
 
     @Override
-    public List<Map<String, Object>> getCategoryIncomeStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+    public List<Map<String, Object>> categoryIncomeStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
         if (bookId == null || startTime == null || endTime == null) {
             throw new ParamsException("参数错误");
         }
-        return categoryStatistic(billMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime));
+        return categoryStatistic(incomeBillMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime));
+    }
+
+    @Override
+    public List<Map<String, Object>> getDayPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null || startTime == null || endTime == null) {
+            throw new ParamsException("参数错误");
+        }
+        List<Map<String, Object>> result = new ArrayList<>();
+        List<PayBill> payBills = payBillMapper.selectPayBillByBookIdTime(bookId, startTime, endTime);
+        for (Timestamp time = TimeComputer.getDay(startTime); time.before(endTime); time = TimeComputer.nextDay(time)) {
+            Timestamp temp = time;
+            result.add(Map.of("day", temp, "amount", payBills.stream().filter(bill ->
+                            bill.getBillTime().after(temp) && bill.getBillTime().before(TimeComputer.nextDay(temp)))
+                    .map(PayBill::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)));
+        }
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getDayIncomeStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null || startTime == null || endTime == null) {
+            throw new ParamsException("参数错误");
+        }
+        List<Map<String, Object>> result = new ArrayList<>();
+        List<IncomeBill> incomeBills = incomeBillMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime);
+        for (Timestamp time = TimeComputer.getDay(startTime); time.before(endTime); time = TimeComputer.nextDay(time)) {
+            Timestamp temp = time;
+            result.add(Map.of("day", temp, "amount", incomeBills.stream().filter(bill ->
+                            bill.getBillTime().after(temp) && bill.getBillTime().before(TimeComputer.nextDay(temp)))
+                    .map(IncomeBill::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add)));
+        }
+        return result;
     }
 }

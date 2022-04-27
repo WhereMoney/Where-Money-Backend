@@ -173,11 +173,26 @@ public class BillController extends BaseController {
     })
     @RequestMapping(value = "/category-statistic-time", method = RequestMethod.GET)
     @ApiOperation(value = "分类统计指定账本的指定时间段的账单")
-    public Response<CategoryStatisticResponse> getCategoryStatisticTime(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
-        List<Map<String, Object>> payStatistic = billService.getCategoryPayStatisticTime(bookId, startTime, endTime);
-        List<Map<String, Object>> incomeStatistic = billService.getCategoryIncomeStatisticTime(bookId, startTime, endTime);
-        Response<CategoryStatisticResponse> response = new Response<>(200, "分类统计指定账本的指定时间段的账单成功",
-                new CategoryStatisticResponse(payStatistic, incomeStatistic));
+    public Response<StatisticResponse> getCategoryStatisticTime(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
+        List<Map<String, Object>> payStatistic = billService.categoryPayStatisticTime(bookId, startTime, endTime);
+        List<Map<String, Object>> incomeStatistic = billService.categoryIncomeStatisticTime(bookId, startTime, endTime);
+        Response<StatisticResponse> response = new Response<>(200, "分类统计指定账本的指定时间段的账单成功",
+                new StatisticResponse(payStatistic, incomeStatistic));
+        log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
+        return response;
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/day-statistic-time", method = RequestMethod.GET)
+    @ApiOperation(value = "分日统计指定账本的指定时间段的账单")
+    public Response<StatisticResponse> getCategoryDayTime(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
+        List<Map<String, Object>> payStatistic = billService.getDayPayStatisticTime(bookId, startTime, endTime);
+        List<Map<String, Object>> incomeStatistic = billService.getDayIncomeStatisticTime(bookId, startTime, endTime);
+        Response<StatisticResponse> response = new Response<>(200, "分日统计指定账本的指定时间段的账单成功",
+                new StatisticResponse(payStatistic, incomeStatistic));
         log.info(RequestGetter.getRequestUrl() + "：" + response.getMessage());
         return response;
     }
