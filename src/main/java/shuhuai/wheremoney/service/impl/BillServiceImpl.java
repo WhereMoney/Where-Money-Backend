@@ -1,10 +1,7 @@
 package shuhuai.wheremoney.service.impl;
 
 import org.springframework.stereotype.Service;
-import shuhuai.wheremoney.entity.BaseBill;
-import shuhuai.wheremoney.entity.Bill;
-import shuhuai.wheremoney.entity.IncomeBill;
-import shuhuai.wheremoney.entity.PayBill;
+import shuhuai.wheremoney.entity.*;
 import shuhuai.wheremoney.mapper.*;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
@@ -16,10 +13,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -101,18 +95,33 @@ public class BillServiceImpl implements BillService {
         };
     }
 
-    private <Type> List<Map<String, Object>> categoryStatistic(List<Type> bills) {
+    private Map<Integer, BigDecimal> statisticRefund(List<RefundBill> refundBills) {
+        Map<Integer, BigDecimal> result = new HashMap<>();
+        for (RefundBill refundBill : refundBills) {
+            if (result.containsKey(refundBill.getPayBillId())) {
+                result.replace(refundBill.getPayBillId(), result.get(refundBill.getPayBillId()).add(refundBill.getAmount()));
+            } else {
+                result.put(refundBill.getPayBillId(), refundBill.getAmount());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> categoryPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null || startTime == null || endTime == null) {
+            throw new ParamsException("参数错误");
+        }
+        List<PayBill> payBills = payBillMapper.selectPayBillByBookIdTime(bookId, startTime, endTime);
+        List<RefundBill> refundBills = refundBillMapper.selectRefundBillByBookIdTime(bookId, startTime, endTime);
+        Map<Integer, BigDecimal> refundMap = statisticRefund(refundBills);
         Map<Integer, BigDecimal> temp = new java.util.HashMap<>();
         BigDecimal total = BigDecimal.ZERO;
-        for (Type bill : bills) {
-            Integer categoryId = null;
-            BigDecimal amount = null;
-            if (bill instanceof PayBill) {
-                categoryId = ((PayBill) bill).getBillCategoryId();
-                amount = ((PayBill) bill).getAmount();
-            } else if (bill instanceof IncomeBill) {
-                categoryId = ((IncomeBill) bill).getBillCategoryId();
-                amount = ((IncomeBill) bill).getAmount();
+        for (PayBill payBill : payBills) {
+            Integer categoryId = payBill.getBillCategoryId();
+            BigDecimal amount = payBill.getAmount();
+            if (refundMap.containsKey(payBill.getId())) {
+                amount = amount.subtract(refundMap.get(payBill.getId()));
             }
             if (temp.containsKey(categoryId)) {
                 temp.replace(categoryId, temp.get(categoryId).add(amount));
@@ -123,20 +132,14 @@ public class BillServiceImpl implements BillService {
         }
         List<Map<String, Object>> result = new ArrayList<>();
         for (Map.Entry<Integer, BigDecimal> entry : temp.entrySet()) {
-            result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
-                    "amount", entry.getValue(),
-                    "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
+            if (entry.getValue().compareTo(BigDecimal.ZERO) > 0) {
+                result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
+                        "amount", entry.getValue(),
+                        "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
+            }
         }
         result.sort((first, second) -> ((BigDecimal) second.get("amount")).compareTo((BigDecimal) first.get("amount")));
         return result;
-    }
-
-    @Override
-    public List<Map<String, Object>> categoryPayStatisticTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
-        if (bookId == null || startTime == null || endTime == null) {
-            throw new ParamsException("参数错误");
-        }
-        return categoryStatistic(payBillMapper.selectPayBillByBookIdTime(bookId, startTime, endTime));
     }
 
     @Override
@@ -144,7 +147,29 @@ public class BillServiceImpl implements BillService {
         if (bookId == null || startTime == null || endTime == null) {
             throw new ParamsException("参数错误");
         }
-        return categoryStatistic(incomeBillMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime));
+        List<IncomeBill> incomeBills = incomeBillMapper.selectIncomeBillByBookIdTime(bookId, startTime, endTime);
+        Map<Integer, BigDecimal> temp = new java.util.HashMap<>();
+        BigDecimal total = BigDecimal.ZERO;
+        for (IncomeBill incomeBill : incomeBills) {
+            Integer categoryId = incomeBill.getBillCategoryId();
+            BigDecimal amount = incomeBill.getAmount();
+            if (temp.containsKey(categoryId)) {
+                temp.replace(categoryId, temp.get(categoryId).add(amount));
+            } else {
+                temp.put(categoryId, amount);
+            }
+            total = total.add(amount);
+        }
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Map.Entry<Integer, BigDecimal> entry : temp.entrySet()) {
+            if (entry.getValue().compareTo(BigDecimal.ZERO) > 0) {
+            result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
+                    "amount", entry.getValue(),
+                    "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
+            }
+        }
+        result.sort((first, second) -> ((BigDecimal) second.get("amount")).compareTo((BigDecimal) first.get("amount")));
+        return result;
     }
 
     @Override
@@ -154,6 +179,13 @@ public class BillServiceImpl implements BillService {
         }
         List<Map<String, Object>> result = new ArrayList<>();
         List<PayBill> payBills = payBillMapper.selectPayBillByBookIdTime(bookId, startTime, endTime);
+        List<RefundBill> refundBills = refundBillMapper.selectRefundBillByBookIdTime(bookId, startTime, endTime);
+        Map<Integer, BigDecimal> refundMap = statisticRefund(refundBills);
+        for (PayBill payBill : payBills) {
+            if (refundMap.containsKey(payBill.getId())) {
+                payBill.setAmount(payBill.getAmount().subtract(refundMap.get(payBill.getId())));
+            }
+        }
         for (Timestamp time = TimeComputer.getDay(startTime); time.before(endTime); time = TimeComputer.nextDay(time)) {
             Timestamp temp = time;
             result.add(Map.of("day", temp, "amount", payBills.stream().filter(bill ->
