@@ -48,6 +48,49 @@
     <select id="selectBookByUserTitle" resultMap="BookResultMap">
         select *
         from book
-        where user_id = #{user.id,jdbcType=INTEGER} and title = #{title,jdbcType=VARCHAR}
+        where user_id = #{user.id,jdbcType=INTEGER}
+          and title = #{title,jdbcType=VARCHAR}
+    </select>
+    <select id="selectPayMonthByBookId" resultType="java.math.BigDecimal">
+        select month_pay.pay_amount - month_refund.refund_amount
+        from (select sum(amount) as pay_amount
+              from pay_bill
+              where date_format(bill_time, '%Y%m') = date_format(curdate(), '%Y%m')
+                and book_id = #{bookId,jdbcType=INTEGER}) as month_pay,
+             (select sum(amount) as refund_amount
+              from refund_bill
+              where pay_bill_id in (select id
+                                    from pay_bill
+                                    where date_format(bill_time, '%Y%m') = date_format(curdate(), '%Y%m'))
+                and book_id = #{bookId,jdbcType=INTEGER}) as month_refund;
+    </select>
+    <select id="selectIncomeMonthByBookId" resultType="java.math.BigDecimal">
+        select sum(amount)
+        from income_bill
+        where book_id = #{bookId,jdbcType=INTEGER}
+          and date_format(bill_time, '%Y%m') = date_format(curdate(), '%Y%m')
+    </select>
+    <select id="selectBalanceMonthByBookId" resultType="java.math.BigDecimal">
+        select month_income.income_amount - month_pay.pay_amount + month_refund.refund_amount
+        from (select sum(amount) as pay_amount
+              from pay_bill
+              where date_format(bill_time, '%Y%m') = date_format(curdate(), '%Y%m')
+                and book_id = #{bookId,jdbcType=INTEGER}) as month_pay,
+             (select sum(amount) as refund_amount
+              from refund_bill
+              where pay_bill_id in (select id
+                                    from pay_bill
+                                    where date_format(bill_time, '%Y%m') = date_format(curdate(), '%Y%m'))
+                and book_id = #{bookId,jdbcType=INTEGER}) as month_refund,
+             (select sum(amount) as income_amount
+              from income_bill
+              where date_format(bill_time, '%Y%m') = date_format(curdate(), '%Y%m')
+                and book_id = #{bookId,jdbcType=INTEGER}) as month_income;
+    </select>
+    <select id="selectRefundMonthByBookId" resultType="java.math.BigDecimal">
+        select sum(amount)
+        from refund_bill
+        where book_id = #{bookId,jdbcType=INTEGER}
+          and date_format(bill_time, '%Y%m') = date_format(curdate(), '%Y%m')
     </select>
 </mapper>

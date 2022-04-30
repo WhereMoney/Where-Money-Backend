@@ -11,7 +11,7 @@
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
         insert into user (user_name, hashed_password, is_active, create_time)
         values (#{userName,jdbcType=VARCHAR}, #{hashedPassword,jdbcType=VARCHAR},
-        #{isActive,jdbcType=BOOLEAN}, #{createTime,jdbcType=TIMESTAMP})
+                #{isActive,jdbcType=BOOLEAN}, #{createTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertUserSelective" useGeneratedKeys="true" keyProperty="id"
             parameterType="shuhuai.wheremoney.entity.User">
@@ -46,15 +46,16 @@
         </trim>
     </insert>
     <delete id="deleteUserByUserId">
-        delete from user
+        delete
+        from user
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <update id="updateUserById">
         update user
-        set user_name = #{userName,jdbcType=VARCHAR},
-        hashed_password = #{hashedPassword,jdbcType=VARCHAR},
-        is_active = #{isActive,jdbcType=BOOLEAN},
-        create_time = #{createTime,jdbcType=TIMESTAMP}
+        set user_name       = #{userName,jdbcType=VARCHAR},
+            hashed_password = #{hashedPassword,jdbcType=VARCHAR},
+            is_active       = #{isActive,jdbcType=BOOLEAN},
+            create_time     = #{createTime,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateUserSelectiveById" parameterType="shuhuai.wheremoney.entity.User">
@@ -73,14 +74,12 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="selectUserByUserName" resultMap="UserResultMap">
-        select
-        *
+        select *
         from user
         where user_name = #{userName,jdbcType=VARCHAR}
     </select>
     <select id="selectUserByUserId" resultMap="UserResultMap">
-        select
-        *
+        select *
         from user
         where id = #{id,jdbcType=INTEGER}
     </select>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.book.GetBookResponse;
+import shuhuai.wheremoney.response.book.StatisticAmountResponse;
 import shuhuai.wheremoney.service.BookService;
 import shuhuai.wheremoney.utils.TokenValidator;
 
@@ -48,5 +49,45 @@ public class BookController extends BaseController {
     public Response<GetBookResponse> getBook() {
         String userName = TokenValidator.getUser().get("userName");
         return new Response<>(200, "获得账本成功", new GetBookResponse(bookService.getBook(userName)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/pay-month", method = RequestMethod.GET)
+    @ApiOperation(value = "获得账本月支出")
+    public Response<Object> getPayMonth(@RequestParam Integer bookId) {
+        return new Response<>(200, "获得账本月支出成功", new StatisticAmountResponse(bookService.getPayMonth(bookId)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/income-month", method = RequestMethod.GET)
+    @ApiOperation(value = "获得账本月收入")
+    public Response<Object> getIncomeMonth(@RequestParam Integer bookId) {
+        return new Response<>(200, "获得账本月收入成功", new StatisticAmountResponse(bookService.getIncomeMonth(bookId)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/balance-month", method = RequestMethod.GET)
+    @ApiOperation(value = "获得账本月结余")
+    public Response<Object> getBalanceMonth(@RequestParam Integer bookId) {
+        return new Response<>(200, "获得账本月结余成功", new StatisticAmountResponse(bookService.getBalanceMonth(bookId)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/refund-month", method = RequestMethod.GET)
+    @ApiOperation(value = "获得账本月退款")
+    public Response<Object> getRefundMonth(@RequestParam Integer bookId) {
+        return new Response<>(200, "获得账本月退款成功", new StatisticAmountResponse(bookService.getRefundMonth(bookId)));
     }
 }

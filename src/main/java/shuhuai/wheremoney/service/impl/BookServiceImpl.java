@@ -13,6 +13,7 @@ import shuhuai.wheremoney.service.excep.common.ServerException;
 import shuhuai.wheremoney.service.excep.user.UserMissingException;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -52,5 +53,37 @@ public class BookServiceImpl implements BookService {
             throw new UserMissingException("用户不存在");
         }
         return bookMapper.selectBookByUser(user);
+    }
+
+    @Override
+    public BigDecimal getPayMonth(Integer bookId) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectPayMonthByBookId(bookId);
+    }
+
+    @Override
+    public BigDecimal getIncomeMonth(Integer bookId) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectIncomeMonthByBookId(bookId);
+    }
+
+    @Override
+    public BigDecimal getBalanceMonth(Integer bookId) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectBalanceMonthByBookId(bookId);
+    }
+
+    @Override
+    public BigDecimal getRefundMonth(Integer bookId) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectRefundMonthByBookId(bookId);
     }
 }

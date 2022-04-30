@@ -163,9 +163,9 @@ public class BillServiceImpl implements BillService {
         List<Map<String, Object>> result = new ArrayList<>();
         for (Map.Entry<Integer, BigDecimal> entry : temp.entrySet()) {
             if (entry.getValue().compareTo(BigDecimal.ZERO) > 0) {
-            result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
-                    "amount", entry.getValue(),
-                    "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
+                result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
+                        "amount", entry.getValue(),
+                        "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
             }
         }
         result.sort((first, second) -> ((BigDecimal) second.get("amount")).compareTo((BigDecimal) first.get("amount")));
