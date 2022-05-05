@@ -177,7 +177,7 @@ public class BillController extends BaseController {
     })
     @RequestMapping(value = "/day-statistic-time", method = RequestMethod.GET)
     @ApiOperation(value = "分日统计指定账本的指定时间段的账单")
-    public Response<StatisticResponse> getCategoryDayTime(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
+    public Response<StatisticResponse> getDayStatisticTime(@RequestParam Integer bookId, @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
         List<Map<String, Object>> payStatistic = billService.getDayPayStatisticTime(bookId, startTime, endTime);
         List<Map<String, Object>> incomeStatistic = billService.getDayIncomeStatisticTime(bookId, startTime, endTime);
         return new Response<>(200, "分日统计指定账本的指定时间段的账单成功",

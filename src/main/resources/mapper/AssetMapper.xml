@@ -106,4 +106,9 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="selectTotalAssetByUserId" resultType="java.math.BigDecimal">
+        select sum(balance)
+        from asset
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
 </mapper>

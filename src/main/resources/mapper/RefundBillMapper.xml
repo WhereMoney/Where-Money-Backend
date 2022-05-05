@@ -65,7 +65,7 @@
         from refund_bill
         where book_id = #{bookId,jdbcType=INTEGER}
           and bill_time &gt;= #{startTime,jdbcType=TIMESTAMP}
-          and bill_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+          and bill_time &lt; #{endTime,jdbcType=TIMESTAMP}
         order by bill_time desc
     </select>
     <select id="selectRefundBillById" resultMap="RefundBillResultMap">
