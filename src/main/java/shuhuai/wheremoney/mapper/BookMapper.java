@@ -11,6 +11,8 @@ import java.util.List;
 public interface BookMapper {
     Integer insertBookSelective(Book book);
 
+    Book selectBookById(Integer id);
+
     List<Book> selectBookByUser(User user);
 
     Book selectBookByUserTitle(User user, String title);

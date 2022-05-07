@@ -2,20 +2,18 @@ package shuhuai.wheremoney.response.book;
 
 import shuhuai.wheremoney.entity.Book;
 
-import java.util.List;
-
 public class GetBookResponse {
-    private List<Book> bookList;
+    private Book book;
 
-    public GetBookResponse(List<Book> bookList) {
-        this.bookList = bookList;
+    public GetBookResponse(Book book) {
+        this.book = book;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBook(Book book) {
+        this.book = book;
     }
 }

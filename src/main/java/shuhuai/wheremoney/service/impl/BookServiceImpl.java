@@ -56,6 +56,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book getBook(Integer id) {
+        if (id == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectBookById(id);
+    }
+
+    @Override
     public BigDecimal getPayMonth(Integer bookId) {
         if (bookId == null) {
             throw new ParamsException("参数错误");

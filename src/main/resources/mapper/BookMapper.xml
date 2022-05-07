@@ -40,6 +40,11 @@
             </if>
         </trim>
     </insert>
+    <select id="selectBookById" resultMap="BookResultMap" parameterType="Integer">
+        select *
+        from book
+        where id = #{id,jdbcType=INTEGER}
+    </select>
     <select id="selectBookByUser" parameterType="shuhuai.wheremoney.entity.User" resultMap="BookResultMap">
         select *
         from book

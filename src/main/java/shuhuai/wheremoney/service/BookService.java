@@ -10,6 +10,8 @@ public interface BookService {
 
     List<Book> getBook(String userName);
 
+    Book getBook(Integer id);
+
     BigDecimal getPayMonth(Integer bookId);
 
     BigDecimal getIncomeMonth(Integer bookId);
