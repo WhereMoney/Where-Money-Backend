@@ -112,52 +112,52 @@
         },
         {
             "billCategoryName": "饮料",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--fluent\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 16 16\"><path fill=\"currentColor\" d=\"M13.587 1.992a.5.5 0 0 0-.174-.984l-4.25.75a.5.5 0 0 0-.401.384L8.572 3H3.5a.5.5 0 0 0-.5.5v3a2 2 0 0 0 2 2a3 3 0 0 0 2.502 2.959a.51.51 0 0 0-.002.041V14h-2a.5.5 0 0 0 0 1h5a.5.5 0 1 0 0-1h-2v-2.5a.51.51 0 0 0-.002-.041A3 3 0 0 0 11 8.5a2 2 0 0 0 2-2v-3a.5.5 0 0 0-.5-.5H9.596l.07-.316l3.921-.692ZM8.349 4l-.222 1H4V4h4.349ZM12 5H9.151l.222-1H12v1Z\"></path></svg>",
+            "svg": "bxs:drink",
             "type": "支出"
         },
         {
             "billCategoryName": "饰品",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--icon-park-outline\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 48 48\"><g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"4\"><circle cx=\"25\" cy=\"29\" r=\"15\"></circle><path d=\"m18 8l3-4h8.054L32 8l-7 6l-7-6Z\"></path></g></svg>",
+            "svg": "icon-park-twotone:diamond-ring",
             "type": "支出"
         },
         {
             "billCategoryName": "付费会员",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--ri\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M2.8 5.2L7 8l4.186-5.86a1 1 0 0 1 1.628 0L17 8l4.2-2.8a1 1 0 0 1 1.547.95l-1.643 13.967a1 1 0 0 1-.993.883H3.889a1 1 0 0 1-.993-.883L1.253 6.149A1 1 0 0 1 2.8 5.2zM12 15a2 2 0 1 0 0-4a2 2 0 0 0 0 4z\"></path></svg>",
+            "svg": "mdi:crown",
             "type": "支出"
         },
         {
             "billCategoryName": "请客",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--bx\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path d=\"M21 15c0-4.625-3.507-8.441-8-8.941V4h-2v2.059c-4.493.5-8 4.316-8 8.941v2h18v-2zM2 18h20v2H2z\" fill=\"currentColor\"></path></svg>",
+            "svg": "bx:bxs-dish",
             "type": "支出"
         },
         {
             "billCategoryName": "手续费",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--ri\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm10 10v-1h3v-2h-2.586l2.122-2.121l-1.415-1.415L12 8.586L9.879 6.464L8.464 7.88L10.586 10H8v2h3v1H8v2h3v2h2v-2h3v-2h-3z\"></path></svg>",
+            "svg": "majesticons:money-hand-line",
             "type": "支出"
         },
         {
             "billCategoryName": "药品",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--ri\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M17 5v2a3 3 0 0 1 3 3v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V10a3 3 0 0 1 3-3V5h10zm-4 6h-2v2H9v2h1.999L11 17h2l-.001-2H15v-2h-2v-2zm6-9v2H5V2h14z\"></path></svg>",
+            "svg": "ri:medicine-bottle-fill",
             "type": "支出"
         },
         {
             "billCategoryName": "家具",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--mdi\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"M12.5 7c0-1.11.89-2 2-2H18c1.1 0 2 .9 2 2v2.16c-1.16.41-2 1.51-2 2.81V14h-5.5V7M6 11.96V14h5.5V7c0-1.11-.89-2-2-2H6c-1.1 0-2 .9-2 2v2.15c1.16.41 2 1.52 2 2.81m14.66-1.93c-.98.16-1.66 1.09-1.66 2.09V15H5v-3a2 2 0 1 0-4 0v5c0 1.1.9 2 2 2v2h2v-2h14v2h2v-2c1.1 0 2-.9 2-2v-5c0-1.21-1.09-2.18-2.34-1.97Z\"></path></svg>",
+            "svg": "map:furniture-store",
             "type": "支出"
         },
         {
             "billCategoryName": "清洁",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--carbon\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 32 32\"><path fill=\"currentColor\" d=\"M26 20h-6v-2h6zm4 8h-6v-2h6zm-2-4h-6v-2h6z\"></path><path fill=\"currentColor\" d=\"M17.003 20a4.895 4.895 0 0 0-2.404-4.173L22 3l-1.73-1l-7.577 13.126a5.699 5.699 0 0 0-5.243 1.503C3.706 20.24 3.996 28.682 4.01 29.04a1 1 0 0 0 1 .96h14.991a1 1 0 0 0 .6-1.8c-3.54-2.656-3.598-8.146-3.598-8.2Zm-5.073-3.003A3.11 3.11 0 0 1 15.004 20c0 .038.002.208.017.469l-5.9-2.624a3.8 3.8 0 0 1 2.809-.848ZM15.45 28A5.2 5.2 0 0 1 14 25h-2a6.5 6.5 0 0 0 .968 3h-2.223A16.617 16.617 0 0 1 10 24H8a17.342 17.342 0 0 0 .665 4H6c.031-1.836.29-5.892 1.803-8.553l7.533 3.35A13.025 13.025 0 0 0 17.596 28Z\"></path></svg>",
+            "svg": "eos-icons:cleanup",
             "type": "支出"
         },
         {
             "billCategoryName": "文具",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--ri\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m17.849 11.808l-.707-.707l-9.9 9.9H3v-4.243L14.313 5.444l5.657 5.657a1 1 0 0 1 0 1.414l-7.07 7.071l-1.415-1.414l6.364-6.364zm.707-9.192l2.829 2.828a1 1 0 0 1 0 1.414L19.97 8.273L15.728 4.03l1.414-1.414a1 1 0 0 1 1.414 0z\"></path></svg>",
+            "svg": "mdi:lead-pencil",
             "type": "支出"
         },
         {
             "billCategoryName": "快递",
-            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" aria-hidden=\"true\" role=\"img\" class=\"iconify iconify--carbon\" width=\"32\" height=\"32\" preserveAspectRatio=\"xMidYMid meet\" viewBox=\"0 0 32 32\"><path fill=\"currentColor\" d=\"m29.482 8.624l-10-5.5a1 1 0 0 0-.964 0l-10 5.5a1 1 0 0 0 0 1.752L18 15.591V26.31l-3.036-1.67L14 26.391l4.518 2.485a.998.998 0 0 0 .964 0l10-5.5A1 1 0 0 0 30 22.5v-13a1 1 0 0 0-.518-.876ZM19 5.142L26.925 9.5L19 13.858L11.075 9.5Zm9 16.767l-8 4.4V15.59l8-4.4Z\"></path><path fill=\"currentColor\" d=\"M10 16H2v-2h8zm2 8H4v-2h8zm2-4H6v-2h8z\"></path></svg>",
+            "svg": "carbon:delivery-parcel",
             "type": "支出"
         },
         {
