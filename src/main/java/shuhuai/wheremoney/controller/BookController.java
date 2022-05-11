@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import shuhuai.wheremoney.response.Response;
+import shuhuai.wheremoney.response.book.GetAllBillCategoryResponse;
 import shuhuai.wheremoney.response.book.GetAllBookResponse;
 import shuhuai.wheremoney.response.book.GetBookResponse;
 import shuhuai.wheremoney.response.book.StatisticAmountResponse;
 import shuhuai.wheremoney.service.BookService;
+import shuhuai.wheremoney.type.BillType;
 import shuhuai.wheremoney.utils.TokenValidator;
 
 import javax.annotation.Resource;
@@ -101,5 +103,15 @@ public class BookController extends BaseController {
     @ApiOperation(value = "获得账本月退款")
     public Response<Object> getRefundMonth(@RequestParam Integer bookId) {
         return new Response<>(200, "获得账本月退款成功", new StatisticAmountResponse(bookService.getRefundMonth(bookId)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/all-bill-category", method = RequestMethod.GET)
+    @ApiOperation(value = "获得所有账单分类")
+    public Response<Object> getAllBillCategory(@RequestParam Integer bookId, @RequestParam BillType type) {
+        return new Response<>(200, "获得所有账单分类", new GetAllBillCategoryResponse(bookService.getAllBillCategory(bookId, type)));
     }
 }

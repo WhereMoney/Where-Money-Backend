@@ -5,9 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 import shuhuai.wheremoney.entity.BillCategory;
-import shuhuai.wheremoney.entity.Book;
 import shuhuai.wheremoney.mapper.BillCategoryMapper;
-import shuhuai.wheremoney.mapper.BookMapper;
 import shuhuai.wheremoney.service.BillCategoryService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
@@ -49,10 +47,15 @@ public class BillCategoryServiceImpl implements BillCategoryService {
     }
 
     @Override
-    public void addBillCategory(Integer bookId, String name, String svg, BillType type) {
-    Integer result = billCategoryMapper.insertBillCategorySelective(new BillCategory(bookId, name, svg, type));
-    if (result != 1) {
-        throw new ServerException("服务器错误");
+    public List<BillCategory> getBillCategoriesByBookType(Integer bookId, BillType type) {
+        return billCategoryMapper.selectBillCategoryByBookType(bookId, type);
     }
+
+    @Override
+    public void addBillCategory(Integer bookId, String name, String svg, BillType type) {
+        Integer result = billCategoryMapper.insertBillCategorySelective(new BillCategory(bookId, name, svg, type));
+        if (result != 1) {
+            throw new ServerException("服务器错误");
+        }
     }
 }

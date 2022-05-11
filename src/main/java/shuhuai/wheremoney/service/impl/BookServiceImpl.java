@@ -1,6 +1,7 @@
 package shuhuai.wheremoney.service.impl;
 
 import org.springframework.stereotype.Service;
+import shuhuai.wheremoney.entity.BillCategory;
 import shuhuai.wheremoney.entity.Book;
 import shuhuai.wheremoney.entity.User;
 import shuhuai.wheremoney.mapper.BookMapper;
@@ -11,6 +12,7 @@ import shuhuai.wheremoney.service.excep.book.TitleOccupiedException;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
 import shuhuai.wheremoney.service.excep.user.UserMissingException;
+import shuhuai.wheremoney.type.BillType;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -93,5 +95,13 @@ public class BookServiceImpl implements BookService {
             throw new ParamsException("参数错误");
         }
         return bookMapper.selectRefundMonthByBookId(bookId);
+    }
+
+    @Override
+    public List<BillCategory> getAllBillCategory(Integer bookId, BillType type) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return billCategoryService.getBillCategoriesByBookType(bookId, type);
     }
 }

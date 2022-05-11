@@ -1,6 +1,8 @@
 package shuhuai.wheremoney.service;
 
+import shuhuai.wheremoney.entity.BillCategory;
 import shuhuai.wheremoney.entity.Book;
+import shuhuai.wheremoney.type.BillType;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,4 +21,6 @@ public interface BookService {
     BigDecimal getBalanceMonth(Integer bookId);
 
     BigDecimal getRefundMonth(Integer bookId);
+
+    List<BillCategory> getAllBillCategory(Integer bookId, BillType type);
 }

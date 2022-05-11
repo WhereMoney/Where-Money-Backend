@@ -12,5 +12,7 @@ public interface BillCategoryService {
 
     List<BillCategory> getBillCategoriesByBook(Integer bookId);
 
+    List<BillCategory> getBillCategoriesByBookType(Integer bookId, BillType type);
+
     void addBillCategory(Integer bookId, String name, String svg, BillType type);
 }

@@ -47,6 +47,13 @@
         from bill_category
         where book_id = #{bookId,jdbcType=INTEGER}
     </select>
+    <select id="selectBillCategoryByBookType"
+            resultMap="BillCategoryResultMap">
+        select *
+        from bill_category
+        where book_id = #{bookId,jdbcType=INTEGER}
+          and type = #{type,jdbcType=VARCHAR}
+    </select>
     <select id="selectBillCategoryById" resultMap="BillCategoryResultMap">
         select *
         from bill_category
