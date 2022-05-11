@@ -86,6 +86,11 @@ public class BillController extends BaseController {
                 amount = new BigDecimal("0.00").subtract(amount);
             }// amount 正转负
             outAsset.setBalance(outAsset.getBalance().add(amount)); //资产中更新
+            int fee = transferFee.compareTo(new BigDecimal("0.00"));
+            if (fee > 0) {
+                transferFee = new BigDecimal("0.00").subtract(transferFee);
+            }
+            outAsset.setBalance(outAsset.getBalance().add(transferFee)); //资产中更新手续费
             assetService.updateAsset(outAsset);
         }
         return new Response<>(200, "新建账单成功", null);

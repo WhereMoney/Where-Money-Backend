@@ -50,6 +50,28 @@ public class AssetController extends BaseController {
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
+            @ApiResponse(code = 500, message = "服务器错误")
+    })
+    @RequestMapping(value = "/update-asset", method = RequestMethod.POST)
+    @ApiOperation(value = "修改资产")
+    public Response<Object> updateAsset(@RequestParam Integer assetId,AssetType type,BigDecimal balance,String assetName,
+                                     Integer billDate, Integer repayDate, BigDecimal quota,Boolean inTotal, String svg) {
+        Asset oldAsset = assetService.getAsset(assetId);
+        if(type != null) oldAsset.setType(type);
+        if(balance != null) oldAsset.setBalance(balance);
+        if(assetName != null) oldAsset.setAssetName(assetName);
+        if(billDate != null) oldAsset.setBillDate(billDate);
+        if(repayDate != null) oldAsset.setRepayDate(repayDate);
+        if(quota != null) oldAsset.setQuota(quota);
+        if(inTotal != null) oldAsset.setInTotal(inTotal);
+        if(svg != null) oldAsset.setSvg(svg);
+        assetService.updateAsset(oldAsset);
+        return new Response<>(200, "修改资产成功", null);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
     })
     @RequestMapping(value = "/get-all-asset", method = RequestMethod.GET)
     @ApiOperation(value = "获得所有资产")
