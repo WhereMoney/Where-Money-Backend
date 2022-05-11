@@ -4,8 +4,8 @@
     <resultMap id="TransferBillResultMap" type="shuhuai.wheremoney.entity.TransferBill">
         <id column="id" jdbcType="INTEGER" javaType="Integer" property="id"/>
         <result column="book_id" jdbcType="INTEGER" javaType="Integer" property="bookId"/>
-        <result column="in_bill_id" jdbcType="INTEGER" javaType="Integer" property="inBillId"/>
-        <result column="out_bill_id" jdbcType="INTEGER" javaType="Integer" property="outBillId"/>
+        <result column="in_asset_id" jdbcType="INTEGER" javaType="Integer" property="inBillId"/>
+        <result column="out_asset_id" jdbcType="INTEGER" javaType="Integer" property="outBillId"/>
         <result column="amount" jdbcType="DECIMAL" javaType="BigDecimal" property="amount"/>
         <result column="transfer_fee" jdbcType="DECIMAL" javaType="BigDecimal" property="transferFee"/>
         <result column="bill_time" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp" property="billTime"/>
@@ -13,7 +13,7 @@
     </resultMap>
     <insert id="insertTransferBillSelective" useGeneratedKeys="true" keyProperty="id"
             parameterType="shuhuai.wheremoney.entity.TransferBill">
-        insert into refund_bill
+        insert into transfer_bill
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="bookId != null">
                 book_id,

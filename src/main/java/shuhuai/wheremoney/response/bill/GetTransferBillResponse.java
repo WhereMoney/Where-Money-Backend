@@ -23,7 +23,7 @@ public class GetTransferBillResponse extends BaseGetBillResponse {
         super(bill, BillType.转账);
         this.inAsset = inAsset;
         this.outAsset = outAsset;
-        this.transferFee = ((TransferBill) bill).getTranferFee();
+        this.transferFee = ((TransferBill) bill).getTransferFee();
     }
 
     public String getInAsset() {

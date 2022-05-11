@@ -16,9 +16,10 @@ public class Asset {
     private Integer repayDate;
     private BigDecimal quota;
     private Boolean inTotal;
+    private String svg;
 
 
-    public Asset(Integer userId, AssetType type, BigDecimal balance, String assetName, Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal) {
+    public Asset(Integer userId, AssetType type, BigDecimal balance, String assetName, Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal, String svg) {
         this.userId = userId;
         this.type = type;
         this.balance = balance;
@@ -27,6 +28,7 @@ public class Asset {
         this.repayDate = repayDate;
         this.quota = quota;
         this.inTotal = inTotal;
+        this.svg = svg;
     }
 
     public Integer getId() {
@@ -99,5 +101,12 @@ public class Asset {
 
     public void setInTotal(Boolean inTotal) {
         this.inTotal = inTotal;
+    }
+
+    public String getSvg() {
+        return svg;
+    }
+    public void setSvg(String svg) {
+        this.svg = svg;
     }
 }

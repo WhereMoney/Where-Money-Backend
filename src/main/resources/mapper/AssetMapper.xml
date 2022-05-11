@@ -12,6 +12,7 @@
         <result column="repay_date" jdbcType="INTEGER" javaType="Integer" property="repayDate"/>
         <result column="quota" jdbcType="DECIMAL" javaType="BigDecimal" property="quota"/>
         <result column="inTotal" jdbcType="BOOLEAN" javaType="Boolean" property="inTotal"/>
+        <result column="svg" jdbcType="VARCHAR" javaType="String" property="svg"/>
     </resultMap>
     <insert id="insertAssetSelective" useGeneratedKeys="true" keyProperty="id"
             parameterType="shuhuai.wheremoney.entity.Asset">
@@ -41,6 +42,9 @@
             <if test="inTotal != null">
                 in_Total,
             </if>
+            <if test="svg != null">
+                svg,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -66,6 +70,9 @@
             </if>
             <if test="inTotal != null">
                 #{inTotal,jdbcType=BOOLEAN},
+            </if>
+            <if test="svg != null">
+                #{svg,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>

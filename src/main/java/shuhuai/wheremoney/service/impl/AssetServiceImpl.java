@@ -33,12 +33,13 @@ public class AssetServiceImpl implements AssetService {
     private BillService billService;
 
     @Override
-    public void addAsset(String userName, String assetName, BigDecimal balance, AssetType type, Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal) {
+    public void addAsset(String userName, String assetName, BigDecimal balance, AssetType type, Integer billDate,
+                         Integer repayDate, BigDecimal quota, Boolean inTotal, String svg) {
         if (userName == null || assetName == null || balance == null || type == null || inTotal == null) {
             throw new ParamsException("参数错误");
         }
         Integer userId = userMapper.selectUserByUserName(userName).getId();
-        Asset asset = new Asset(userId, type, balance, assetName, billDate, repayDate, quota, inTotal);
+        Asset asset = new Asset(userId, type, balance, assetName, billDate, repayDate, quota, inTotal, svg);
         Integer result = assetMapper.insertAssetSelective(asset);
         if (result != 1) {
             throw new ServerException("服务器错误");

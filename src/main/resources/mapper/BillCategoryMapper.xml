@@ -41,11 +41,11 @@
             </if>
         </trim>
     </insert>
-    <select id="selectBillCategoryByBook" parameterType="shuhuai.wheremoney.entity.Book"
+    <select id="selectBillCategoryByBook"
             resultMap="BillCategoryResultMap">
         select *
         from bill_category
-        where book_id = #{id,jdbcType=INTEGER}
+        where book_id = #{bookId,jdbcType=INTEGER}
     </select>
     <select id="selectBillCategoryById" resultMap="BillCategoryResultMap">
         select *

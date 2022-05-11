@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/bill")
@@ -45,8 +46,8 @@ public class BillController extends BaseController {
     })
     @RequestMapping(value = "/add-bill", method = RequestMethod.POST)
     @ApiOperation(value = "新建账单")
-    public Response<Object> addBill(@RequestParam Integer bookId, Integer inAssetId, Integer outAssetId,
-                                    Integer billCategoryId, @RequestParam BillType type, @RequestParam BigDecimal amount,
+    public Response<Object> addBill(@RequestParam Integer bookId, Integer inAssetId, Integer outAssetId, Integer payBillId,
+                                    Integer billCategoryId, @RequestParam BillType type, @RequestParam BigDecimal amount, BigDecimal transferFee,
                                     @RequestParam String time, String remark) {
         Timestamp formatDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -55,7 +56,22 @@ public class BillController extends BaseController {
         } catch (ParseException error) {
             error.printStackTrace();
         }
-        billService.addBill(bookId, inAssetId, outAssetId, billCategoryId, type, amount, formatDate, remark);
+        if(Objects.equals(type.getType(), "收入"))
+        {
+            billService.addIncomeBill(bookId,inAssetId,billCategoryId,amount,formatDate,remark);
+        }
+        if(Objects.equals(type.getType(), "支出"))
+        {
+            billService.addPayBill(bookId,outAssetId,billCategoryId,amount,formatDate,remark);
+        }
+        if(Objects.equals(type.getType(), "转账"))
+        {
+            billService.addTransferBill(bookId,inAssetId,outAssetId,amount,transferFee,formatDate,remark);
+        }
+        if(Objects.equals(type.getType(), "退款"))
+        {
+            billService.addRefundBill(bookId,payBillId,inAssetId,amount,formatDate,remark);
+        }
         if (inAssetId != null) {
             Asset inAsset = assetService.getAsset(inAssetId);
             int compare = amount.compareTo(new BigDecimal("0.00"));
@@ -182,5 +198,28 @@ public class BillController extends BaseController {
         List<Map<String, Object>> incomeStatistic = billService.getDayIncomeStatisticTime(bookId, startTime, endTime);
         return new Response<>(200, "分日统计指定账本的指定时间段的账单成功",
                 new StatisticResponse(payStatistic, incomeStatistic));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/add-bill-category", method = RequestMethod.POST)
+    @ApiOperation(value = "添加用户自定义账单分类")
+    public Response<StatisticResponse> addBillCategory(@RequestParam Integer bookId, @RequestParam String billCategoryName,
+                                                       @RequestParam String svg, @RequestParam BillType type) {
+        billCategoryService.addBillCategory(bookId, billCategoryName, svg, type);
+        return new Response<>(200, "添加成功",null);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/get-bill-category", method = RequestMethod.GET)
+    @ApiOperation(value = "查看账本下的所有账单分类")
+    public Response<List<BillCategory>> getBillCategory(@RequestParam Integer bookId) {
+       List<BillCategory> list = billCategoryService.getBillCategoriesByBook(bookId);
+        return new Response<>(200, "获取成功",list);
     }
 }

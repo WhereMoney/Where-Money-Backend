@@ -10,8 +10,8 @@ public class RefundBill extends BaseBill {
     private Integer payBillId;
     private Integer refundAssetId;
 
-    public RefundBill(Integer id, Integer bookId, Integer payBillId, Integer refundAssetId, BigDecimal amount, Timestamp billTime, String remark) {
-        super(id, bookId, amount, billTime, remark);
+    public RefundBill(Integer bookId, Integer payBillId, Integer refundAssetId, BigDecimal amount, Timestamp billTime, String remark) {
+        super(bookId, amount, billTime, remark);
         this.payBillId = payBillId;
         this.refundAssetId = refundAssetId;
     }

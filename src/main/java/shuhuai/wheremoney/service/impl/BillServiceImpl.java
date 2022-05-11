@@ -55,6 +55,42 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
+    public void addIncomeBill(Integer bookId, Integer incomeAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark) {
+        if (bookId == null || amount == null || incomeAssetId == null || billCategoryId == null) {
+            throw new ParamsException("参数错误");
+        }
+        IncomeBill incomeBill = new IncomeBill(bookId,incomeAssetId,billCategoryId,amount,time,remark);
+        incomeBillMapper.insertIncomeBillSelective(incomeBill);
+    }
+
+    @Override
+    public void addPayBill(Integer bookId, Integer payAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark) {
+        if (bookId == null || amount == null || payAssetId == null || billCategoryId == null) {
+            throw new ParamsException("参数错误");
+        }
+        PayBill payBill = new PayBill(bookId,payAssetId,billCategoryId,amount,time,remark);
+        payBillMapper.insertPayBillSelective(payBill);
+    }
+
+    @Override
+    public void addRefundBill(Integer bookId, Integer payBillId, Integer refundAssetId, BigDecimal amount, Timestamp time, String remark) {
+        if (bookId == null || amount == null || payBillId == null || refundAssetId == null) {
+            throw new ParamsException("参数错误");
+        }
+        RefundBill refundBill = new RefundBill(bookId,payBillId,refundAssetId,amount,time,remark);
+        refundBillMapper.insertRefundBillSelective(refundBill);
+    }
+
+    @Override
+    public void addTransferBill(Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal transferFee, Timestamp time, String remark) {
+        if (bookId == null || amount == null || inAssetId == null || outAssetId == null) {
+            throw new ParamsException("参数错误");
+        }
+        TransferBill transferBill = new TransferBill(bookId,inAssetId,outAssetId,amount,transferFee,time,remark);
+        transferBillMapper.insertTransferBillSelective(transferBill);
+    }
+
+    @Override
     public List<BaseBill> getBillByBook(Integer bookId) {
         if (bookId == null) {
             throw new ParamsException("参数错误");

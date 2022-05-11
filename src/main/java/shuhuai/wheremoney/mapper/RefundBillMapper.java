@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface RefundBillMapper {
-    void insertRefundBill(RefundBill refundBill);
+    void insertRefundBillSelective(RefundBill refundBill);
 
     List<RefundBill> selectRefundBillByBookId(Integer bookId);
 

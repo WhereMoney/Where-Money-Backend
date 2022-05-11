@@ -9,13 +9,13 @@ import java.sql.Timestamp;
 public class TransferBill extends BaseBill {
     private Integer inAssetId;
     private Integer outAssetId;
-    private BigDecimal tranferFee;
+    private BigDecimal transferFee;
 
-    public TransferBill(Integer id, Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal tranferFee, Timestamp billTime, String remark) {
-        super(id, bookId, amount, billTime, remark);
+    public TransferBill(Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal tranferFee, Timestamp billTime, String remark) {
+        super(bookId, amount, billTime, remark);
         this.inAssetId = inAssetId;
         this.outAssetId = outAssetId;
-        this.tranferFee = tranferFee;
+        this.transferFee = tranferFee;
     }
 
     public Integer getInAssetId() {
@@ -34,11 +34,11 @@ public class TransferBill extends BaseBill {
         this.outAssetId = outAssetId;
     }
 
-    public BigDecimal getTranferFee() {
-        return tranferFee;
+    public BigDecimal getTransferFee() {
+        return transferFee;
     }
 
-    public void setTranferFee(BigDecimal tranferFee) {
-        this.tranferFee = tranferFee;
+    public void setTransferFee(BigDecimal transferFee) {
+        this.transferFee = transferFee;
     }
 }

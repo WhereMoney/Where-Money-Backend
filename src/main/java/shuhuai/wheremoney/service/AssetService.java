@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface AssetService {
-    void addAsset(String userName, String assetName, BigDecimal balance, AssetType type, Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal);
+    void addAsset(String userName, String assetName, BigDecimal balance, AssetType type,
+                  Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal, String svg);
 
     List<Asset> getAllAsset(String userName);
 

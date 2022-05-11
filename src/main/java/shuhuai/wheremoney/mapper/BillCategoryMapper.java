@@ -10,7 +10,7 @@ import java.util.List;
 public interface BillCategoryMapper {
     Integer insertBillCategorySelective(BillCategory billCategory);
 
-    List<BillCategory> selectBillCategoryByBook(Book book);
+    List<BillCategory> selectBillCategoryByBook(Integer bookId);
 
     BillCategory selectBillCategoryById(Integer id);
 }

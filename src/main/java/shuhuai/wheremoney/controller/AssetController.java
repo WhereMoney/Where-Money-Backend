@@ -40,9 +40,10 @@ public class AssetController extends BaseController {
     @RequestMapping(value = "/add-asset", method = RequestMethod.POST)
     @ApiOperation(value = "新建资产")
     public Response<Object> addAsset(@RequestParam String assetName, @RequestParam BigDecimal balance, @RequestParam AssetType type,
-                                     Integer billDate, Integer repayDate, BigDecimal quota, @RequestParam Boolean inTotal) {
+                                     Integer billDate, Integer repayDate, BigDecimal quota,
+                                     @RequestParam Boolean inTotal, @RequestParam String svg) {
         String userName = TokenValidator.getUser().get("userName");
-        assetService.addAsset(userName, assetName, balance, type, billDate, repayDate, quota, inTotal);
+        assetService.addAsset(userName, assetName, balance, type, billDate, repayDate, quota, inTotal, svg);
         return new Response<>(200, "新建资产成功", null);
     }
 

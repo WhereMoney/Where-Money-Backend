@@ -15,6 +15,13 @@ public class BaseBill {
     private Timestamp billTime;
     private String remark;
 
+    public BaseBill(Integer bookId, BigDecimal amount, Timestamp billTime, String remark) {
+        this.bookId = bookId;
+        this.amount = amount;
+        this.billTime = billTime;
+        this.remark = remark;
+    }
+
     public Integer getId() {
         return id;
     }
