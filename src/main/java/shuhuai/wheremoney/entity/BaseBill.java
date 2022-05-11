@@ -14,12 +14,14 @@ public class BaseBill {
     private BigDecimal amount;
     private Timestamp billTime;
     private String remark;
+    private byte[] image;
 
-    public BaseBill(Integer bookId, BigDecimal amount, Timestamp billTime, String remark) {
+    public BaseBill(Integer bookId, BigDecimal amount, Timestamp billTime, String remark, byte[] image) {
         this.bookId = bookId;
         this.amount = amount;
         this.billTime = billTime;
         this.remark = remark;
+        this.image = image;
     }
 
     public Integer getId() {
@@ -60,5 +62,13 @@ public class BaseBill {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

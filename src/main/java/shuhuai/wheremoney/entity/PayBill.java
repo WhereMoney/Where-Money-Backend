@@ -10,8 +10,8 @@ public class PayBill extends BaseBill {
     private Integer payAssetId;
     private Integer billCategoryId;
 
-    public PayBill( Integer bookId, Integer payAssetId, Integer billCategoryId, BigDecimal amount, Timestamp billTime, String remark) {
-        super(bookId, amount, billTime, remark);
+    public PayBill( Integer bookId, Integer payAssetId, Integer billCategoryId, BigDecimal amount, Timestamp billTime, String remark, byte[] image) {
+        super(bookId, amount, billTime, remark, image);
         this.payAssetId = payAssetId;
         this.billCategoryId = billCategoryId;
     }

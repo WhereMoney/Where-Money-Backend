@@ -1,5 +1,6 @@
 package shuhuai.wheremoney.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import shuhuai.wheremoney.entity.BaseBill;
 import shuhuai.wheremoney.type.BillType;
 
@@ -9,16 +10,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface BillService {
-    void addBill(Integer bookId, Integer inAssetId, Integer outAssetId,
-                 Integer billCategoryId, BillType type, BigDecimal amount, Timestamp time, String remark);
-    void addIncomeBill(Integer bookId, Integer incomeAssetId,Integer billCategoryId,
-                        BigDecimal amount, Timestamp time, String remark);
-    void addPayBill(Integer bookId, Integer payAssetId,Integer billCategoryId,
-                       BigDecimal amount, Timestamp time, String remark);
-    void addRefundBill(Integer bookId, Integer payBillId,Integer refundAssetId,
-                    BigDecimal amount, Timestamp time, String remark);
-    void addTransferBill(Integer bookId, Integer inAssetId,Integer outAssetId,
-                    BigDecimal amount, BigDecimal transferFee,Timestamp time, String remark);
+    void addIncomeBill(Integer bookId, Integer incomeAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark,
+                       MultipartFile file);
+
+    void addPayBill(Integer bookId, Integer payAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark,
+                    MultipartFile file);
+
+    void addRefundBill(Integer bookId, Integer payBillId, Integer refundAssetId, BigDecimal amount, Timestamp time, String remark,
+                       MultipartFile file);
+
+    void addTransferBill(Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal transferFee, Timestamp time, String remark,
+                         MultipartFile file);
 
     List<BaseBill> getBillByBook(Integer bookId);
 

@@ -1,15 +1,16 @@
 package shuhuai.wheremoney.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import shuhuai.wheremoney.entity.*;
 import shuhuai.wheremoney.mapper.*;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
-import shuhuai.wheremoney.service.excep.common.ServerException;
 import shuhuai.wheremoney.type.BillType;
 import shuhuai.wheremoney.utils.TimeComputer;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
@@ -17,8 +18,6 @@ import java.util.*;
 
 @Service
 public class BillServiceImpl implements BillService {
-    @Resource
-    private BillMapper billMapper;
     @Resource
     private BillCategoryMapper billCategoryMapper;
     @Resource
@@ -31,62 +30,63 @@ public class BillServiceImpl implements BillService {
     private RefundBillMapper refundBillMapper;
 
     @Override
-    public void addBill(Integer bookId, Integer inAssetId, Integer outAssetId, Integer billCategoryId, BillType type, BigDecimal amount, Timestamp time, String remark) {
-        if (bookId == null || type == null || amount == null) {
-            throw new ParamsException("参数错误");
-        }
-        if (inAssetId == null && outAssetId == null) {
-            throw new ParamsException("参数错误");
-        }
-        if (type == BillType.支出 && inAssetId != null) {
-            throw new ParamsException("参数错误");
-        }
-        if (type == BillType.收入 && outAssetId != null) {
-            throw new ParamsException("参数错误");
-        }
-        if (type == BillType.转账 && (inAssetId == null || outAssetId == null)) {
-            throw new ParamsException("参数错误");
-        }
-        Bill bill = new Bill(bookId, inAssetId, outAssetId, billCategoryId, type, amount, time, remark);
-        Integer result = billMapper.insertBillSelective(bill);
-        if (result != 1) {
-            throw new ServerException("服务器错误");
-        }
-    }
-
-    @Override
-    public void addIncomeBill(Integer bookId, Integer incomeAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark) {
+    public void addIncomeBill(Integer bookId, Integer incomeAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark, MultipartFile file) {
         if (bookId == null || amount == null || incomeAssetId == null || billCategoryId == null) {
             throw new ParamsException("参数错误");
         }
-        IncomeBill incomeBill = new IncomeBill(bookId,incomeAssetId,billCategoryId,amount,time,remark);
+        byte[] fileBytes = null;
+        try {
+            fileBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        IncomeBill incomeBill = new IncomeBill(bookId, incomeAssetId, billCategoryId, amount, time, remark, fileBytes);
         incomeBillMapper.insertIncomeBillSelective(incomeBill);
     }
 
     @Override
-    public void addPayBill(Integer bookId, Integer payAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark) {
+    public void addPayBill(Integer bookId, Integer payAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark, MultipartFile file) {
         if (bookId == null || amount == null || payAssetId == null || billCategoryId == null) {
             throw new ParamsException("参数错误");
         }
-        PayBill payBill = new PayBill(bookId,payAssetId,billCategoryId,amount,time,remark);
+        byte[] fileBytes = null;
+        try {
+            fileBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PayBill payBill = new PayBill(bookId, payAssetId, billCategoryId, amount, time, remark, fileBytes);
         payBillMapper.insertPayBillSelective(payBill);
     }
 
     @Override
-    public void addRefundBill(Integer bookId, Integer payBillId, Integer refundAssetId, BigDecimal amount, Timestamp time, String remark) {
+    public void addRefundBill(Integer bookId, Integer payBillId, Integer refundAssetId, BigDecimal amount, Timestamp time, String remark, MultipartFile file) {
         if (bookId == null || amount == null || payBillId == null || refundAssetId == null) {
             throw new ParamsException("参数错误");
         }
-        RefundBill refundBill = new RefundBill(bookId,payBillId,refundAssetId,amount,time,remark);
+        byte[] fileBytes = null;
+        try {
+            fileBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RefundBill refundBill = new RefundBill(bookId, payBillId, refundAssetId, amount, time, remark, fileBytes);
         refundBillMapper.insertRefundBillSelective(refundBill);
     }
 
     @Override
-    public void addTransferBill(Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal transferFee, Timestamp time, String remark) {
+    public void addTransferBill(Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal transferFee, Timestamp time, String remark,
+                                MultipartFile file) {
         if (bookId == null || amount == null || inAssetId == null || outAssetId == null) {
             throw new ParamsException("参数错误");
         }
-        TransferBill transferBill = new TransferBill(bookId,inAssetId,outAssetId,amount,transferFee,time,remark);
+        byte[] fileBytes = null;
+        try {
+            fileBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        TransferBill transferBill = new TransferBill(bookId, inAssetId, outAssetId, amount, transferFee, time, remark, fileBytes);
         transferBillMapper.insertTransferBillSelective(transferBill);
     }
 

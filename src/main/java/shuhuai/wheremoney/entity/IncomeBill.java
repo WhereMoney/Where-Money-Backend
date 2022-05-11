@@ -10,8 +10,8 @@ public class IncomeBill extends BaseBill {
     private Integer incomeAssetId;
     private Integer billCategoryId;
 
-    public IncomeBill(Integer bookId, Integer incomeAssetId, Integer billCategoryId, BigDecimal amount, Timestamp billTime, String remark) {
-        super(bookId, amount, billTime, remark);
+    public IncomeBill(Integer bookId, Integer incomeAssetId, Integer billCategoryId, BigDecimal amount, Timestamp billTime, String remark, byte[] image) {
+        super(bookId, amount, billTime, remark, image);
         this.incomeAssetId = incomeAssetId;
         this.billCategoryId = billCategoryId;
     }

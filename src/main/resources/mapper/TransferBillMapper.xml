@@ -10,6 +10,7 @@
         <result column="transfer_fee" jdbcType="DECIMAL" javaType="BigDecimal" property="transferFee"/>
         <result column="bill_time" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp" property="billTime"/>
         <result column="remark" jdbcType="VARCHAR" javaType="String" property="remark"/>
+        <result column="image" property="image" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>
     </resultMap>
     <insert id="insertTransferBillSelective" useGeneratedKeys="true" keyProperty="id"
             parameterType="shuhuai.wheremoney.entity.TransferBill">
@@ -36,6 +37,9 @@
             <if test="remark != null">
                 remark,
             </if>
+            <if test="image != null">
+                image,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="bookId != null">
@@ -58,6 +62,9 @@
             </if>
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="image != null">
+                #{image,jdbcType=BLOB},
             </if>
         </trim>
     </insert>

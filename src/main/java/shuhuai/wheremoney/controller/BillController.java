@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import shuhuai.wheremoney.entity.*;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.bill.*;
@@ -18,6 +19,7 @@ import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.type.BillType;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -48,7 +50,7 @@ public class BillController extends BaseController {
     @ApiOperation(value = "新建账单")
     public Response<Object> addBill(@RequestParam Integer bookId, Integer inAssetId, Integer outAssetId, Integer payBillId,
                                     Integer billCategoryId, @RequestParam BillType type, @RequestParam BigDecimal amount, BigDecimal transferFee,
-                                    @RequestParam String time, String remark) {
+                                    @RequestParam String time, String remark, MultipartFile file) {
         Timestamp formatDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -56,21 +58,17 @@ public class BillController extends BaseController {
         } catch (ParseException error) {
             error.printStackTrace();
         }
-        if(Objects.equals(type.getType(), "收入"))
-        {
-            billService.addIncomeBill(bookId,inAssetId,billCategoryId,amount,formatDate,remark);
+        if (Objects.equals(type.getType(), "收入")) {
+            billService.addIncomeBill(bookId, inAssetId, billCategoryId, amount, formatDate, remark, file);
         }
-        if(Objects.equals(type.getType(), "支出"))
-        {
-            billService.addPayBill(bookId,outAssetId,billCategoryId,amount,formatDate,remark);
+        if (Objects.equals(type.getType(), "支出")) {
+            billService.addPayBill(bookId, outAssetId, billCategoryId, amount, formatDate, remark, file);
         }
-        if(Objects.equals(type.getType(), "转账"))
-        {
-            billService.addTransferBill(bookId,inAssetId,outAssetId,amount,transferFee,formatDate,remark);
+        if (Objects.equals(type.getType(), "转账")) {
+            billService.addTransferBill(bookId, inAssetId, outAssetId, amount, transferFee, formatDate, remark, file);
         }
-        if(Objects.equals(type.getType(), "退款"))
-        {
-            billService.addRefundBill(bookId,payBillId,inAssetId,amount,formatDate,remark);
+        if (Objects.equals(type.getType(), "退款")) {
+            billService.addRefundBill(bookId, payBillId, inAssetId, amount, formatDate, remark, file);
         }
         if (inAssetId != null) {
             Asset inAsset = assetService.getAsset(inAssetId);
@@ -90,7 +88,13 @@ public class BillController extends BaseController {
             outAsset.setBalance(outAsset.getBalance().add(amount)); //资产中更新
             assetService.updateAsset(outAsset);
         }
-        return new Response<>(200, "新建账单成功", null);
+        byte[] fileBytes = null;
+        try {
+            fileBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Response<>(200, "新建账单成功", fileBytes);
     }
 
     private String[] idToString(BaseBill bill) {
@@ -209,7 +213,7 @@ public class BillController extends BaseController {
     public Response<StatisticResponse> addBillCategory(@RequestParam Integer bookId, @RequestParam String billCategoryName,
                                                        @RequestParam String svg, @RequestParam BillType type) {
         billCategoryService.addBillCategory(bookId, billCategoryName, svg, type);
-        return new Response<>(200, "添加成功",null);
+        return new Response<>(200, "添加成功", null);
     }
 
     @ApiResponses(value = {
@@ -219,7 +223,7 @@ public class BillController extends BaseController {
     @RequestMapping(value = "/get-bill-category", method = RequestMethod.GET)
     @ApiOperation(value = "查看账本下的所有账单分类")
     public Response<List<BillCategory>> getBillCategory(@RequestParam Integer bookId) {
-       List<BillCategory> list = billCategoryService.getBillCategoriesByBook(bookId);
-        return new Response<>(200, "获取成功",list);
+        List<BillCategory> list = billCategoryService.getBillCategoriesByBook(bookId);
+        return new Response<>(200, "获取成功", list);
     }
 }
