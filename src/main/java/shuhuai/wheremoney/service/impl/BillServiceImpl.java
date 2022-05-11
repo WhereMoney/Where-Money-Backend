@@ -35,10 +35,12 @@ public class BillServiceImpl implements BillService {
             throw new ParamsException("参数错误");
         }
         byte[] fileBytes = null;
-        try {
-            fileBytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (file != null) {
+            try {
+                fileBytes = file.getBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         IncomeBill incomeBill = new IncomeBill(bookId, incomeAssetId, billCategoryId, amount, time, remark, fileBytes);
         incomeBillMapper.insertIncomeBillSelective(incomeBill);
@@ -50,10 +52,12 @@ public class BillServiceImpl implements BillService {
             throw new ParamsException("参数错误");
         }
         byte[] fileBytes = null;
-        try {
-            fileBytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (file != null) {
+            try {
+                fileBytes = file.getBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         PayBill payBill = new PayBill(bookId, payAssetId, billCategoryId, amount, time, remark, fileBytes);
         payBillMapper.insertPayBillSelective(payBill);
@@ -65,10 +69,12 @@ public class BillServiceImpl implements BillService {
             throw new ParamsException("参数错误");
         }
         byte[] fileBytes = null;
-        try {
-            fileBytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (file != null) {
+            try {
+                fileBytes = file.getBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         RefundBill refundBill = new RefundBill(bookId, payBillId, refundAssetId, amount, time, remark, fileBytes);
         refundBillMapper.insertRefundBillSelective(refundBill);
@@ -81,10 +87,12 @@ public class BillServiceImpl implements BillService {
             throw new ParamsException("参数错误");
         }
         byte[] fileBytes = null;
-        try {
-            fileBytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (file != null) {
+            try {
+                fileBytes = file.getBytes();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         TransferBill transferBill = new TransferBill(bookId, inAssetId, outAssetId, amount, transferFee, time, remark, fileBytes);
         transferBillMapper.insertTransferBillSelective(transferBill);

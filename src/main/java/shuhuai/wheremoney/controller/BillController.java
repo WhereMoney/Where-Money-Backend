@@ -88,13 +88,7 @@ public class BillController extends BaseController {
             outAsset.setBalance(outAsset.getBalance().add(amount)); //资产中更新
             assetService.updateAsset(outAsset);
         }
-        byte[] fileBytes = null;
-        try {
-            fileBytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new Response<>(200, "新建账单成功", fileBytes);
+        return new Response<>(200, "新建账单成功", null);
     }
 
     private String[] idToString(BaseBill bill) {
