@@ -11,6 +11,14 @@ public class TransferBill extends BaseBill {
     private Integer outAssetId;
     private BigDecimal transferFee;
 
+    public TransferBill(Integer id, Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal tranferFee, Timestamp billTime, String remark,
+                        byte[] image) {
+        super(id, bookId, amount, billTime, remark, image);
+        this.inAssetId = inAssetId;
+        this.outAssetId = outAssetId;
+        this.transferFee = tranferFee;
+    }
+
     public TransferBill(Integer bookId, Integer inAssetId, Integer outAssetId, BigDecimal amount, BigDecimal tranferFee, Timestamp billTime, String remark, byte[] image) {
         super(bookId, amount, billTime, remark, image);
         this.inAssetId = inAssetId;

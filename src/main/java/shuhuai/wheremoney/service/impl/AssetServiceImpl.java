@@ -97,7 +97,7 @@ public class AssetServiceImpl implements AssetService {
             Timestamp finalTime = curTime;
             curTotal = curTotal.subtract(dayTotal);
             BigDecimal finalDayTotal = curTotal;
-            if (curTime.before(TimeComputer.getDay(endTime))) {
+            if (!curTime.after(TimeComputer.getDay(endTime))) {
                 result.add(new HashMap<>(2) {{
                     put("time", finalTime);
                     put("total", finalDayTotal);

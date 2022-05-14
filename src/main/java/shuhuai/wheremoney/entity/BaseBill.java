@@ -1,14 +1,17 @@
 package shuhuai.wheremoney.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @ToString
 @AllArgsConstructor
-public class BaseBill {
+@NoArgsConstructor
+public class BaseBill implements Serializable {
     private Integer id;
     private Integer bookId;
     private BigDecimal amount;
