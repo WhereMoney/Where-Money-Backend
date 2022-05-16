@@ -1,11 +1,15 @@
 package shuhuai.wheremoney.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import shuhuai.wheremoney.type.BillType;
 
 import java.io.Serializable;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class BillCategory implements Serializable {
     private Integer id;
     private Integer bookId;

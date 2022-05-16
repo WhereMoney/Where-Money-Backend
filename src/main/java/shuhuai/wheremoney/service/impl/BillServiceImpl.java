@@ -1,5 +1,6 @@
 package shuhuai.wheremoney.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import shuhuai.wheremoney.entity.*;
@@ -7,6 +8,7 @@ import shuhuai.wheremoney.mapper.*;
 import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.type.BillType;
+import shuhuai.wheremoney.utils.RedisConnector;
 import shuhuai.wheremoney.utils.TimeComputer;
 
 import javax.annotation.Resource;
@@ -18,6 +20,8 @@ import java.util.*;
 
 @Service
 public class BillServiceImpl implements BillService {
+    @Value("${redis.billCategory.expire}")
+    private Long billCategoryExpire;
     @Resource
     private BillCategoryMapper billCategoryMapper;
     @Resource
@@ -28,6 +32,8 @@ public class BillServiceImpl implements BillService {
     private TransferBillMapper transferBillMapper;
     @Resource
     private RefundBillMapper refundBillMapper;
+    @Resource
+    private RedisConnector redisConnector;
 
     @Override
     public void addIncomeBill(Integer bookId, Integer incomeAssetId, Integer billCategoryId, BigDecimal amount, Timestamp time, String remark, MultipartFile file) {
@@ -177,8 +183,15 @@ public class BillServiceImpl implements BillService {
         List<Map<String, Object>> result = new ArrayList<>();
         for (Map.Entry<Integer, BigDecimal> entry : temp.entrySet()) {
             if (entry.getValue().compareTo(BigDecimal.ZERO) > 0) {
-                result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
-                        "amount", entry.getValue(),
+                Integer categoryId = entry.getKey();
+                String categoryName;
+                if (redisConnector.existObject("bill_category:" + categoryId)) {
+                    categoryName = ((BillCategory) redisConnector.readObject("bill_category:" + categoryId)).getBillCategoryName();
+                    redisConnector.setExpire("bill_category:" + categoryId, TimeComputer.dayToSecond(billCategoryExpire));
+                } else {
+                    categoryName = billCategoryMapper.selectBillCategoryById(categoryId).getBillCategoryName();
+                }
+                result.add(Map.of("category", categoryName, "amount", entry.getValue(),
                         "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
             }
         }
@@ -207,8 +220,15 @@ public class BillServiceImpl implements BillService {
         List<Map<String, Object>> result = new ArrayList<>();
         for (Map.Entry<Integer, BigDecimal> entry : temp.entrySet()) {
             if (entry.getValue().compareTo(BigDecimal.ZERO) > 0) {
-                result.add(Map.of("category", billCategoryMapper.selectBillCategoryById(entry.getKey()).getBillCategoryName(),
-                        "amount", entry.getValue(),
+                Integer categoryId = entry.getKey();
+                String categoryName;
+                if (redisConnector.existObject("bill_category:" + categoryId)) {
+                    categoryName = ((BillCategory) redisConnector.readObject("bill_category:" + categoryId)).getBillCategoryName();
+                    redisConnector.setExpire("bill_category:" + categoryId, TimeComputer.dayToSecond(billCategoryExpire));
+                } else {
+                    categoryName = billCategoryMapper.selectBillCategoryById(categoryId).getBillCategoryName();
+                }
+                result.add(Map.of("category", categoryName, "amount", entry.getValue(),
                         "percent", entry.getValue().divide(total, 4, RoundingMode.HALF_UP).movePointRight(2) + "%"));
             }
         }

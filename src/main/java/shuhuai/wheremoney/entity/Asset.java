@@ -106,6 +106,7 @@ public class Asset {
     public String getSvg() {
         return svg;
     }
+
     public void setSvg(String svg) {
         this.svg = svg;
     }
