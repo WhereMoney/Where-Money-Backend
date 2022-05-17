@@ -112,6 +112,13 @@ public class BillController extends BaseController {
 
             outAsset.setBalance(outAsset.getBalance().add(transferFee)); //资产中更新手续费
             }
+            if (transferFee != null) {
+                int fee = transferFee.compareTo(new BigDecimal("0.00"));
+                if (fee > 0) {
+                    transferFee = new BigDecimal("0.00").subtract(transferFee);
+                }
+                outAsset.setBalance(outAsset.getBalance().add(transferFee)); //资产中更新手续费
+            }
             assetService.updateAsset(outAsset);
         }
         if (over) {

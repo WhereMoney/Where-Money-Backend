@@ -54,17 +54,17 @@ public class AssetController extends BaseController {
     })
     @RequestMapping(value = "/update-asset", method = RequestMethod.POST)
     @ApiOperation(value = "修改资产")
-    public Response<Object> updateAsset(@RequestParam Integer assetId,AssetType type,BigDecimal balance,String assetName,
-                                     Integer billDate, Integer repayDate, BigDecimal quota,Boolean inTotal, String svg) {
+    public Response<Object> updateAsset(@RequestParam Integer assetId, AssetType type, BigDecimal balance, String assetName,
+                                        Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal, String svg) {
         Asset oldAsset = assetService.getAsset(assetId);
-        if(type != null) oldAsset.setType(type);
-        if(balance != null) oldAsset.setBalance(balance);
-        if(assetName != null) oldAsset.setAssetName(assetName);
-        if(billDate != null) oldAsset.setBillDate(billDate);
-        if(repayDate != null) oldAsset.setRepayDate(repayDate);
-        if(quota != null) oldAsset.setQuota(quota);
-        if(inTotal != null) oldAsset.setInTotal(inTotal);
-        if(svg != null) oldAsset.setSvg(svg);
+        if (type != null) oldAsset.setType(type);
+        if (balance != null) oldAsset.setBalance(balance);
+        if (assetName != null) oldAsset.setAssetName(assetName);
+        if (billDate != null) oldAsset.setBillDate(billDate);
+        if (repayDate != null) oldAsset.setRepayDate(repayDate);
+        if (quota != null) oldAsset.setQuota(quota);
+        if (inTotal != null) oldAsset.setInTotal(inTotal);
+        if (svg != null) oldAsset.setSvg(svg);
         assetService.updateAsset(oldAsset);
         return new Response<>(200, "修改资产成功", null);
     }

@@ -20,4 +20,8 @@ public class TimeComputer {
     public static Timestamp getDay(Timestamp timestamp) {
         return new Timestamp(timestamp.getTime() - (timestamp.getTime() + 60 * 60 * 8 * 1000) % (24 * 60 * 60 * 1000));
     }
+
+    public static Long dayToSecond(Long day) {
+        return day * 24 * 60 * 60;
+    }
 }
