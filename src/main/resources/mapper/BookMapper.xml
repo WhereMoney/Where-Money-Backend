@@ -7,6 +7,7 @@
         <result column="title" jdbcType="VARCHAR" javaType="String" property="title"/>
         <result column="create_time" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp" property="createTime"/>
         <result column="begin_date" jdbcType="INTEGER" javaType="Integer" property="beginDate"/>
+        <result column="total_budget" jdbcType="DECIMAL" javaType="BigDecimal" property="totalBudget"/>
     </resultMap>
     <insert id="insertBookSelective" useGeneratedKeys="true" keyProperty="id"
             parameterType="shuhuai.wheremoney.entity.Book">

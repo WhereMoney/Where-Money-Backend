@@ -3,6 +3,7 @@ package shuhuai.wheremoney.entity;
 import lombok.AllArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @AllArgsConstructor
@@ -12,6 +13,7 @@ public class Book implements Serializable {
     private String title;
     private Timestamp createTime;
     private Integer beginDate;
+    private BigDecimal totalBudget;
 
     public Book(Integer userId, String title, Integer beginDate) {
         this.userId = userId;
@@ -57,5 +59,13 @@ public class Book implements Serializable {
 
     public void setBeginDate(Integer beginDate) {
         this.beginDate = beginDate;
+    }
+
+    public BigDecimal getTotalBudget() {
+        return totalBudget;
+    }
+
+    public void setTotalBudget(BigDecimal totalBudget) {
+        this.totalBudget = totalBudget;
     }
 }

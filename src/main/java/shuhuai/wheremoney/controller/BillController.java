@@ -13,9 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import shuhuai.wheremoney.entity.*;
 import shuhuai.wheremoney.response.Response;
 import shuhuai.wheremoney.response.bill.*;
-import shuhuai.wheremoney.service.AssetService;
-import shuhuai.wheremoney.service.BillCategoryService;
-import shuhuai.wheremoney.service.BillService;
+import shuhuai.wheremoney.service.*;
 import shuhuai.wheremoney.type.BillType;
 
 import javax.annotation.Resource;
@@ -40,6 +38,10 @@ public class BillController extends BaseController {
     private AssetService assetService;
     @Resource
     private BillCategoryService billCategoryService;
+    @Resource
+    private BudgetService budgetService;
+    @Resource
+    private BookService bookService;
 
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "token过期"),
@@ -51,6 +53,7 @@ public class BillController extends BaseController {
     public Response<Object> addBill(@RequestParam Integer bookId, Integer inAssetId, Integer outAssetId, Integer payBillId,
                                     Integer billCategoryId, @RequestParam BillType type, @RequestParam BigDecimal amount, BigDecimal transferFee,
                                     @RequestParam String time, String remark, MultipartFile file) {
+        boolean over = false;
         Timestamp formatDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -63,12 +66,27 @@ public class BillController extends BaseController {
         }
         if (Objects.equals(type.getType(), "支出")) {
             billService.addPayBill(bookId, outAssetId, billCategoryId, amount, formatDate, remark, file);
+            Budget budget = budgetService.selectBudgetByCategoryId(billCategoryId);
+            if (budget != null) {
+              budget.setUsed(budget.getUsed().add(amount));
+              budget.setTimes(budget.getTimes() + 1);
+              budgetService.updateBudget(budget);
+              if (budget.getUsed().add(amount).compareTo(budget.getLimit()) > 0) {
+                  over = true;
+              }
+            }
         }
         if (Objects.equals(type.getType(), "转账")) {
             billService.addTransferBill(bookId, inAssetId, outAssetId, amount, transferFee, formatDate, remark, file);
         }
         if (Objects.equals(type.getType(), "退款")) {
             billService.addRefundBill(bookId, payBillId, inAssetId, amount, formatDate, remark, file);
+            Budget budget = budgetService.selectBudgetByCategoryId(billCategoryId);
+            if (budget != null) {
+                budget.setUsed(budget.getUsed().subtract(amount));
+                budget.setTimes(budget.getTimes() - 1);
+                budgetService.updateBudget(budget);
+            }
         }
         if (inAssetId != null) {
             Asset inAsset = assetService.getAsset(inAssetId);
@@ -86,12 +104,18 @@ public class BillController extends BaseController {
                 amount = new BigDecimal("0.00").subtract(amount);
             }// amount 正转负
             outAsset.setBalance(outAsset.getBalance().add(amount)); //资产中更新
+            if (Objects.equals(type.getType(), "转账")) {
             int fee = transferFee.compareTo(new BigDecimal("0.00"));
             if (fee > 0) {
                 transferFee = new BigDecimal("0.00").subtract(transferFee);
             }
+
             outAsset.setBalance(outAsset.getBalance().add(transferFee)); //资产中更新手续费
+            }
             assetService.updateAsset(outAsset);
+        }
+        if (over) {
+            return new Response<>(200, "新建账单成功,超出该种类预算", null);
         }
         return new Response<>(200, "新建账单成功", null);
     }
