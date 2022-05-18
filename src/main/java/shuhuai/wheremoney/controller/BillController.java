@@ -17,7 +17,6 @@ import shuhuai.wheremoney.service.*;
 import shuhuai.wheremoney.type.BillType;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -66,14 +65,18 @@ public class BillController extends BaseController {
         }
         if (Objects.equals(type.getType(), "支出")) {
             billService.addPayBill(bookId, outAssetId, billCategoryId, amount, formatDate, remark, file);
+            Book book = bookService.getBook(bookId);
+            if (book.getTotalBudget() != null) {
+                budgetService.updateTotalBudgetByBook(bookId, book.getTotalBudget(), book.getUsedBudget().add(amount));
+            }
             Budget budget = budgetService.selectBudgetByCategoryId(billCategoryId);
             if (budget != null) {
-              budget.setUsed(budget.getUsed().add(amount));
-              budget.setTimes(budget.getTimes() + 1);
-              budgetService.updateBudget(budget);
-              if (budget.getUsed().add(amount).compareTo(budget.getLimit()) > 0) {
-                  over = true;
-              }
+                budget.setUsed(budget.getUsed().add(amount));
+                budget.setTimes(budget.getTimes() + 1);
+                budgetService.updateBudget(budget);
+                if (budget.getUsed().add(amount).compareTo(budget.getLimit()) > 0) {
+                    over = true;
+                }
             }
         }
         if (Objects.equals(type.getType(), "转账")) {
@@ -105,12 +108,12 @@ public class BillController extends BaseController {
             }// amount 正转负
             outAsset.setBalance(outAsset.getBalance().add(amount)); //资产中更新
             if (Objects.equals(type.getType(), "转账")) {
-            int fee = transferFee.compareTo(new BigDecimal("0.00"));
-            if (fee > 0) {
-                transferFee = new BigDecimal("0.00").subtract(transferFee);
-            }
+                int fee = transferFee.compareTo(new BigDecimal("0.00"));
+                if (fee > 0) {
+                    transferFee = new BigDecimal("0.00").subtract(transferFee);
+                }
 
-            outAsset.setBalance(outAsset.getBalance().add(transferFee)); //资产中更新手续费
+                outAsset.setBalance(outAsset.getBalance().add(transferFee)); //资产中更新手续费
             }
             if (transferFee != null) {
                 int fee = transferFee.compareTo(new BigDecimal("0.00"));

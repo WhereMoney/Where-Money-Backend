@@ -16,7 +16,7 @@ public interface BudgetMapper {
 
     BigDecimal selectTotalBudgetByBook(Integer id);
 
-    void updateTotalBudgetByBook(Integer id, BigDecimal totalBudget);
+    void updateTotalBudgetByBook(Integer id, BigDecimal totalBudget, BigDecimal usedBudget);
 
     void updateBudgetById(Budget budget);
 

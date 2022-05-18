@@ -20,6 +20,7 @@ import shuhuai.wheremoney.service.BudgetService;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/budget")
@@ -30,6 +31,7 @@ public class BudgetController extends BaseController {
     private BudgetService budgetService;
     @Resource
     private BookService bookService;
+
     @ApiResponses(value = {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
@@ -38,12 +40,12 @@ public class BudgetController extends BaseController {
     @ApiOperation(value = "新建预算", notes = "新建预算")
     public Response<Object> addBudget(@RequestParam Integer bookId,
                                       @RequestParam Integer billCategoryId, @RequestParam BigDecimal limit) {
-        BigDecimal totalLimit = budgetService.getTotalBudgetByBook(bookId);
-        if(totalLimit.compareTo(limit)<0){
+        BigDecimal totalLimit = (budgetService.getTotalBudgetByBook(bookId) == null ? BigDecimal.ZERO : budgetService.getTotalBudgetByBook(bookId));
+        if (totalLimit.compareTo(limit) < 0) {
             return new Response<>(422, "预算超出账本预算额度", null);
         }
         Budget exist = budgetService.selectBudgetByCategoryId(billCategoryId);
-        if(exist != null){
+        if (exist != null) {
             return new Response<>(422, "该类别已经存在预算", null);
         }
         budgetService.addBudget(bookId, billCategoryId, limit);
@@ -57,18 +59,18 @@ public class BudgetController extends BaseController {
     @RequestMapping(value = "/update-budget", method = RequestMethod.POST)
     @ApiOperation(value = "更新预算", notes = "更新预算")
     public Response<Object> updateBudget(@RequestParam Integer budgetId,
-                                       Integer billCategoryId,BigDecimal limit,BigDecimal amount,Integer times) {
+                                         Integer billCategoryId, BigDecimal limit, BigDecimal amount, Integer times) {
         Budget oldBudget = budgetService.getBudget(budgetId);
-        if(billCategoryId!=null){
+        if (billCategoryId != null) {
             oldBudget.setBillCategoryId(billCategoryId);
         }
-        if(limit!=null){
+        if (limit != null) {
             oldBudget.setLimit(limit);
         }
-        if(amount!=null){
+        if (amount != null) {
             oldBudget.setUsed(amount);
         }
-        if(times!=null){
+        if (times != null) {
             oldBudget.setTimes(times);
         }
         budgetService.updateBudget(oldBudget);
@@ -90,10 +92,23 @@ public class BudgetController extends BaseController {
             @ApiResponse(code = 422, message = "参数错误"),
     })
     @RequestMapping(value = "/set-book-budget", method = RequestMethod.POST)
-    @ApiOperation(value = "设置账本总预算", notes = "设置账本总预算")
-    public Response<Object> setTotalBudgets(@RequestParam Integer bookId, @RequestParam BigDecimal totalBudget) {
-        budgetService.updateTotalBudgetByBook(bookId, totalBudget);
-        return new Response<>(200, "设置总预算成功", new GetBookResponse(bookService.getBook(bookId)));
+    @ApiOperation(value = "修改账本总预算", notes = "修改账本总预算")
+    public Response<Object> setTotalBudgets(@RequestParam Integer bookId, BigDecimal totalBudget, BigDecimal usedBudget) {
+        if (totalBudget == null && usedBudget == null) {
+            return new Response<>(200, "无改动", null);
+        }
+        BigDecimal sum = BigDecimal.ZERO;
+        List<Budget> budgets = budgetService.getBudgetsByBook(bookId);
+        if (budgets != null) {
+            for (Budget budget : budgets) {
+                sum = sum.add(budget.getLimit());
+            }
+        }
+        if (totalBudget != null && totalBudget.compareTo(sum) < 0) {
+            return new Response<>(422, "总预算超出分类预算额度", null);
+        }
+        budgetService.updateTotalBudgetByBook(bookId, totalBudget, usedBudget);
+        return new Response<>(200, "修改总预算成功", new GetBookResponse(bookService.getBook(bookId)));
     }
 
 }
