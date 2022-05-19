@@ -1,12 +1,10 @@
 package shuhuai.wheremoney.response.budget;
 
-import shuhuai.wheremoney.entity.Book;
 import shuhuai.wheremoney.entity.Budget;
 
 import java.util.List;
 
-public class GetAllBudgetResponse
-{
+public class GetAllBudgetResponse {
     private List<Budget> budgetList;
 
     public GetAllBudgetResponse(List<Budget> budgetList) {

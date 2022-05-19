@@ -44,8 +44,8 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public void updateTotalBudgetByBook(Integer bookId, BigDecimal totalBudget) {
-        budgetMapper.updateTotalBudgetByBook(bookId, totalBudget);
+    public void updateTotalBudgetByBook(Integer bookId, BigDecimal totalBudget, BigDecimal usedBudget) {
+        budgetMapper.updateTotalBudgetByBook(bookId, totalBudget, usedBudget);
     }
 
     @Override

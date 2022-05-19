@@ -61,7 +61,14 @@
     </select>
     <update id="updateTotalBudgetByBook">
         update book
-        set total_budget    = #{totalBudget,jdbcType=DECIMAL}
+        <set>
+            <if test="totalBudget != null">
+                total_budget = #{totalBudget,jdbcType=DECIMAL},
+            </if>
+            <if test="usedBudget != null">
+                used_budget = #{usedBudget,jdbcType=DECIMAL},
+            </if>
+        </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateBudgetById" parameterType="shuhuai.wheremoney.entity.Budget">

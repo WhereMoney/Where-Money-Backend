@@ -14,7 +14,7 @@ public class Budget implements Serializable {
     private BigDecimal limit;
     private Integer times;
 
-    public Budget(Integer bookId, Integer billCategoryId,  BigDecimal limit) {
+    public Budget(Integer bookId, Integer billCategoryId, BigDecimal limit) {
         this.bookId = bookId;
         this.billCategoryId = billCategoryId;
         this.limit = limit;

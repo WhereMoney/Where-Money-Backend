@@ -2,8 +2,6 @@ package shuhuai.wheremoney.response.budget;
 
 import shuhuai.wheremoney.entity.Budget;
 
-import java.math.BigDecimal;
-
 public class GetBudgetResponse {
     Budget budget;
 

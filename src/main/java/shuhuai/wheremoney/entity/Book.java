@@ -14,11 +14,20 @@ public class Book implements Serializable {
     private Timestamp createTime;
     private Integer beginDate;
     private BigDecimal totalBudget;
+    private BigDecimal usedBudget;
 
     public Book(Integer userId, String title, Integer beginDate) {
         this.userId = userId;
         this.title = title;
         this.beginDate = beginDate;
+    }
+
+    public BigDecimal getUsedBudget() {
+        return usedBudget;
+    }
+
+    public void setUsedBudget(BigDecimal usedBudget) {
+        this.usedBudget = usedBudget;
     }
 
     public Integer getId() {
