@@ -92,6 +92,9 @@
             <if test="userId != null">
                 user_id = #{userId,jdbcType=INTEGER},
             </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
             <if test="balance != null">
                 balance = #{balance,jdbcType=DECIMAL},
             </if>
@@ -109,6 +112,9 @@
             </if>
             <if test="inTotal != null">
                 in_Total = #{inTotal,jdbcType=BOOLEAN},
+            </if>
+            <if test="svg != null">
+                svg = #{svg,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

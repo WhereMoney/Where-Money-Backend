@@ -54,10 +54,10 @@ public class AssetController extends BaseController {
     })
     @RequestMapping(value = "/update-asset", method = RequestMethod.POST)
     @ApiOperation(value = "修改资产")
-    public Response<Object> updateAsset(@RequestParam Integer assetId, AssetType type, BigDecimal balance, String assetName,
+    public Response<Object> updateAsset(@RequestParam Integer assetId, BigDecimal balance, String assetName,
                                         Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal, String svg) {
         Asset oldAsset = assetService.getAsset(assetId);
-        if (type != null) oldAsset.setType(type);
+        oldAsset.setType(null);
         if (balance != null) oldAsset.setBalance(balance);
         if (assetName != null) oldAsset.setAssetName(assetName);
         if (billDate != null) oldAsset.setBillDate(billDate);
