@@ -11,7 +11,7 @@
         <result column="bill_date" jdbcType="INTEGER" javaType="Integer" property="billDate"/>
         <result column="repay_date" jdbcType="INTEGER" javaType="Integer" property="repayDate"/>
         <result column="quota" jdbcType="DECIMAL" javaType="BigDecimal" property="quota"/>
-        <result column="inTotal" jdbcType="BOOLEAN" javaType="Boolean" property="inTotal"/>
+        <result column="in_total" jdbcType="BOOLEAN" javaType="Boolean" property="inTotal"/>
         <result column="svg" jdbcType="VARCHAR" javaType="String" property="svg"/>
     </resultMap>
     <insert id="insertAssetSelective" useGeneratedKeys="true" keyProperty="id"
