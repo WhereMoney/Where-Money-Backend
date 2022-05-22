@@ -20,7 +20,6 @@ public class Asset {
     private Boolean inTotal;
     private String svg;
 
-
     public Asset(Integer userId, AssetType type, BigDecimal balance, String assetName, Integer billDate, Integer repayDate, BigDecimal quota, Boolean inTotal, String svg) {
         this.userId = userId;
         this.type = type;
