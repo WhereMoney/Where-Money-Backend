@@ -15,6 +15,10 @@
     {
       "name": "redis.billCategory.expire",
       "type": "java.lang.Long"
+    },
+    {
+      "name": "redis.asset.expire",
+      "type": "java.lang.Long"
     }
   ]
 }

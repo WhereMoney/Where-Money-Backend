@@ -1,11 +1,13 @@
 package shuhuai.wheremoney.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import shuhuai.wheremoney.type.AssetType;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
+@NoArgsConstructor
 public class Asset {
     private Integer id;
     private Integer userId;

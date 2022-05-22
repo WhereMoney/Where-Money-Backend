@@ -1,5 +1,6 @@
 package shuhuai.wheremoney.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import shuhuai.wheremoney.entity.*;
 import shuhuai.wheremoney.mapper.AssetMapper;
@@ -10,6 +11,7 @@ import shuhuai.wheremoney.service.BillService;
 import shuhuai.wheremoney.service.excep.common.ParamsException;
 import shuhuai.wheremoney.service.excep.common.ServerException;
 import shuhuai.wheremoney.type.AssetType;
+import shuhuai.wheremoney.utils.RedisConnector;
 import shuhuai.wheremoney.utils.TimeComputer;
 
 import javax.annotation.Resource;
@@ -23,6 +25,8 @@ import java.util.Map;
 @Service
 
 public class AssetServiceImpl implements AssetService {
+    @Value("${redis.billCategory.expire}")
+    private Long assetExpire;
     @Resource
     private AssetMapper assetMapper;
     @Resource
@@ -31,6 +35,9 @@ public class AssetServiceImpl implements AssetService {
     private BookMapper bookMapper;
     @Resource
     private BillService billService;
+
+    @Resource
+    private RedisConnector redisConnector;
 
     @Override
     public void addAsset(String userName, String assetName, BigDecimal balance, AssetType type, Integer billDate,
@@ -44,6 +51,7 @@ public class AssetServiceImpl implements AssetService {
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
+        redisConnector.writeObject("asset:" + asset.getId(), asset, TimeComputer.dayToSecond(assetExpire));
     }
 
     @Override
@@ -59,7 +67,15 @@ public class AssetServiceImpl implements AssetService {
         if (id == null) {
             throw new ParamsException("参数错误");
         }
-        return assetMapper.selectAssetById(id);
+        if (redisConnector.existObject("asset:" + id)) {
+            redisConnector.setExpire("asset:" + id, TimeComputer.dayToSecond(assetExpire));
+            return (Asset) redisConnector.readObject("asset:" + id);
+        }
+        Asset result = assetMapper.selectAssetById(id);
+        if (result != null) {
+            redisConnector.writeObject("asset:" + id, result, TimeComputer.dayToSecond(assetExpire));
+        }
+        return result;
     }
 
     @Override
@@ -68,6 +84,7 @@ public class AssetServiceImpl implements AssetService {
         if (result != 1) {
             throw new ServerException("服务器错误");
         }
+        redisConnector.writeObject("asset:" + asset.getId(), asset, TimeComputer.dayToSecond(assetExpire));
     }
 
     @Override
