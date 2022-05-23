@@ -2,7 +2,10 @@ package shuhuai.wheremoney.service.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import shuhuai.wheremoney.entity.*;
+import shuhuai.wheremoney.entity.Asset;
+import shuhuai.wheremoney.entity.BaseBill;
+import shuhuai.wheremoney.entity.Book;
+import shuhuai.wheremoney.entity.User;
 import shuhuai.wheremoney.mapper.AssetMapper;
 import shuhuai.wheremoney.mapper.BookMapper;
 import shuhuai.wheremoney.mapper.UserMapper;
@@ -105,12 +108,13 @@ public class AssetServiceImpl implements AssetService {
         }
         Map<Timestamp, List<BaseBill>> billTimeMap = new HashMap<>();
         for (BaseBill bill : billTimeList) {
-            if (billTimeMap.containsKey(bill.getBillTime())) {
-                billTimeMap.get(bill.getBillTime()).add(bill);
+            Timestamp day = TimeComputer.getDay(bill.getBillTime());
+            if (billTimeMap.containsKey(day)) {
+                billTimeMap.get(day).add(bill);
             } else {
                 List<BaseBill> temp = new ArrayList<>();
                 temp.add(bill);
-                billTimeMap.put(bill.getBillTime(), temp);
+                billTimeMap.put(day, temp);
             }
         }
         for (Timestamp curTime = TimeComputer.getDay(TimeComputer.getNow()); !curTime.before(TimeComputer.getDay(startTime)); curTime = TimeComputer.prevDay(curTime)) {
