@@ -96,19 +96,29 @@ public class AssetServiceImpl implements AssetService {
         if (user == null) {
             throw new ParamsException("参数错误");
         }
-        Integer userId = user.getId();
-        BigDecimal curTotal = assetMapper.selectTotalAssetByUserId(userId);
+        BigDecimal curTotal = assetMapper.selectTotalAssetByUserId(user.getId());
         List<Book> bookList = bookMapper.selectBookByUser(user);
         List<Map<String, Object>> result = new ArrayList<>();
+        List<BaseBill> billTimeList = new ArrayList<>();
+        for (Book book : bookList) {
+            billTimeList.addAll(billService.getBillByBookTime(book.getId(), startTime, endTime));
+        }
+        Map<Timestamp, List<BaseBill>> billTimeMap = new HashMap<>();
+        for (BaseBill bill : billTimeList) {
+            if (billTimeMap.containsKey(bill.getBillTime())) {
+                billTimeMap.get(bill.getBillTime()).add(bill);
+            } else {
+                List<BaseBill> temp = new ArrayList<>();
+                temp.add(bill);
+                billTimeMap.put(bill.getBillTime(), temp);
+            }
+        }
         for (Timestamp curTime = TimeComputer.getDay(TimeComputer.getNow()); !curTime.before(TimeComputer.getDay(startTime)); curTime = TimeComputer.prevDay(curTime)) {
             BigDecimal dayTotal = new BigDecimal(0);
-            for (Book book : bookList) {
-                for (BaseBill bill : billService.getBillByBookTime(book.getId(), curTime, TimeComputer.nextDay(curTime))) {
-                    if (bill instanceof IncomeBill || bill instanceof RefundBill) {
-                        dayTotal = dayTotal.add(bill.getAmount());
-                    } else if (bill instanceof PayBill) {
-                        dayTotal = dayTotal.subtract(bill.getAmount());
-                    }
+            List<BaseBill> dayBillList = billTimeMap.get(curTime);
+            if (dayBillList != null) {
+                for (BaseBill bill : dayBillList) {
+                    dayTotal = dayTotal.add(bill.getAmount());
                 }
             }
             Timestamp finalTime = curTime;

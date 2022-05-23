@@ -39,10 +39,13 @@ public class AssetServiceTest {
             e.printStackTrace();
         }
         for (int i = 0; i < 10; i++) {
+            long start = System.currentTimeMillis();
             List<Map<String, Object>> result = assetService.getDayStatisticTime("lvzhihe_123@qq.com", startTime, endTime);
             log.info("result: {}", result);
             assert endTime != null;
             endTime = TimeComputer.prevDay(endTime);
+            long end = System.currentTimeMillis();
+            log.info("耗时: {}秒", (end - start) / 1000.0);
         }
     }
 }
