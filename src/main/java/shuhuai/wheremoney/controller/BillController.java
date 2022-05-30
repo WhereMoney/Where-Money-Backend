@@ -65,10 +65,10 @@ public class BillController extends BaseController {
         }
         if (Objects.equals(type.getType(), "支出")) {
             billService.addPayBill(bookId, outAssetId, billCategoryId, amount, formatDate, remark, file);
-            Book book = bookService.getBook(bookId);
-            if (book.getTotalBudget() != null) {
-                budgetService.updateTotalBudgetByBook(bookId, book.getTotalBudget(), book.getUsedBudget().add(amount));
-            }
+            //Book book = bookService.getBook(bookId);
+            //if (book.getTotalBudget() != null) {
+                //budgetService.updateTotalBudgetByBook(bookId, book.getTotalBudget(), book.getUsedBudget().add(amount));
+            //}
             Budget budget = budgetService.selectBudgetByCategoryId(billCategoryId);
             if (budget != null) {
                 budget.setUsed(budget.getUsed().add(amount));
