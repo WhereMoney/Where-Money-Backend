@@ -16,6 +16,7 @@ import shuhuai.wheremoney.type.BillType;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -74,6 +75,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public BigDecimal getPayMonthTime(Integer bookId,Timestamp startTime, Timestamp endTime) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectPayMonthByBookIdTime(bookId,startTime,endTime);
+    }
+
+    @Override
     public BigDecimal getIncomeMonth(Integer bookId) {
         if (bookId == null) {
             throw new ParamsException("参数错误");
@@ -82,11 +91,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public BigDecimal getIncomeMonthTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectIncomeMonthByBookIdTime(bookId,startTime,endTime);
+    }
+
+    @Override
     public BigDecimal getBalanceMonth(Integer bookId) {
         if (bookId == null) {
             throw new ParamsException("参数错误");
         }
         return bookMapper.selectBalanceMonthByBookId(bookId);
+    }
+
+    @Override
+    public BigDecimal getBalanceMonthTime(Integer bookId, Timestamp startTime, Timestamp endTime) {
+        if (bookId == null) {
+            throw new ParamsException("参数错误");
+        }
+        return bookMapper.selectBalanceMonthByBookIdTime(bookId,startTime,endTime);
     }
 
     @Override

@@ -19,6 +19,7 @@ import shuhuai.wheremoney.type.BillType;
 import shuhuai.wheremoney.utils.TokenValidator;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 
 @RestController
 @RequestMapping("/api/book")
@@ -79,6 +80,18 @@ public class BookController extends BaseController {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
+    @RequestMapping(value = "/pay-month-time", method = RequestMethod.GET)
+    @ApiOperation(value = "获得账本月支出")
+    public Response<Object> getPayMonthTime(@RequestParam Integer bookId,
+                                            @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
+        return new Response<>(200, "获得账本月支出成功",
+                new StatisticAmountResponse(bookService.getPayMonthTime(bookId, startTime, endTime)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
     @RequestMapping(value = "/income-month", method = RequestMethod.GET)
     @ApiOperation(value = "获得账本月收入")
     public Response<Object> getIncomeMonth(@RequestParam Integer bookId) {
@@ -89,10 +102,34 @@ public class BookController extends BaseController {
             @ApiResponse(code = 401, message = "token过期"),
             @ApiResponse(code = 422, message = "参数错误"),
     })
+    @RequestMapping(value = "/income-month-time", method = RequestMethod.GET)
+    @ApiOperation(value = "获得账本月收入")
+    public Response<Object> getIncomeMonthTime(@RequestParam Integer bookId,
+                                               @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
+        return new Response<>(200, "获得账本月收入成功",
+                new StatisticAmountResponse(bookService.getIncomeMonthTime(bookId, startTime, endTime)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
     @RequestMapping(value = "/balance-month", method = RequestMethod.GET)
     @ApiOperation(value = "获得账本月结余")
     public Response<Object> getBalanceMonth(@RequestParam Integer bookId) {
         return new Response<>(200, "获得账本月结余成功", new StatisticAmountResponse(bookService.getBalanceMonth(bookId)));
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "token过期"),
+            @ApiResponse(code = 422, message = "参数错误"),
+    })
+    @RequestMapping(value = "/balance-month-time", method = RequestMethod.GET)
+    @ApiOperation(value = "获得账本月结余")
+    public Response<Object> getBalanceMonthTime(@RequestParam Integer bookId,
+                                                @RequestParam Timestamp startTime, @RequestParam Timestamp endTime) {
+        return new Response<>(200, "获得账本月结余成功",
+                new StatisticAmountResponse(bookService.getBalanceMonthTime(bookId, startTime, endTime)));
     }
 
     @ApiResponses(value = {
